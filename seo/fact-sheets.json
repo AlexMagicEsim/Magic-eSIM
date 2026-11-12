@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-03T15:19:18.089Z",
+  "fetched_at": "2026-11-12T12:04:30.578Z",
   "source": "assets/catalog.json",
   "countries": 201,
   "sheets": {
@@ -98,9 +98,9 @@
         2400,
         2650,
         2700,
+        2750,
         2800,
         2900,
-        3000,
         3300,
         3700,
         4350,
@@ -572,8 +572,8 @@
       "regional_count": 8,
       "daily_count": 4,
       "total_count": 18,
-      "min_price_rub": 1050,
-      "max_price_rub": 15250,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -590,15 +590,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -608,68 +608,67 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1150,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
-        2650,
-        2750,
-        2800,
+        2700,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4350,
-        4400,
-        4750,
+        3700,
+        4150,
+        5200,
+        5450,
+        5550,
         5600,
-        6050,
-        6300,
-        7550,
-        7950,
-        8350,
-        9150,
-        10600,
+        5750,
+        6250,
+        7250,
+        8600,
+        10000,
+        10050,
+        10150,
+        10450,
         11450,
-        11600,
-        12550,
-        14600,
-        14650,
-        15250,
-        20400,
-        21950,
-        23100,
-        28200,
-        40400,
-        42300,
-        77900
+        14000,
+        15050,
+        15800,
+        19300,
+        27700,
+        28950,
+        53350
       ],
       "term_days": [
         3,
@@ -695,18 +694,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -714,18 +702,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 10,
@@ -748,19 +725,19 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "anguilla": {
       "iso": "AI",
       "name_ru": "Ангилья",
       "strategy": "LOCAL",
-      "local_count": 5,
+      "local_count": 6,
       "regional_count": 8,
       "daily_count": 4,
-      "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 13350,
+      "total_count": 18,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -777,13 +754,13 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
           "kind": "local"
         },
@@ -795,66 +772,66 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2000,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1550,
+        1350,
         1700,
+        2000,
         2050,
-        2450,
+        2100,
+        2150,
         2500,
         2700,
-        2750,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        3900,
-        4000,
-        4200,
-        4600,
+        3700,
+        4150,
+        5200,
         5450,
+        5550,
         5600,
-        6300,
+        5750,
+        6250,
         7250,
-        7350,
-        7550,
-        9150,
-        10250,
-        11300,
+        8600,
+        10000,
+        10050,
+        10150,
+        10450,
         11450,
-        11600,
-        13350,
-        14150,
-        14600,
-        20400,
-        20800,
-        21250,
-        28200,
-        39100,
-        42300,
-        77900
+        14000,
+        15050,
+        15800,
+        19300,
+        27700,
+        28950,
+        53350
       ],
       "term_days": [
         3,
@@ -880,18 +857,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -899,22 +865,11 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
-      "networks_rows": 9,
-      "rows_total": 17,
+      "networks_rows": 10,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "500 Kbps",
@@ -928,13 +883,13 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 16,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "albania": {
       "iso": "AL",
@@ -1602,9 +1557,9 @@
       "iso": "AR",
       "name_ru": "Аргентина",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 7,
       "regional_count": 8,
-      "daily_count": 9,
+      "daily_count": 8,
       "total_count": 23,
       "min_price_rub": 400,
       "max_price_rub": 16350,
@@ -1644,13 +1599,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
-          "validity_days": 30,
+          "price_rub": 950,
+          "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1600,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -1662,13 +1617,13 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2800,
+          "price_rub": 2600,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 4600,
+          "price_rub": 3900,
           "validity_days": 30,
           "kind": "local"
         },
@@ -1684,50 +1639,43 @@
         600,
         650,
         800,
-        1000,
+        950,
         1050,
         1100,
         1150,
         1300,
+        1350,
         1400,
-        1550,
-        1600,
+        1450,
         1800,
-        2150,
+        1850,
         2300,
-        2650,
+        2550,
+        2600,
         2700,
         2750,
         2800,
         2850,
-        3500,
+        3400,
         3750,
+        3900,
         3950,
-        4350,
         4450,
-        4600,
-        4850,
-        5150,
+        5050,
+        5500,
         5600,
-        6050,
-        6100,
-        7250,
-        7300,
-        8200,
-        8400,
-        9650,
-        11450,
-        12550,
-        13350,
-        13500,
-        15800,
+        5950,
+        6250,
+        7600,
+        8000,
+        10900,
+        11200,
+        11400,
+        15500,
         16350,
-        18600,
-        23150,
-        23700,
-        27900,
-        43650,
-        51450
+        21000,
+        23200,
+        42750
       ],
       "term_days": [
         3,
@@ -1742,7 +1690,6 @@
         1,
         2,
         3,
-        5,
         10
       ],
       "validity_days_all": [
@@ -1779,10 +1726,7 @@
         ],
         "daily": [
           "Claro",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "WOM"
+          "Movistar"
         ]
       },
       "networks_rows": 17,
@@ -2313,8 +2257,8 @@
       "regional_count": 3,
       "daily_count": 4,
       "total_count": 13,
-      "min_price_rub": 1650,
-      "max_price_rub": 24250,
+      "min_price_rub": 1550,
+      "max_price_rub": 19650,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -2330,13 +2274,13 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 4700,
+          "price_rub": 4150,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1650,
+          "price_rub": 1550,
           "validity_days": 7,
           "kind": "local"
         },
@@ -2348,7 +2292,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 6500,
+          "price_rub": 5650,
           "validity_days": 30,
           "kind": "local"
         },
@@ -2360,45 +2304,44 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 24250,
+          "price_rub": 19650,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        1650,
+        1550,
         2050,
         2650,
-        3900,
+        3400,
+        3600,
         4150,
-        4700,
         5600,
-        6500,
-        7450,
-        8850,
-        10450,
-        11800,
-        12600,
-        14150,
-        14400,
-        16300,
-        19800,
-        20100,
-        21600,
-        24250,
-        26050,
-        27350,
-        28100,
-        36450,
-        38850,
-        39800,
-        41000,
-        50350,
-        58250,
-        75500,
-        75550,
-        107350,
-        139150
+        5650,
+        6600,
+        7850,
+        9250,
+        10250,
+        11750,
+        12550,
+        12800,
+        15250,
+        17550,
+        18800,
+        19150,
+        19650,
+        24200,
+        24350,
+        26300,
+        34050,
+        35300,
+        36300,
+        47050,
+        54450,
+        66900,
+        70550,
+        100300,
+        130000
       ],
       "term_days": [
         3,
@@ -2454,8 +2397,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1650,
-      "min_daily_price_rub": 4700
+      "min_volume_price_rub": 1550,
+      "min_daily_price_rub": 4150
     },
     "aland-islands": {
       "iso": "AX",
@@ -3139,8 +3082,8 @@
       "regional_count": 8,
       "daily_count": 4,
       "total_count": 18,
-      "min_price_rub": 1000,
-      "max_price_rub": 13100,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -3163,7 +3106,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1000,
+          "price_rub": 950,
           "validity_days": 7,
           "kind": "local"
         },
@@ -3175,15 +3118,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2000,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -3193,50 +3136,48 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        1000,
+        950,
         1050,
         1550,
         1700,
+        2000,
         2050,
+        2100,
         2450,
         2500,
-        2650,
-        2700,
-        2800,
         2850,
+        3000,
         3050,
+        3250,
         3450,
-        3850,
-        3900,
+        4150,
         4200,
-        4500,
-        5350,
+        5200,
         5600,
+        5750,
+        5900,
+        6250,
         6300,
-        7150,
-        7200,
-        7400,
-        8500,
+        7250,
+        8600,
+        10000,
         10050,
-        11100,
+        11250,
         11450,
         11600,
-        13100,
-        13600,
-        13900,
-        19000,
-        20400,
-        20850,
-        26250,
-        38400,
-        39400,
-        72600
+        14000,
+        15050,
+        15800,
+        19300,
+        27700,
+        28950,
+        53350
       ],
       "term_days": [
         3,
@@ -3315,7 +3256,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1000,
+      "min_volume_price_rub": 950,
       "min_daily_price_rub": 1550
     },
     "bangladesh": {
@@ -5653,7 +5594,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 9050,
+          "price_rub": 8400,
           "validity_days": 30,
           "kind": "local"
         }
@@ -5668,42 +5609,42 @@
         1150,
         1300,
         1400,
-        1700,
+        1600,
         1900,
         2200,
         2250,
         2300,
+        2550,
         2650,
         2750,
         2800,
         2850,
-        2900,
         3100,
-        3300,
+        3150,
         3500,
         3750,
         3850,
+        4200,
         4350,
         4450,
-        4550,
-        4600,
         4650,
         5600,
+        5850,
         6000,
         6450,
+        6500,
         6700,
-        6850,
-        8900,
+        8100,
+        8400,
         8950,
-        9050,
         10650,
-        12550,
-        13350,
+        11900,
+        12150,
         14950,
         16350,
         16500,
         20600,
-        24600,
+        22350,
         30900,
         56950
       ],
@@ -5793,8 +5734,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 18800,
+      "min_price_rub": 950,
+      "max_price_rub": 12600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -5811,15 +5752,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 2300,
+          "price_rub": 1350,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -5829,15 +5770,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2300,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -5847,42 +5788,43 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 12600,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1400,
+        1350,
         1700,
         2050,
+        2100,
+        2150,
         2300,
+        2350,
         2500,
+        2700,
         2850,
-        3100,
+        3000,
         3250,
         3450,
-        4550,
-        4950,
-        5400,
-        5450,
+        3700,
+        4150,
+        5200,
+        5550,
         5600,
-        6300,
-        6950,
-        8650,
-        9450,
-        9600,
-        9800,
-        12100,
+        5750,
+        5900,
+        7250,
+        8600,
+        10050,
+        10150,
+        11250,
         12600,
-        14350,
-        16750,
-        17350,
-        18800,
-        25100,
-        26450,
-        46200
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -5937,8 +5879,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 2300
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "bhutan": {
       "iso": "BT",
@@ -7634,9 +7576,9 @@
       "iso": "CL",
       "name_ru": "Чили",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 7,
       "regional_count": 8,
-      "daily_count": 9,
+      "daily_count": 8,
       "total_count": 23,
       "min_price_rub": 400,
       "max_price_rub": 16350,
@@ -7676,13 +7618,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1050,
-          "validity_days": 30,
+          "price_rub": 950,
+          "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1650,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -7694,13 +7636,13 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2650,
+          "price_rub": 2600,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 4850,
+          "price_rub": 4200,
           "validity_days": 30,
           "kind": "local"
         },
@@ -7716,50 +7658,43 @@
         600,
         750,
         800,
+        950,
         1050,
         1100,
         1150,
+        1350,
         1400,
+        1450,
         1500,
-        1650,
-        1700,
         1850,
         2100,
         2300,
-        2350,
-        2650,
+        2550,
+        2600,
         2750,
         2800,
         2850,
-        2900,
-        3250,
-        3600,
+        3400,
         3750,
-        4300,
+        3950,
+        4200,
         4450,
-        4850,
-        5000,
+        5050,
         5100,
-        5150,
+        5500,
         5600,
+        5950,
         6250,
-        7200,
-        7500,
-        7900,
-        8200,
-        9950,
-        11450,
-        13750,
-        13900,
-        14900,
-        15800,
+        7600,
+        8000,
+        10900,
+        11200,
+        11400,
+        15500,
         16350,
-        19200,
-        23700,
-        27400,
-        28800,
-        43650,
-        53000
+        21000,
+        23200,
+        42750
       ],
       "term_days": [
         3,
@@ -7774,7 +7709,6 @@
         1,
         2,
         3,
-        5,
         10
       ],
       "validity_days_all": [
@@ -7811,10 +7745,6 @@
         ],
         "daily": [
           "CLARO CL",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "WOM",
           "movistar"
         ]
       },
@@ -7989,10 +7919,10 @@
       "iso": "CN",
       "name_ru": "Китай",
       "strategy": "LOCAL",
-      "local_count": 10,
+      "local_count": 11,
       "regional_count": 8,
       "daily_count": 10,
-      "total_count": 28,
+      "total_count": 29,
       "min_price_rub": 200,
       "max_price_rub": 5600,
       "validity_days_min": 0,
@@ -8052,9 +7982,9 @@
         },
         {
           "data_gb": 12,
-          "price_rub": 1900,
+          "price_rub": 1850,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 15,
@@ -8109,6 +8039,7 @@
         1550,
         1600,
         1700,
+        1850,
         1900,
         2050,
         2100,
@@ -8189,7 +8120,7 @@
         ]
       },
       "networks_rows": 18,
-      "rows_total": 28,
+      "rows_total": 29,
       "fup_policies": [
         "384 Kbps",
         "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
@@ -8205,7 +8136,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 18,
+      "topup_yes": 19,
       "topup_no": 10,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -8219,9 +8150,9 @@
       "strategy": "LOCAL",
       "local_count": 6,
       "regional_count": 8,
-      "daily_count": 8,
-      "total_count": 22,
-      "min_price_rub": 450,
+      "daily_count": 9,
+      "total_count": 23,
+      "min_price_rub": 400,
       "max_price_rub": 21700,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -8247,7 +8178,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 450,
+          "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
         },
@@ -8259,13 +8190,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 950,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 2000,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -8283,9 +8214,9 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 5600,
+          "price_rub": 4450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 50,
@@ -8295,41 +8226,43 @@
         }
       ],
       "all_purchasable_prices": [
-        450,
+        400,
         700,
         900,
-        1000,
+        950,
         1050,
         1100,
         1150,
         1250,
-        1500,
+        1350,
+        1450,
         1600,
         1750,
-        2000,
+        1850,
+        2300,
         2350,
-        2400,
         2450,
-        2600,
+        2550,
         2750,
         2800,
-        3000,
+        2850,
         3100,
         3250,
-        3650,
+        3300,
+        3400,
         3800,
-        4150,
+        3950,
         4450,
-        5150,
+        4600,
         5600,
         5950,
-        6200,
-        7100,
-        10600,
+        6250,
+        6350,
+        9500,
         10800,
-        11350,
+        10900,
         17250,
-        19550,
+        17500,
         20050,
         21700,
         24150,
@@ -8353,6 +8286,7 @@
       "daily_gb": [
         0.49,
         1,
+        2,
         3,
         5,
         10
@@ -8398,10 +8332,9 @@
           "movistar"
         ]
       },
-      "networks_rows": 10,
-      "rows_total": 22,
+      "networks_rows": 11,
+      "rows_total": 23,
       "fup_policies": [
-        "1 Mbps",
         "384 Kbps",
         "512 Kbps",
         "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
@@ -8414,12 +8347,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
+      "topup_yes": 20,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 450,
+      "min_volume_price_rub": 400,
       "min_daily_price_rub": 900
     },
     "costa-rica": {
@@ -8642,7 +8575,7 @@
       "regional_count": 3,
       "daily_count": 4,
       "total_count": 13,
-      "min_price_rub": 1750,
+      "min_price_rub": 1450,
       "max_price_rub": 25250,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -8665,7 +8598,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1750,
+          "price_rub": 1450,
           "validity_days": 7,
           "kind": "local"
         },
@@ -8695,7 +8628,7 @@
         }
       ],
       "all_purchasable_prices": [
-        1750,
+        1450,
         2050,
         2900,
         4100,
@@ -8763,7 +8696,7 @@
           "CVMOVEL"
         ]
       },
-      "networks_rows": 10,
+      "networks_rows": 9,
       "rows_total": 13,
       "fup_policies": [
         "1 Mbps",
@@ -8782,7 +8715,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1750,
+      "min_volume_price_rub": 1450,
       "min_daily_price_rub": 2900
     },
     "curacao": {
@@ -8793,8 +8726,8 @@
       "regional_count": 8,
       "daily_count": 4,
       "total_count": 18,
-      "min_price_rub": 1050,
-      "max_price_rub": 12050,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -8817,7 +8750,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
           "kind": "local"
         },
@@ -8829,67 +8762,65 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2450,
+          "price_rub": 2000,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5300,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
         1600,
         1700,
+        2000,
         2050,
-        2450,
+        2100,
         2500,
         2550,
-        2650,
-        2750,
         2850,
+        3000,
         3200,
+        3250,
         3450,
-        3600,
-        3750,
+        4150,
         4400,
-        4450,
-        5250,
+        5200,
+        5300,
         5600,
-        6550,
+        5750,
+        6250,
         6600,
-        7050,
         7250,
-        8350,
-        9900,
-        10900,
+        8600,
+        10000,
+        10050,
         11450,
-        12050,
         12100,
-        13300,
-        13650,
-        18600,
-        20050,
-        20450,
-        25700,
-        37700,
-        38500,
-        70950
+        14000,
+        15050,
+        15800,
+        19300,
+        27700,
+        28950,
+        53350
       ],
       "term_days": [
         3,
@@ -8946,7 +8877,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
+      "min_volume_price_rub": 950,
       "min_daily_price_rub": 1600
     },
     "cyprus": {
@@ -10093,8 +10024,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 13500,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -10111,13 +10042,13 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
           "kind": "local"
         },
@@ -10129,60 +10060,61 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
-        2750,
-        2800,
+        2700,
         2850,
-        2900,
-        3050,
+        3000,
+        3250,
         3450,
-        3950,
-        4050,
-        4200,
-        4650,
+        3700,
+        4150,
+        5200,
+        5450,
         5550,
         5600,
-        6300,
-        7350,
-        7450,
-        7650,
-        10400,
+        5750,
+        7250,
+        8600,
+        10050,
+        10150,
+        10450,
         11450,
-        11600,
-        13500,
-        14350,
-        21100,
-        21550,
-        39650
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -10207,18 +10139,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -10226,18 +10147,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -10259,8 +10169,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "dominican-republic": {
       "iso": "DO",
@@ -10457,8 +10367,8 @@
       "strategy": "LOCAL",
       "local_count": 8,
       "regional_count": 6,
-      "daily_count": 5,
-      "total_count": 19,
+      "daily_count": 9,
+      "total_count": 23,
       "min_price_rub": 250,
       "max_price_rub": 6000,
       "validity_days_min": 0,
@@ -10473,7 +10383,7 @@
         20,
         50
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 21,
       "offers": [
         {
@@ -10547,16 +10457,20 @@
         1550,
         1800,
         2100,
+        2350,
         2450,
         2550,
         2650,
         2850,
         3050,
+        3250,
         3300,
         3450,
         3750,
+        4050,
         4200,
         4500,
+        4900,
         6000,
         6300,
         8700,
@@ -10581,7 +10495,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         14,
         15,
         30
@@ -10624,10 +10541,11 @@
         ]
       },
       "networks_rows": 14,
-      "rows_total": 19,
+      "rows_total": 23,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -10639,9 +10557,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 18,
-      "topup_no": 1,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 250,
       "min_daily_price_rub": 350
@@ -10650,11 +10568,11 @@
       "iso": "EC",
       "name_ru": "Эквадор",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 5,
       "regional_count": 8,
       "daily_count": 8,
-      "total_count": 22,
-      "min_price_rub": 450,
+      "total_count": 21,
+      "min_price_rub": 400,
       "max_price_rub": 16350,
       "validity_days_min": 0,
       "validity_days_max": 180,
@@ -10680,7 +10598,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 450,
+          "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
         },
@@ -10692,13 +10610,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1800,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -10710,13 +10628,13 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2950,
+          "price_rub": 2600,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 5100,
+          "price_rub": 4450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -10728,48 +10646,45 @@
         }
       ],
       "all_purchasable_prices": [
-        450,
+        400,
         600,
         800,
-        1000,
-        1050,
+        900,
+        950,
         1100,
         1150,
-        1200,
+        1350,
         1400,
+        1450,
         1600,
-        1800,
-        1900,
+        1850,
         2200,
-        2250,
         2300,
-        2650,
+        2550,
+        2600,
         2750,
         2800,
+        2850,
         2950,
-        3200,
-        3300,
+        3400,
         3750,
-        3850,
+        3950,
         4450,
-        4900,
         5000,
-        5100,
         5400,
+        5500,
         5600,
-        6150,
+        5950,
+        6250,
+        7600,
         7950,
-        8650,
-        9000,
-        9200,
+        10900,
         11100,
-        11900,
+        11400,
         15350,
         16350,
-        16900,
-        17850,
+        21000,
         23000,
-        32900,
         42400
       ],
       "term_days": [
@@ -10824,8 +10739,8 @@
           "Movistar"
         ]
       },
-      "networks_rows": 16,
-      "rows_total": 22,
+      "networks_rows": 15,
+      "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -10840,12 +10755,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 18,
+      "topup_yes": 17,
       "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 450,
+      "min_volume_price_rub": 400,
       "min_daily_price_rub": 800
     },
     "estonia": {
@@ -13180,8 +13095,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 15900,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -13198,15 +13113,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -13216,15 +13131,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -13234,39 +13149,43 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1200,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
+        2700,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4500,
-        4750,
-        5050,
+        3700,
+        4150,
+        5200,
+        5550,
         5600,
-        6300,
-        8050,
-        8700,
+        5750,
+        5900,
+        7250,
+        8600,
+        10050,
+        10150,
         11250,
         11450,
-        11600,
-        13050,
-        15500,
-        15900,
-        23250,
-        24000,
-        42850
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -13291,18 +13210,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -13310,18 +13218,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -13343,8 +13240,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "georgia": {
       "iso": "GE",
@@ -14028,17 +13925,18 @@
       "iso": "GH",
       "name_ru": "Гана",
       "strategy": "LOCAL",
-      "local_count": 6,
-      "regional_count": 8,
+      "local_count": 7,
+      "regional_count": 7,
       "daily_count": 5,
       "total_count": 19,
       "min_price_rub": 300,
-      "max_price_rub": 5350,
+      "max_price_rub": 4800,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
         0,
         1,
+        2,
         3,
         5,
         10,
@@ -14057,6 +13955,12 @@
           "data_gb": 1,
           "price_rub": 300,
           "validity_days": 7,
+          "kind": "local"
+        },
+        {
+          "data_gb": 2,
+          "price_rub": 550,
+          "validity_days": 15,
           "kind": "local"
         },
         {
@@ -14091,24 +13995,22 @@
         800,
         1000,
         1100,
-        1200,
         1450,
         1550,
-        1900,
         2000,
         2050,
         2150,
+        2650,
         2750,
         2800,
         2850,
-        3000,
         3350,
         3650,
         3950,
+        4100,
         4450,
         4800,
         5250,
-        5350,
         5450,
         6250,
         6750,
@@ -15418,12 +15320,12 @@
       "iso": "GT",
       "name_ru": "Гватемала",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 5,
       "regional_count": 6,
       "daily_count": 6,
-      "total_count": 18,
-      "min_price_rub": 500,
-      "max_price_rub": 7550,
+      "total_count": 17,
+      "min_price_rub": 400,
+      "max_price_rub": 5600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -15446,7 +15348,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 500,
+          "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
         },
@@ -15458,75 +15360,74 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1100,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1850,
+          "price_rub": 1250,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2950,
+          "price_rub": 2600,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 5250,
+          "price_rub": 4450,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        500,
+        400,
         750,
+        900,
+        950,
         1050,
         1100,
-        1150,
-        1200,
+        1250,
+        1350,
         1450,
         1500,
-        1800,
         1850,
         1900,
         2100,
-        2500,
+        2300,
+        2550,
+        2600,
         2700,
         2750,
-        2950,
-        3000,
-        3050,
+        2800,
+        2850,
+        3200,
+        3400,
         3800,
-        4050,
-        4150,
-        4600,
-        4850,
+        3950,
+        4450,
+        5050,
         5100,
-        5250,
+        5500,
         5600,
-        5750,
-        6500,
-        6750,
-        7550,
-        8400,
-        8600,
-        9100,
-        9350,
-        12050,
-        12550,
-        14000,
-        15800,
-        16850,
-        18800,
-        23250,
-        25800,
-        34600,
-        34850,
-        64250
+        5950,
+        6250,
+        7150,
+        7600,
+        8000,
+        9850,
+        10900,
+        11200,
+        11400,
+        14800,
+        15500,
+        21000,
+        23200,
+        27200,
+        42750
       ],
       "term_days": [
         3,
@@ -15570,7 +15471,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 18,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -15584,12 +15485,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 16,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 500,
+      "min_volume_price_rub": 400,
       "min_daily_price_rub": 750
     },
     "guam": {
@@ -16382,12 +16283,12 @@
       "iso": "HN",
       "name_ru": "Гондурас",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 5,
       "regional_count": 6,
       "daily_count": 4,
-      "total_count": 16,
+      "total_count": 15,
       "min_price_rub": 400,
-      "max_price_rub": 6300,
+      "max_price_rub": 5600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -16404,7 +16305,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 0,
           "kind": "local"
         },
@@ -16422,13 +16323,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 950,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1550,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -16447,37 +16348,35 @@
       ],
       "all_purchasable_prices": [
         400,
-        1000,
+        950,
         1050,
+        1350,
         1450,
-        1500,
-        1550,
-        1750,
+        1850,
         1900,
-        2100,
+        2300,
         2550,
         2700,
         2800,
         2850,
-        3050,
-        3450,
+        3400,
         3800,
+        3950,
         4300,
-        4800,
-        4850,
+        5050,
+        5500,
         5600,
-        6300,
-        6750,
-        7000,
-        7150,
-        9350,
-        10000,
-        13150,
-        14000,
-        19350,
-        25800,
-        29000,
-        53450
+        5950,
+        6250,
+        7600,
+        8000,
+        10900,
+        11200,
+        11400,
+        15500,
+        21000,
+        23200,
+        42750
       ],
       "term_days": [
         3,
@@ -16514,8 +16413,8 @@
           "Claro"
         ]
       },
-      "networks_rows": 10,
-      "rows_total": 16,
+      "networks_rows": 9,
+      "rows_total": 15,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -16529,13 +16428,13 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 15,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
-      "min_daily_price_rub": 1050
+      "min_daily_price_rub": 950
     },
     "croatia": {
       "iso": "HR",
@@ -17270,7 +17169,7 @@
       "min_price_rub": 200,
       "max_price_rub": 7400,
       "validity_days_min": 0,
-      "validity_days_max": 180,
+      "validity_days_max": 90,
       "volumes_gb": [
         0,
         1,
@@ -17280,6 +17179,7 @@
         10,
         15,
         20,
+        25,
         30,
         50,
         60
@@ -17334,6 +17234,12 @@
           "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
+        },
+        {
+          "data_gb": 25,
+          "price_rub": 2750,
+          "validity_days": 30,
+          "kind": "regional"
         },
         {
           "data_gb": 30,
@@ -17394,7 +17300,6 @@
         5950,
         6100,
         6800,
-        7050,
         7400,
         8400,
         9650,
@@ -17424,8 +17329,7 @@
         15,
         30,
         60,
-        90,
-        180
+        90
       ],
       "speeds": [
         "3G/4G",
@@ -17446,21 +17350,17 @@
         "KDDI/au",
         "LG Uplus",
         "Lao Telecom",
-        "M1",
         "Maxis",
         "Metfone",
         "MobiFone",
         "Robi",
         "SKTelecom",
         "SMART",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Taiwan Mobile",
         "Telkomsel",
         "TrueMove H",
-        "U Mobile",
-        "Vietnamobile",
         "Viettel Mobile",
         "Vinaphone",
         "XL",
@@ -17487,21 +17387,17 @@
           "KDDI/au",
           "LG Uplus",
           "Lao Telecom",
-          "M1",
           "Maxis",
           "Metfone",
           "MobiFone",
           "Robi",
           "SKTelecom",
           "SMART",
-          "SingTel",
           "SmarTone",
           "SoftBank",
           "Taiwan Mobile",
           "Telkomsel",
           "TrueMove H",
-          "U Mobile",
-          "Vietnamobile",
           "Viettel Mobile",
           "Vinaphone",
           "XL",
@@ -17513,7 +17409,7 @@
           "XL"
         ]
       },
-      "networks_rows": 16,
+      "networks_rows": 15,
       "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
@@ -17870,7 +17766,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 950,
+          "price_rub": 900,
           "validity_days": 30,
           "kind": "local"
         },
@@ -17900,7 +17796,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 2350,
+          "price_rub": 2200,
           "validity_days": 30,
           "kind": "local"
         },
@@ -17935,35 +17831,35 @@
         450,
         500,
         550,
-        600,
         700,
+        750,
         800,
         900,
         950,
+        1000,
         1100,
         1150,
         1250,
-        1300,
-        1500,
+        1550,
         1700,
         1850,
+        1900,
         2000,
-        2250,
+        2100,
+        2200,
         2300,
-        2350,
-        2500,
         2550,
         2700,
         2800,
+        3050,
         3100,
         3150,
         3350,
-        3650,
         3700,
         4500,
         4600,
         4700,
-        6150,
+        5150,
         6250,
         6450,
         7700,
@@ -18028,7 +17924,7 @@
           "Pelephone"
         ]
       },
-      "networks_rows": 13,
+      "networks_rows": 14,
       "rows_total": 24,
       "fup_policies": [
         "512 Kbps"
@@ -19685,12 +19581,12 @@
       "iso": "JM",
       "name_ru": "Ямайка",
       "strategy": "LOCAL",
-      "local_count": 6,
+      "local_count": 8,
       "regional_count": 8,
       "daily_count": 2,
-      "total_count": 16,
-      "min_price_rub": 1050,
-      "max_price_rub": 13400,
+      "total_count": 18,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -19713,9 +19609,9 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -19725,9 +19621,9 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
@@ -19743,16 +19639,18 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
         1100,
         1550,
         1700,
+        1900,
         2050,
         2200,
         2450,
@@ -19770,9 +19668,9 @@
         6900,
         7100,
         9500,
+        11250,
         11450,
         11600,
-        13400,
         14250,
         26200
       ],
@@ -19832,8 +19730,8 @@
           "movistar"
         ]
       },
-      "networks_rows": 4,
-      "rows_total": 16,
+      "networks_rows": 6,
+      "rows_total": 18,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -19845,12 +19743,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 16,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
+      "min_volume_price_rub": 950,
       "min_daily_price_rub": 1550
     },
     "jordan": {
@@ -21008,8 +20906,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 15900,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -21026,15 +20924,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -21044,57 +20942,60 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2000,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1200,
-        1550,
+        1350,
         1700,
+        2000,
         2050,
-        2450,
+        2100,
+        2150,
         2500,
+        2700,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4500,
-        4750,
-        5050,
+        3700,
+        4150,
+        5200,
+        5450,
+        5550,
         5600,
-        6300,
-        8050,
-        8700,
-        11250,
+        5750,
+        7250,
+        8600,
+        10050,
+        10150,
+        10450,
         11450,
-        11600,
-        13050,
-        15500,
-        15900,
-        23250,
-        24000,
-        42850
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -21119,18 +21020,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -21138,18 +21028,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -21171,8 +21050,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "south-korea": {
       "iso": "KR",
@@ -21450,12 +21329,12 @@
       "iso": "KT",
       "name_ru": "Северный Кипр",
       "strategy": "LOCAL",
-      "local_count": 2,
+      "local_count": 4,
       "regional_count": 8,
       "daily_count": 0,
-      "total_count": 10,
+      "total_count": 12,
       "min_price_rub": 450,
-      "max_price_rub": 3400,
+      "max_price_rub": 7000,
       "validity_days_min": 14,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -21468,7 +21347,9 @@
         15,
         20,
         25,
-        30
+        30,
+        50,
+        100
       ],
       "has_unlimited": false,
       "regional_reach_max": 41,
@@ -21532,6 +21413,18 @@
           "price_rub": 3400,
           "validity_days": 30,
           "kind": "local"
+        },
+        {
+          "data_gb": 50,
+          "price_rub": 4100,
+          "validity_days": 30,
+          "kind": "local"
+        },
+        {
+          "data_gb": 100,
+          "price_rub": 7000,
+          "validity_days": 30,
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
@@ -21544,7 +21437,9 @@
         2300,
         2400,
         3350,
-        3400
+        3400,
+        4100,
+        7000
       ],
       "term_days": [],
       "daily_gb": [],
@@ -21560,7 +21455,7 @@
         "daily": []
       },
       "networks_rows": 0,
-      "rows_total": 10,
+      "rows_total": 12,
       "fup_policies": [],
       "activation_policies": [
         "first_data_usage"
@@ -21568,7 +21463,7 @@
       "activation_labels": [
         "с первого использования интернета"
       ],
-      "topup_yes": 10,
+      "topup_yes": 12,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -21848,8 +21743,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 14650,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -21866,15 +21761,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -21884,15 +21779,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -21902,44 +21797,43 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1150,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
-        2650,
         2700,
-        2800,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4300,
-        4400,
-        5050,
+        3700,
+        4150,
+        5200,
+        5550,
         5600,
-        6000,
-        6300,
-        8000,
-        8050,
-        8300,
+        5750,
+        5900,
+        7250,
+        8600,
+        10050,
+        10150,
         11250,
         11450,
-        11600,
-        12450,
-        14650,
-        15500,
-        22900,
-        23250,
-        42850
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -21961,22 +21855,10 @@
         30
       ],
       "speeds": [
-        "3G/4G",
         "3G/4G/5G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -21984,18 +21866,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -22017,8 +21888,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "kazakhstan": {
       "iso": "KZ",
@@ -22491,8 +22362,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 15900,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -22509,15 +22380,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -22527,57 +22398,60 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2000,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1200,
-        1550,
+        1350,
         1700,
+        2000,
         2050,
-        2450,
+        2100,
+        2150,
         2500,
+        2700,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4500,
-        4750,
-        5050,
+        3700,
+        4150,
+        5200,
+        5450,
+        5550,
         5600,
-        6300,
-        8050,
-        8700,
-        11250,
+        5750,
+        7250,
+        8600,
+        10050,
+        10150,
+        10450,
         11450,
-        11600,
-        13050,
-        15500,
-        15900,
-        23250,
-        24000,
-        42850
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -22602,18 +22476,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -22621,18 +22484,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -22654,8 +22506,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "liechtenstein": {
       "iso": "LI",
@@ -25349,11 +25201,11 @@
       "iso": "MG",
       "name_ru": "Мадагаскар",
       "strategy": "LOCAL",
-      "local_count": 4,
+      "local_count": 5,
       "regional_count": 8,
       "daily_count": 5,
-      "total_count": 17,
-      "min_price_rub": 850,
+      "total_count": 18,
+      "min_price_rub": 600,
       "max_price_rub": 13350,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -25376,15 +25228,15 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 850,
+          "price_rub": 600,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 3,
-          "price_rub": 1900,
+          "price_rub": 1400,
           "validity_days": 15,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 5,
@@ -25406,9 +25258,10 @@
         }
       ],
       "all_purchasable_prices": [
+        600,
         850,
-        1050,
         1100,
+        1400,
         1900,
         2050,
         2200,
@@ -25470,6 +25323,7 @@
         30
       ],
       "speeds": [
+        "3G/4G",
         "3G/4G/5G"
       ],
       "networks": [
@@ -25479,12 +25333,15 @@
         "Emtel",
         "Orange Morocco",
         "SFR",
+        "Telma",
         "Tunicell",
         "Vodafone",
         "my.t"
       ],
       "networks_by_block": {
-        "local": [],
+        "local": [
+          "Telma"
+        ],
         "regional": [
           "Airtel",
           "Djezzy",
@@ -25508,8 +25365,8 @@
           "my.t"
         ]
       },
-      "networks_rows": 9,
-      "rows_total": 17,
+      "networks_rows": 11,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps"
@@ -25522,12 +25379,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 16,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 850,
+      "min_volume_price_rub": 600,
       "min_daily_price_rub": 2350
     },
     "north-macedonia": {
@@ -26768,12 +26625,12 @@
       "iso": "MS",
       "name_ru": "Монтсеррат",
       "strategy": "LOCAL",
-      "local_count": 5,
+      "local_count": 6,
       "regional_count": 8,
       "daily_count": 3,
-      "total_count": 16,
-      "min_price_rub": 1050,
-      "max_price_rub": 14500,
+      "total_count": 17,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -26790,13 +26647,13 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
           "kind": "local"
         },
@@ -26808,60 +26665,61 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
-        2650,
+        2700,
         2850,
-        2900,
-        3050,
+        3000,
+        3250,
         3450,
-        4100,
+        3700,
         4150,
-        4200,
-        4500,
+        5200,
+        5450,
+        5550,
         5600,
         5750,
-        6300,
-        7200,
-        7550,
-        7950,
+        7250,
+        8600,
         10050,
+        10150,
+        10450,
         11450,
-        11600,
-        11900,
-        13900,
-        14500,
-        20850,
-        21950,
-        38400
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -26886,18 +26744,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -26905,22 +26752,11 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
-      "networks_rows": 8,
-      "rows_total": 16,
+      "networks_rows": 9,
+      "rows_total": 17,
       "fup_policies": [
         "500 Kbps",
         "512 Kbps"
@@ -26933,13 +26769,13 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 15,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "malta": {
       "iso": "MT",
@@ -27966,18 +27802,17 @@
       "iso": "MY",
       "name_ru": "Малайзия",
       "strategy": "LOCAL",
-      "local_count": 12,
+      "local_count": 9,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 26,
-      "min_price_rub": 200,
+      "total_count": 23,
+      "min_price_rub": 100,
       "max_price_rub": 5950,
       "validity_days_min": 0,
       "validity_days_max": 180,
       "volumes_gb": [
         0,
         1,
-        2,
         3,
         5,
         10,
@@ -27999,32 +27834,26 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 200,
+          "price_rub": 100,
           "validity_days": 7,
           "kind": "local"
         },
         {
-          "data_gb": 2,
-          "price_rub": 300,
-          "validity_days": 15,
-          "kind": "local"
-        },
-        {
           "data_gb": 3,
-          "price_rub": 400,
+          "price_rub": 250,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 600,
+          "price_rub": 400,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 1000,
-          "validity_days": 15,
+          "price_rub": 700,
+          "validity_days": 30,
           "kind": "local"
         },
         {
@@ -28035,8 +27864,8 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1400,
-          "validity_days": 15,
+          "price_rub": 1300,
+          "validity_days": 30,
           "kind": "local"
         },
         {
@@ -28065,24 +27894,20 @@
         }
       ],
       "all_purchasable_prices": [
-        200,
+        100,
         250,
-        300,
         350,
         400,
         450,
         550,
-        600,
+        700,
         750,
         900,
         1000,
-        1050,
         1150,
         1250,
         1300,
         1350,
-        1400,
-        1450,
         1500,
         1650,
         1750,
@@ -28193,7 +28018,8 @@
         "local": [
           "CelcomDigi",
           "Maxis",
-          "Tune Talk"
+          "Tune Talk",
+          "U Mobile"
         ],
         "regional": [
           "3",
@@ -28250,8 +28076,8 @@
           "U Mobile"
         ]
       },
-      "networks_rows": 16,
-      "rows_total": 26,
+      "networks_rows": 15,
+      "rows_total": 23,
       "fup_policies": [
         "128 Kbps",
         "384 Kbps",
@@ -28269,11 +28095,11 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 15,
-      "topup_no": 11,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 200,
+      "min_volume_price_rub": 100,
       "min_daily_price_rub": 350
     },
     "mozambique": {
@@ -28587,8 +28413,8 @@
       "iso": "NG",
       "name_ru": "Нигерия",
       "strategy": "LOCAL",
-      "local_count": 6,
-      "regional_count": 8,
+      "local_count": 7,
+      "regional_count": 7,
       "daily_count": 6,
       "total_count": 20,
       "min_price_rub": 550,
@@ -28598,6 +28424,7 @@
       "volumes_gb": [
         0,
         1,
+        2,
         3,
         5,
         10,
@@ -28619,26 +28446,32 @@
           "kind": "regional"
         },
         {
+          "data_gb": 2,
+          "price_rub": 1100,
+          "validity_days": 15,
+          "kind": "local"
+        },
+        {
           "data_gb": 3,
-          "price_rub": 1200,
+          "price_rub": 1100,
           "validity_days": 15,
           "kind": "regional"
         },
         {
           "data_gb": 5,
-          "price_rub": 1900,
+          "price_rub": 1550,
           "validity_days": 21,
           "kind": "regional"
         },
         {
           "data_gb": 10,
-          "price_rub": 3000,
+          "price_rub": 2650,
           "validity_days": 30,
           "kind": "regional"
         },
         {
           "data_gb": 20,
-          "price_rub": 5350,
+          "price_rub": 4100,
           "validity_days": 30,
           "kind": "regional"
         }
@@ -28648,26 +28481,25 @@
         650,
         1050,
         1100,
-        1200,
         1450,
         1500,
+        1550,
         1600,
-        1900,
         2050,
         2100,
         2300,
         2500,
         2550,
+        2650,
         2850,
         2900,
-        3000,
         3600,
         3900,
         3950,
         4050,
+        4100,
         4300,
         5000,
-        5350,
         5950,
         6900,
         7150,
@@ -28790,7 +28622,7 @@
       "daily_count": 5,
       "total_count": 16,
       "min_price_rub": 400,
-      "max_price_rub": 7050,
+      "max_price_rub": 5600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -28825,13 +28657,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1550,
+          "price_rub": 1250,
           "validity_days": 30,
           "kind": "local"
         },
@@ -28851,41 +28683,42 @@
       "all_purchasable_prices": [
         400,
         700,
+        900,
+        950,
         1000,
         1050,
+        1250,
+        1350,
         1400,
         1450,
-        1550,
-        1650,
+        1850,
         1900,
         1950,
-        2350,
+        2300,
         2550,
         2700,
         2800,
         2850,
         2900,
-        2950,
+        3400,
         3800,
-        3900,
+        3950,
         4300,
-        4700,
         4750,
-        5350,
+        5050,
+        5500,
         5600,
-        6600,
-        7050,
-        7850,
-        8050,
-        9100,
-        11250,
-        13650,
-        14800,
-        15700,
-        21700,
-        25100,
-        32550,
-        59950
+        5950,
+        6250,
+        7600,
+        8000,
+        10900,
+        11200,
+        11400,
+        15500,
+        21000,
+        23200,
+        42750
       ],
       "term_days": [
         3,
@@ -30440,10 +30273,10 @@
       "iso": "PE",
       "name_ru": "Перу",
       "strategy": "LOCAL",
-      "local_count": 7,
+      "local_count": 6,
       "regional_count": 8,
       "daily_count": 9,
-      "total_count": 24,
+      "total_count": 23,
       "min_price_rub": 400,
       "max_price_rub": 16350,
       "validity_days_min": 0,
@@ -30482,13 +30315,13 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1000,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1600,
+          "price_rub": 1250,
           "validity_days": 30,
           "kind": "local"
         },
@@ -30500,7 +30333,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2650,
+          "price_rub": 2300,
           "validity_days": 30,
           "kind": "local"
         },
@@ -30512,7 +30345,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 13700,
+          "price_rub": 11050,
           "validity_days": 30,
           "kind": "local"
         }
@@ -30521,51 +30354,52 @@
         400,
         600,
         800,
-        1000,
-        1050,
+        900,
+        950,
         1100,
         1150,
+        1250,
+        1350,
         1400,
+        1450,
         1600,
-        1700,
         1850,
         2150,
         2300,
-        2400,
+        2550,
         2600,
-        2650,
         2750,
         2800,
+        2850,
         2900,
-        3500,
+        3200,
+        3400,
         3650,
-        3700,
         3750,
-        4350,
+        3950,
         4450,
+        5050,
         5100,
         5150,
         5300,
-        5550,
         5600,
-        6450,
+        5950,
+        6250,
         7100,
-        7600,
-        7750,
-        8050,
-        10300,
+        7150,
+        8000,
+        9850,
         10600,
-        10750,
-        13700,
-        14000,
-        14400,
-        16100,
+        10900,
+        11050,
+        11200,
+        14800,
+        15500,
         16350,
         19550,
-        19900,
-        29600,
-        29850,
-        54950
+        23200,
+        27200,
+        42750
       ],
       "term_days": [
         3,
@@ -30620,8 +30454,8 @@
           "Movistar"
         ]
       },
-      "networks_rows": 17,
-      "rows_total": 24,
+      "networks_rows": 16,
+      "rows_total": 23,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -30636,7 +30470,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 20,
+      "topup_yes": 19,
       "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -31860,9 +31694,9 @@
         400,
         600,
         700,
-        1000,
+        950,
         1050,
-        1500,
+        1250,
         1550,
         1600,
         2100,
@@ -32284,11 +32118,11 @@
       "name_ru": "Парагвай",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 4,
-      "total_count": 18,
-      "min_price_rub": 450,
-      "max_price_rub": 7300,
+      "total_count": 17,
+      "min_price_rub": 400,
+      "max_price_rub": 6100,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -32297,59 +32131,52 @@
         2,
         3,
         5,
-        7,
         10,
         20,
         25
       ],
       "has_unlimited": false,
-      "regional_reach_max": 17,
+      "regional_reach_max": 37,
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1450,
+          "price_rub": 950,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 450,
+          "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
         },
         {
           "data_gb": 2,
-          "price_rub": 1100,
+          "price_rub": 1450,
           "validity_days": 15,
           "kind": "regional"
         },
         {
           "data_gb": 3,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1650,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "local"
         },
         {
-          "data_gb": 7,
-          "price_rub": 2800,
-          "validity_days": 30,
-          "kind": "regional"
-        },
-        {
           "data_gb": 10,
-          "price_rub": 2900,
+          "price_rub": 2600,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 5150,
+          "price_rub": 4450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -32361,44 +32188,38 @@
         }
       ],
       "all_purchasable_prices": [
-        450,
-        700,
+        400,
+        950,
         1050,
-        1100,
-        1150,
+        1350,
         1450,
-        1600,
-        1650,
+        1850,
+        1900,
         2300,
-        2350,
         2550,
+        2600,
+        2700,
         2800,
         2850,
-        2900,
-        3200,
-        3650,
+        3400,
         3800,
-        3900,
+        3950,
+        4450,
         5050,
-        5100,
-        5150,
+        5500,
         5600,
-        5850,
+        5950,
         6100,
-        7000,
-        7150,
-        7300,
-        9850,
-        10500,
-        10750,
-        11650,
-        14800,
-        16300,
-        19300,
-        22550,
-        27250,
-        33800,
-        62200
+        6250,
+        7600,
+        8000,
+        10900,
+        11200,
+        11400,
+        15500,
+        21000,
+        23200,
+        42750
       ],
       "term_days": [
         3,
@@ -32409,8 +32230,8 @@
         30
       ],
       "daily_gb": [
-        0.49,
         1,
+        2,
         3,
         10
       ],
@@ -32436,7 +32257,7 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 18,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -32451,12 +32272,12 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 17,
-      "topup_no": 1,
+      "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 450,
-      "min_daily_price_rub": 1450
+      "min_volume_price_rub": 400,
+      "min_daily_price_rub": 950
     },
     "qatar": {
       "iso": "QA",
@@ -35987,9 +35808,9 @@
       "strategy": "LOCAL",
       "local_count": 3,
       "regional_count": 8,
-      "daily_count": 7,
-      "total_count": 18,
-      "min_price_rub": 450,
+      "daily_count": 6,
+      "total_count": 17,
+      "min_price_rub": 400,
       "max_price_rub": 21700,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -36015,7 +35836,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 450,
+          "price_rub": 400,
           "validity_days": 7,
           "kind": "local"
         },
@@ -36027,15 +35848,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1350,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 2350,
+          "price_rub": 1250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 7,
@@ -36063,38 +35884,31 @@
         }
       ],
       "all_purchasable_prices": [
-        450,
+        400,
         700,
+        900,
         1100,
         1150,
-        1350,
+        1250,
         1600,
         2350,
-        2400,
         2750,
         2800,
-        3100,
         3800,
-        4050,
+        3950,
         4450,
-        4950,
+        5500,
         5600,
-        6500,
-        6900,
-        9050,
-        9550,
+        7600,
         10800,
-        12500,
-        14300,
+        11400,
         17250,
-        18750,
         20050,
+        21000,
         21700,
         24150,
-        26350,
         32050,
         33400,
-        34550,
         44850,
         50050,
         61950,
@@ -36158,8 +35972,8 @@
           "movistar"
         ]
       },
-      "networks_rows": 7,
-      "rows_total": 18,
+      "networks_rows": 6,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -36173,12 +35987,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 15,
       "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 450,
+      "min_volume_price_rub": 400,
       "min_daily_price_rub": 1150
     },
     "sint-maarten": {
@@ -37559,8 +37373,8 @@
       "strategy": "LOCAL",
       "local_count": 5,
       "regional_count": 6,
-      "daily_count": 5,
-      "total_count": 16,
+      "daily_count": 9,
+      "total_count": 20,
       "min_price_rub": 250,
       "max_price_rub": 3900,
       "validity_days_min": 0,
@@ -37573,7 +37387,7 @@
         10,
         20
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 13,
       "offers": [
         {
@@ -37630,13 +37444,16 @@
         1750,
         1800,
         2150,
+        2350,
         2400,
         2450,
         2550,
         2600,
         2650,
+        2800,
         3000,
         3050,
+        3500,
         3750,
         3900,
         4250,
@@ -37669,7 +37486,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         14,
         15,
         30
@@ -37690,10 +37510,11 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 16,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -37705,9 +37526,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 15,
-      "topup_no": 1,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 250,
       "min_daily_price_rub": 600
@@ -37881,12 +37702,12 @@
       "iso": "TR",
       "name_ru": "Турция",
       "strategy": "LOCAL",
-      "local_count": 9,
+      "local_count": 10,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 23,
+      "total_count": 24,
       "min_price_rub": 150,
-      "max_price_rub": 3350,
+      "max_price_rub": 7000,
       "validity_days_min": 0,
       "validity_days_max": 180,
       "volumes_gb": [
@@ -37900,7 +37721,8 @@
         15,
         20,
         25,
-        50
+        50,
+        100
       ],
       "has_unlimited": false,
       "regional_reach_max": 41,
@@ -37970,6 +37792,12 @@
           "price_rub": 2700,
           "validity_days": 30,
           "kind": "local"
+        },
+        {
+          "data_gb": 100,
+          "price_rub": 7000,
+          "validity_days": 30,
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
@@ -38014,6 +37842,7 @@
         4200,
         5550,
         6050,
+        7000,
         7750,
         11150
       ],
@@ -38147,7 +37976,7 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 23,
+      "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -38160,7 +37989,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 22,
+      "topup_yes": 23,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -39276,9 +39105,9 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 5600,
+          "price_rub": 5050,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 50,
@@ -39312,12 +39141,12 @@
         3750,
         4450,
         4900,
+        5050,
         5150,
         5400,
         5600,
         5700,
         6000,
-        6400,
         6800,
         7950,
         8200,
@@ -40222,8 +40051,8 @@
       "regional_count": 8,
       "daily_count": 3,
       "total_count": 17,
-      "min_price_rub": 1050,
-      "max_price_rub": 15900,
+      "min_price_rub": 950,
+      "max_price_rub": 11450,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -40240,15 +40069,15 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 1550,
+          "price_rub": 1350,
           "validity_days": 0,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 950,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -40258,15 +40087,15 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2200,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
@@ -40276,39 +40105,43 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 11250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
+        950,
         1050,
-        1200,
-        1550,
+        1350,
         1700,
         2050,
-        2450,
+        2100,
+        2150,
+        2200,
+        2350,
         2500,
+        2700,
         2850,
-        3050,
+        3000,
+        3250,
         3450,
-        4200,
-        4500,
-        4750,
-        5050,
+        3700,
+        4150,
+        5200,
+        5550,
         5600,
-        6300,
-        8050,
-        8700,
+        5750,
+        5900,
+        7250,
+        8600,
+        10050,
+        10150,
         11250,
         11450,
-        11600,
-        13050,
-        15500,
-        15900,
-        23250,
-        24000,
-        42850
+        15050,
+        15800,
+        27700
       ],
       "term_days": [
         3,
@@ -40333,18 +40166,7 @@
         "3G/4G"
       ],
       "networks": [
-        "C&W",
-        "Chippie",
-        "Claro",
-        "Digicel",
-        "FLOW",
-        "Liberty",
-        "Movistar",
-        "Personal",
-        "TIM",
-        "VIVA",
-        "free",
-        "movistar"
+        "FLOW"
       ],
       "networks_by_block": {
         "local": [
@@ -40352,18 +40174,7 @@
         ],
         "regional": [],
         "daily": [
-          "C&W",
-          "Chippie",
-          "Claro",
-          "Digicel",
-          "FLOW",
-          "Liberty",
-          "Movistar",
-          "Personal",
-          "TIM",
-          "VIVA",
-          "free",
-          "movistar"
+          "FLOW"
         ]
       },
       "networks_rows": 9,
@@ -40385,8 +40196,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
-      "min_daily_price_rub": 1550
+      "min_volume_price_rub": 950,
+      "min_daily_price_rub": 1350
     },
     "us-virgin-islands": {
       "iso": "VI",
@@ -41671,7 +41482,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 10450,
+          "price_rub": 8450,
           "validity_days": 30,
           "kind": "local"
         }
@@ -41695,15 +41506,14 @@
         5050,
         5200,
         5550,
-        5600,
         5800,
         6200,
         7200,
         7550,
         8100,
+        8450,
         8850,
         9950,
-        10450,
         10700,
         11150,
         11350,
