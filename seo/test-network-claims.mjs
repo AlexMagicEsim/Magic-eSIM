@@ -11,7 +11,10 @@
 // test/fixtures/network-claims-2026-10-29.json, so an ordinary provider move
 // cannot turn the SEO refresh red with no page at stake. The rule tests use
 // small synthetic layouts. Only the corpus test at the end reads the live
-// snapshot: it is the one that must go red when a real move falsifies a page.
+// snapshot: it goes red on an authoring error, or when a real move falsifies a
+// claim that seo/suppressed-claims.json does not list (the page would print it).
+// A recorded one is left out of its page by page-claims.mjs and rewritten by a
+// person — since 2026-11-12 a provider's operator move no longer stops the build.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -236,20 +239,55 @@ test('blockRows reads the layout, not a new definition of the blocks', () => {
 
 // ------------------------------------------------------------ the corpus
 
-test('every RU profile: each operator name is anchored to its block and true of it', () => {
+// An operator the provider stops listing is the CATALOGUE's move, like a coverage or a price move (page-claims.mjs,
+// #199): the generator leaves the sentence out and records it in seo/suppressed-claims.json, which the refresh PR
+// carries — a person rewrites it. Until 2026-11-12 this test failed on that move too, so every operator change by a
+// provider (Tanzania Airtel → tiGO, 16c10e9a0) stopped the SEO refresh with nothing false on any page. What still
+// fails: every AUTHORING error, and a falsified claim the record does not list (the page would print it).
+function corpusProblems(profiles, doc, recorded) {
+  const authoring = [];
+  const unrecorded = [];
+  for (const [slug, profile] of profiles) {
+    for (const x of evaluateNetworkClaims(profile, slug, { doc })) {
+      if (x.kind === 'authoring') authoring.push(`${slug}.json: ${x.msg}`);
+      else if (!recorded.has(`${slug}/${x.claim}`)) unrecorded.push(`${slug}.json: ${x.msg}`);
+    }
+  }
+  return { authoring, unrecorded };
+}
+
+test('every RU profile: each operator name is anchored to its block; one the catalogue no longer bears out is left out of its page', () => {
   const dir = join(ROOT, 'seo/content-profiles');
   const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
-  const failures = [];
-  let named = 0;
-  for (const f of files) {
-    const profile = JSON.parse(readFileSync(join(dir, f), 'utf8'));
-    const p = checkNetworkClaims(profile, f.slice(0, -5), { doc: DOC });
-    if (p.length) failures.push(`${f}:\n    ${p.join('\n    ')}`);
-    if ((profile.network_claims || []).length || (profile.network_claims_waived || []).length) named++;
-  }
+  const recorded = new Set(JSON.parse(readFileSync(join(ROOT, 'seo/suppressed-claims.json'), 'utf8')).entries
+    .filter((x) => x.source === 'network_claims').map((x) => `${x.slug}/${x.id}`));
+  const profiles = files.map((f) => [f.slice(0, -5), JSON.parse(readFileSync(join(dir, f), 'utf8'))]);
+  const { authoring, unrecorded } = corpusProblems(profiles, DOC, recorded);
   assert.ok(files.length >= 66, `проверено ${files.length} профилей`);
-  assert.ok(named >= 8, `профилей с операторами ${named} — детектор перестал их видеть?`);
-  assert.deepEqual(failures, [], failures.join('\n'));
+  assert.deepEqual(authoring, [], authoring.join('\n'));
+  assert.deepEqual(unrecorded, [], `утверждение опровергнуто каталогом, но не записано в seo/suppressed-claims.json — страница его напечатала бы:\n${unrecorded.join('\n')}`);
+});
+
+test('the corpus rule on the Tanzania move: unrecorded → fails, recorded → passes, an authoring error fails either way', () => {
+  const old = one(TZ_OLD, [claim(TZ_OLD, 'local', ['Airtel'], { id: 'g3-line-airtel', basis: tzBasis([[1, 7], [20, 30]]) })]);
+  old.network_claims[0].id = 'g3-line-airtel';
+  assert.ok(corpusProblems([['tanzania', old]], TZ_FIX, new Set()).unrecorded.some((m) => /tiGO/.test(m)));
+  assert.deepEqual(corpusProblems([['tanzania', old]], TZ_FIX, new Set(['tanzania/g3-line-airtel'])), { authoring: [], unrecorded: [] });
+  const bare = one(TZ_OLD); // the same sentence with no claim at all
+  assert.ok(corpusProblems([['tanzania', bare]], TZ_FIX, new Set(['tanzania/g3-line-airtel'])).authoring.length > 0);
+});
+
+// The detector is alive whatever the corpus holds: a name from TODAY's catalogue, written into prose with no claim,
+// is an authoring error. Replaces «at least 8 profiles name an operator», which tied a green build to how many pages
+// mention one (exactly 8 on 2026-11-12 — rewriting the Tanzania sentence without its operator would have reddened it).
+test('the detector still sees an operator from the live catalogue, and a name with no claim still fails', () => {
+  const name = [...new Set(DOC.packages.flatMap((p) => (Array.isArray(p.networks) ? p.networks : []).map((n) => n && n.operator)))]
+    .filter((n) => typeof n === 'string' && /^[A-Z][A-Za-z]{3,}$/.test(n)).sort()[0];
+  assert.ok(name, 'в живом каталоге нет ни одного оператора — снимок неполный?');
+  const sentence = `По данным каталога местные тарифы — на сети ${name}.`;
+  assert.ok(operatorMentions(sentence, LIVE_LEX).includes(name), `детектор не видит «${name}»`);
+  const p = evaluateNetworkClaims(one(sentence), 'probe', { doc: DOC, lexicon: LIVE_LEX });
+  assert.ok(p.some((x) => x.kind === 'authoring' && x.msg.includes(name)), p.map((x) => x.msg).join('\n'));
 });
 
 const visible = (html) => html
@@ -287,8 +325,8 @@ test('negative control: the old UAE sentence fails (real data, frozen 2026-10-29
 });
 
 // Tanzania, 2026-11-12: catalogue 16c10e9a0 moved «Tanzania 1GB 7Days» from
-// Airtel to tiGO, and the corpus test above kept the SEO refresh red from 02:19
-// UTC until the sentence was rewritten. Frozen so the case stays provable.
+// Airtel to tiGO, and the corpus test (before 2026-11-12) kept the SEO refresh red
+// from 02:19 UTC until the sentence was rewritten (#235). Frozen so the case stays provable.
 const TZ_FIX = JSON.parse(readFileSync(join(ROOT, 'test/fixtures/network-claims-2026-11-12-tz.json'), 'utf8'));
 const TZ_OLD = 'Линейка с подписью 3G — это 1 ГБ на 7 дней за {{price:g3_1}} и 20 ГБ на 30 дней за {{price:g3_20}}; по данным каталога это сеть Airtel.';
 const tzBasis = (rows) => rows.map(([gb, days]) => ({ block: 'local', attrs: { data_gb: gb, validity_days: days } }));
@@ -296,6 +334,13 @@ const tzBasis = (rows) => rows.map(([gb, days]) => ({ block: 'local', attrs: { d
 test('negative control: the old Tanzania sentence (Airtel on 1 GB / 7 days too) fails (real data, frozen 2026-11-12)', () => {
   const p = run(one(TZ_OLD, [claim(TZ_OLD, 'local', ['Airtel'], { basis: tzBasis([[1, 7], [20, 30]]) })]), 'tanzania', TZ_FIX);
   assert.ok(p.some((x) => /«Tanzania 1GB 7Days» оператор «Airtel» не указан \(сейчас: tiGO\)/.test(x)), p.join('\n'));
+});
+
+test('on that catalogue the old Tanzania claim is a CATALOGUE problem (left out of the page), not an authoring one (the build goes on)', () => {
+  const old = one(TZ_OLD, [claim(TZ_OLD, 'local', ['Airtel'], { basis: tzBasis([[1, 7], [20, 30]]) })]);
+  const p = evaluateNetworkClaims(old, 'tanzania', { doc: TZ_FIX, lexicon: operatorLexicon(TZ_FIX.packages) });
+  assert.ok(p.length > 0, 'premise: the move falsifies the claim');
+  assert.deepEqual(p.filter((x) => x.kind === 'authoring'), []);
 });
 
 test('the rewritten Tanzania profile holds on the catalogue that moved 1 GB / 7 days to tiGO', () => {
