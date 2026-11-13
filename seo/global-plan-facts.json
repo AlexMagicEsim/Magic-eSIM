@@ -5806,20 +5806,20 @@
    "local": {
     "gb": [
      7,
-     30,
-     50,
-     100
+     30
     ],
     "days": [
      30
     ]
    },
    "also": [
+    "CY",
+    "GR",
+    "TR",
     "AT",
     "BE",
     "BG",
     "CH",
-    "CY",
     "CZ",
     "DE",
     "DK",
@@ -5828,7 +5828,6 @@
     "FI",
     "FR",
     "GB",
-    "GR",
     "HR",
     "HU",
     "IE",
@@ -5837,8 +5836,7 @@
     "LI",
     "LT",
     "LU",
-    "LV",
-    "MT"
+    "LV"
    ],
    "daily": {
     "gb_per_day": [],
@@ -8195,7 +8193,6 @@
      3,
      5,
      10,
-     20,
      25
     ],
     "days": [
@@ -8703,29 +8700,21 @@
    },
    "also": [
     "AR",
-    "BO",
     "BR",
     "CL",
     "CO",
     "CR",
     "EC",
+    "PE",
+    "SV",
+    "UY",
+    "BO",
     "GT",
     "HN",
     "MX",
     "NI",
     "PA",
-    "PE",
-    "SV",
-    "UY",
-    "VE",
-    "AG",
-    "AI",
-    "BB",
-    "BQ",
-    "BS",
-    "CW",
-    "DM",
-    "DO"
+    "VE"
    ],
    "daily": {
     "gb_per_day": [
@@ -11710,56 +11699,6 @@
     },
     {
      "codes": [
-      "AT",
-      "BE",
-      "BG",
-      "CH",
-      "CY",
-      "CZ",
-      "DE",
-      "DK",
-      "EE",
-      "ES",
-      "FI",
-      "FR",
-      "GB",
-      "GR",
-      "HR",
-      "HU",
-      "IE",
-      "IS",
-      "IT",
-      "KT",
-      "LI",
-      "LT",
-      "LU",
-      "LV",
-      "MT",
-      "NL",
-      "NO",
-      "PL",
-      "PT",
-      "RO",
-      "SE",
-      "SI",
-      "SK",
-      "TR",
-      "VA"
-     ],
-     "gb": [
-      10,
-      20
-     ],
-     "days": [
-      30
-     ],
-     "shown_on": [
-      "KT",
-      "TR"
-     ]
-    },
-    {
-     "codes": [
       "AD",
       "AT",
       "BE",
@@ -11804,6 +11743,54 @@
      ],
      "shown_on": [
       "AD"
+     ]
+    },
+    {
+     "codes": [
+      "AT",
+      "BE",
+      "BG",
+      "CH",
+      "CY",
+      "CZ",
+      "DE",
+      "DK",
+      "EE",
+      "ES",
+      "FI",
+      "FR",
+      "GB",
+      "GR",
+      "HR",
+      "HU",
+      "IE",
+      "IS",
+      "IT",
+      "LI",
+      "LT",
+      "LU",
+      "LV",
+      "MT",
+      "NL",
+      "NO",
+      "PL",
+      "PT",
+      "RO",
+      "SE",
+      "SI",
+      "SK",
+      "TR",
+      "VA"
+     ],
+     "gb": [
+      10,
+      20
+     ],
+     "days": [
+      30
+     ],
+     "shown_on": [
+      "TR"
      ]
     },
     {

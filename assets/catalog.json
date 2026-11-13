@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T12:05:01.252Z",
+  "generated_at": "2026-11-13T21:05:00.731Z",
   "source": "production-public-api",
-  "package_count": 2433,
+  "package_count": 2432,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -462,6 +462,41 @@
           "price": 8800
         }
       ]
+    },
+    {
+      "package_id": "00df9d2d-ef9f-4602-b235-18bb03064ae7",
+      "name": "Greece Cyprus Turkey 7 GB",
+      "country_code": "CY",
+      "region": "CY, GR, TR, KT",
+      "coverage_country_codes": [
+        "CY",
+        "GR",
+        "TR",
+        "KT"
+      ],
+      "coverage_flags": "🇨🇾 🇬🇷 🇹🇷 🇰🇹",
+      "data_gb": 7,
+      "validity_days": 30,
+      "price": 1500,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "00dfb4aa-aa51-476b-bf93-9ccde1450b58",
@@ -3747,7 +3782,7 @@
       "package_id": "063ef8f7-0b9b-42b8-8584-f7091e5df6ea",
       "name": "Europe 20 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA, KT",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -3782,10 +3817,9 @@
         "CH",
         "TR",
         "GB",
-        "VA",
-        "KT"
+        "VA"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
       "data_gb": 20,
       "validity_days": 30,
       "price": 2400,
@@ -13683,39 +13717,6 @@
           "price": 50050
         }
       ]
-    },
-    {
-      "package_id": "15a4a5f7-546d-4efa-885a-9b42bfb25045",
-      "name": "Turkey 50 GB",
-      "country_code": "TR",
-      "region": "TR, KT",
-      "coverage_country_codes": [
-        "TR",
-        "KT"
-      ],
-      "coverage_flags": "🇹🇷 🇰🇹",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 4100,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "15ac2508-1714-4491-88dc-1bc668046368",
@@ -44976,7 +44977,7 @@
       "package_id": "515f1ae2-1a2f-4ec4-9bda-dd94c151f51b",
       "name": "Europe 10 GB",
       "country_code": "AT",
-      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA, KT",
+      "region": "AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IS, IE, IT, LV, LI, LT, LU, MT, NL, NO, PL, PT, RO, SK, SI, ES, SE, CH, TR, GB, VA",
       "coverage_country_codes": [
         "AT",
         "BE",
@@ -45011,10 +45012,9 @@
         "CH",
         "TR",
         "GB",
-        "VA",
-        "KT"
+        "VA"
       ],
-      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦 🇰🇹",
+      "coverage_flags": "🇦🇹 🇧🇪 🇧🇬 🇭🇷 🇨🇾 🇨🇿 🇩🇰 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇷 🇭🇺 🇮🇸 🇮🇪 🇮🇹 🇱🇻 🇱🇮 🇱🇹 🇱🇺 🇲🇹 🇳🇱 🇳🇴 🇵🇱 🇵🇹 🇷🇴 🇸🇰 🇸🇮 🇪🇸 🇸🇪 🇨🇭 🇹🇷 🇬🇧 🇻🇦",
       "data_gb": 10,
       "validity_days": 30,
       "price": 1300,
@@ -62446,12 +62446,11 @@
       "package_id": "70e2f206-15bf-4b5b-85e4-9d0bc901b8ca",
       "name": "Turkey 100 GB",
       "country_code": "TR",
-      "region": "TR, KT",
+      "region": "TR",
       "coverage_country_codes": [
-        "TR",
-        "KT"
+        "TR"
       ],
-      "coverage_flags": "🇹🇷 🇰🇹",
+      "coverage_flags": "🇹🇷",
       "data_gb": 100,
       "validity_days": 30,
       "price": 7000,
@@ -96970,38 +96969,6 @@
           "price": 10150
         }
       ]
-    },
-    {
-      "package_id": "ac00e50d-85b0-46a1-b4b3-21526259fcc4",
-      "name": "Panama 20 GB",
-      "country_code": "PA",
-      "region": "PA",
-      "coverage_country_codes": [
-        "PA"
-      ],
-      "coverage_flags": "🇵🇦",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 7950,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "ac076671-e9c8-47db-9df4-3d2d96867cec",
@@ -150355,18 +150322,16 @@
       "KT": {
         "local": [
           "695b3dc9-ae31-4d50-b59e-6cf0c55895bb",
-          "dd821f0d-1b3b-492c-ba6e-944689028de9",
-          "15a4a5f7-546d-4efa-885a-9b42bfb25045",
-          "70e2f206-15bf-4b5b-85e4-9d0bc901b8ca"
+          "dd821f0d-1b3b-492c-ba6e-944689028de9"
         ],
         "regional": [
           "81951656-a5f9-41ed-a31b-3b038271139f",
           "2da495ca-db73-469f-80a8-743e8da734ec",
           "98ea7dd8-986a-4dfe-b39f-5210d55aaa52",
-          "515f1ae2-1a2f-4ec4-9bda-dd94c151f51b",
+          "00df9d2d-ef9f-4602-b235-18bb03064ae7",
           "828cbf63-6b4b-4a28-a160-13eeb37d6f98",
           "11649a46-11b4-4376-b447-32a2e7e0c1c6",
-          "063ef8f7-0b9b-42b8-8584-f7091e5df6ea",
+          "154b3d2a-b714-4728-9498-0ce6ea1ed103",
           "c5153e07-f8dd-4c97-b19e-d62c2dc8dc5a"
         ],
         "daily": [],
@@ -151508,7 +151473,6 @@
           "251065e4-bd22-4750-90c8-8e48b777f851",
           "ceb65320-5f92-4c6d-913c-516088c1f432",
           "48a7534d-a74b-4226-8ec1-7def9f037ce6",
-          "ac00e50d-85b0-46a1-b4b3-21526259fcc4",
           "5a1c5291-5891-46cd-abae-b3b3f7d8cd85"
         ],
         "regional": [
@@ -151770,10 +151734,11 @@
           "9223677f-ab74-4c46-ae28-d595d12c6945"
         ],
         "regional": [
-          "b9c4528c-550e-43b8-aa15-f95926f4957e",
-          "5381338a-04c2-4560-8411-5421af669887",
-          "faff2b8c-6ea9-4950-8ad3-13ed91f2f926",
-          "e4371bc9-35b7-4ab9-a41b-e76219941d0e",
+          "ec03cdf6-7042-4304-b73e-68de5b00d09e",
+          "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
+          "89e8d664-aff5-4505-a60c-b0e748356444",
+          "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
+          "06121835-e264-47cb-97de-1f5067a66486",
           "01706f54-9ef2-41bd-b4c5-b14a2ce8ec7d",
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8"
         ],
