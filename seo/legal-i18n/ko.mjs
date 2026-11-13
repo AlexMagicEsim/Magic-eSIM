@@ -522,11 +522,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>당사의 <strong>허용되는 사용 규칙</strong> 위반으로 요금제가 제한된 경우</li>
       </ul>
       <p>구매하기 전에 기기와 요금제를 확인하고, 확실하지 않으면 당사에 문의하세요.</p>` },
-      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. 환불 요청 방법", html: `
+      { id: "how-to-ask-for-a-refund", en: '407c44fcbaa1', h2: "6. 환불 요청 방법", html: `
       <p>6.1. <strong>요청 방법.</strong></p>
       <ul class="list">
         <li><a href="mailto:support@magicesim.store">support@magicesim.store</a>로 연락해 주세요. 주문 번호, 주문에 사용한 이메일 주소 및 요청 사유를 적어 주세요.</li>
-        <li>이메일은 언제든지 보내실 수 있습니다. 당사는 영업일에 답변하며, <strong>1~2영업일</strong> 이내에 첫 답변을 보내는 것을 목표로 하고, 보통은 그보다 빨리 답변합니다.</li>
+        <li>이메일은 언제든지 보내실 수 있습니다. 당사는 영업일에 답변하며, <strong>24~48시간</strong> 이내에 첫 답변을 보내는 것을 목표로 하고, 보통은 그보다 빨리 답변합니다.</li>
       </ul>
       <p>6.2. <strong>환불 방식.</strong></p>
       <ul class="list">

@@ -230,7 +230,7 @@
       "effective_date": "2026-11-04",
       "url": "https://magicesim.store/en/refund/v0.9.4/",
       "sha256": "98837d50faead7551b3e0ad2224108a0b9d0aac9fe9f773c9bf99252a2bb6bfa",
-      "current": true,
+      "current": false,
       "translations": {
         "es": "https://magicesim.store/es/refund/v0.9.4/",
         "de": "https://magicesim.store/de/refund/v0.9.4/",
@@ -262,6 +262,47 @@
         "zh-Hans": {
           "url": "https://magicesim.store/zh/refund/v0.9.4/magic-esim-refund-0.9.4-zh-Hans.pdf",
           "sha256": "ae61ed9e23f896e07a0007d9e393841a290e1ac3b8430d97431522a3693afdb1"
+        }
+      }
+    },
+    {
+      "document": "refund",
+      "version": "0.9.5 (pre-launch)",
+      "effective_date": "2026-11-13",
+      "url": "https://magicesim.store/en/refund/v0.9.5/",
+      "sha256": "a3cda4a8e5123e4c36aa4e52776a53db966a23da23be480c74c8adfea36e45b4",
+      "current": true,
+      "translations": {
+        "es": "https://magicesim.store/es/refund/v0.9.5/",
+        "de": "https://magicesim.store/de/refund/v0.9.5/",
+        "fr": "https://magicesim.store/fr/refund/v0.9.5/",
+        "zh-Hans": "https://magicesim.store/zh/refund/v0.9.5/",
+        "ko": "https://magicesim.store/ko/refund/v0.9.5/"
+      },
+      "pdf": {
+        "de": {
+          "url": "https://magicesim.store/de/refund/v0.9.5/magic-esim-refund-0.9.5-de.pdf",
+          "sha256": "4a50f9e806ccdedac0b8b29927f1d05abf58328847392c1eb1ad4459edbcad4b"
+        },
+        "en": {
+          "url": "https://magicesim.store/en/refund/v0.9.5/magic-esim-refund-0.9.5-en.pdf",
+          "sha256": "073ec8d4708cf78d254257d49cce598d3b7a376250dc8a3f88b5308af81d7fd8"
+        },
+        "es": {
+          "url": "https://magicesim.store/es/refund/v0.9.5/magic-esim-refund-0.9.5-es.pdf",
+          "sha256": "2c6a2be22c00e1f339af7b956704e90cc302049f54abb1dbb23d77f5ddde7e39"
+        },
+        "fr": {
+          "url": "https://magicesim.store/fr/refund/v0.9.5/magic-esim-refund-0.9.5-fr.pdf",
+          "sha256": "ffc51e21986f8476afcc9a30a9f160cff1b93ed3724ae632824ee703175ce7a3"
+        },
+        "ko": {
+          "url": "https://magicesim.store/ko/refund/v0.9.5/magic-esim-refund-0.9.5-ko.pdf",
+          "sha256": "8641e232a05b82c770184080bc494777b5d6e48e37949ed92e20723029f65b4c"
+        },
+        "zh-Hans": {
+          "url": "https://magicesim.store/zh/refund/v0.9.5/magic-esim-refund-0.9.5-zh-Hans.pdf",
+          "sha256": "8a14b93153419177aac2a4e2d3b24c69ae7a0fa12f73f3e18680f247f41b74f8"
         }
       }
     },

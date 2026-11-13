@@ -15,9 +15,11 @@
 
 // 0.9.4 (P1-1, owner's decision 2026-11-04): §4.2 the confirmation email repeats the request with the date and time
 // OUR SERVER recorded it — not «the date and time you ticked the box», which the server cannot know.
-export const REFUND_VERSION = '0.9.4 (pre-launch)';
-export const REFUND_EFFECTIVE = '4 November 2026';
-export const REFUND_EFFECTIVE_ISO = '2026-11-04';
+// 0.9.5 (owner's task 2026-11-13, Payssion onboarding): §6.1 the first reply is aimed «within 24–48 hours» (was «within
+// 1–2 business days») — the same words as Terms 0.9.8 §11.2. Only that period changed; every other word is 0.9.4's.
+export const REFUND_VERSION = '0.9.5 (pre-launch)';
+export const REFUND_EFFECTIVE = '13 November 2026';
+export const REFUND_EFFECTIVE_ISO = '2026-11-13';
 
 export const REFUND = Object.freeze({
   title: "Refund Policy — Magic eSIM",
@@ -254,7 +256,7 @@ export const REFUND = Object.freeze({
       <p>6.1. <strong>How to ask.</strong></p>
       <ul class="list">
         <li>Write to <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Include your order reference, the email address used for the order, and the reason for your request.</li>
-        <li>You can email us at any time. We reply on business days and aim to send a first reply within <strong>1–2 business days</strong>, usually sooner.</li>
+        <li>You can email us at any time. We reply on business days and aim to send a first reply within <strong>24–48 hours</strong>, usually sooner.</li>
       </ul>
       <p>6.2. <strong>How you are refunded.</strong></p>
       <ul class="list">

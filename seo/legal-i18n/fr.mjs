@@ -522,11 +522,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>le forfait a été restreint en raison d’une violation de nos <strong>règles d’utilisation acceptable</strong>.</li>
       </ul>
       <p>Veuillez vérifier votre appareil et le forfait avant d’acheter, et contactez-nous en cas de doute.</p>` },
-      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. Comment demander un remboursement", html: `
+      { id: "how-to-ask-for-a-refund", en: '407c44fcbaa1', h2: "6. Comment demander un remboursement", html: `
       <p>6.1. <strong>Comment faire la demande.</strong></p>
       <ul class="list">
         <li>Écrivez à <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Indiquez la référence de votre commande, l’adresse e-mail utilisée pour la commande et le motif de votre demande.</li>
-        <li>Vous pouvez nous écrire à tout moment. Nous répondons les jours ouvrés et nous efforçons d’envoyer une première réponse sous <strong>1–2 jours ouvrés</strong>, généralement plus tôt.</li>
+        <li>Vous pouvez nous écrire à tout moment. Nous répondons les jours ouvrés et nous efforçons d’envoyer une première réponse sous <strong>24–48 heures</strong>, généralement plus tôt.</li>
       </ul>
       <p>6.2. <strong>Comment vous êtes remboursé.</strong></p>
       <ul class="list">

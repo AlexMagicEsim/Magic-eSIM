@@ -523,11 +523,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>套餐因违反我们的<strong>可接受使用规则</strong>而受到限制。</li>
       </ul>
       <p>请在购买之前检查您的设备和套餐，如有疑问请联系我们。</p>` },
-      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. 如何申请退款", html: `
+      { id: "how-to-ask-for-a-refund", en: '407c44fcbaa1', h2: "6. 如何申请退款", html: `
       <p>6.1. <strong>如何申请。</strong></p>
       <ul class="list">
         <li>请写信至 <a href="mailto:support@magicesim.store">support@magicesim.store</a>。请注明您的订单编号、下单时使用的电子邮箱地址以及申请理由。</li>
-        <li>您可以随时给我们发送电子邮件。我们在工作日回复，力争在 <strong>1–2 个工作日</strong>内发出首次回复，通常会更快。</li>
+        <li>您可以随时给我们发送电子邮件。我们在工作日回复，力争在 <strong>24–48 小时</strong>内发出首次回复，通常会更快。</li>
       </ul>
       <p>6.2. <strong>退款方式。</strong></p>
       <ul class="list">

@@ -25,8 +25,8 @@
 // there»); §1 Website https://magicesim.store/; §5.6 «We may also publish translations» (was a promise of five). True
 // whether the other languages are published or hidden (seo/publication-scope.mjs). No right, refund or payment term moved.
 // 0.9.8 (owner's task 2026-11-12, Payssion onboarding): §11.2 the first reply is aimed «within 24–48 hours» (was «within
-// 1–2 business days»). Only that period changed; every other word of every section is 0.9.7's. The Refund Policy 0.9.4
-// §8 still says «1–2 business days» — the owner did not ask to change it (a Refund change is its own version).
+// 1–2 business days»). Only that period changed; every other word of every section is 0.9.7's. The Refund Policy
+// followed in its own version 0.9.5 (§6.1, 2026-11-13).
 
 export const TERMS_VERSION = '0.9.8 (pre-launch)';
 export const TERMS_EFFECTIVE = '12 November 2026';

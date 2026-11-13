@@ -523,11 +523,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>el plan se restringió por un incumplimiento de nuestras <strong>normas de uso aceptable</strong>.</li>
       </ul>
       <p>Comprueba tu dispositivo y el plan antes de comprar, y contáctanos si no estás seguro.</p>` },
-      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. Cómo solicitar un reembolso", html: `
+      { id: "how-to-ask-for-a-refund", en: '407c44fcbaa1', h2: "6. Cómo solicitar un reembolso", html: `
       <p>6.1. <strong>Cómo solicitarlo.</strong></p>
       <ul class="list">
         <li>Escribe a <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Indica la referencia de tu pedido, la dirección de correo electrónico utilizada en el pedido y el motivo de tu solicitud.</li>
-        <li>Puedes escribirnos en cualquier momento. Respondemos en días hábiles y procuramos enviar una primera respuesta en un plazo de <strong>1–2 días hábiles</strong>, normalmente antes.</li>
+        <li>Puedes escribirnos en cualquier momento. Respondemos en días hábiles y procuramos enviar una primera respuesta en un plazo de <strong>24–48 horas</strong>, normalmente antes.</li>
       </ul>
       <p>6.2. <strong>Cómo se te reembolsa.</strong></p>
       <ul class="list">
