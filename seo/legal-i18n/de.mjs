@@ -522,11 +522,11 @@ export const LEGAL_I18N = Object.freeze({
         <li>der Tarif wegen eines Verstoßes gegen unsere <strong>Regeln zur zulässigen Nutzung</strong> eingeschränkt wurde.</li>
       </ul>
       <p>Bitte prüfe dein Gerät und den Tarif vor dem Kauf und kontaktiere uns, wenn du unsicher bist.</p>` },
-      { id: "how-to-ask-for-a-refund", en: '3538f1ad5f15', h2: "6. So beantragst du eine Erstattung", html: `
+      { id: "how-to-ask-for-a-refund", en: '407c44fcbaa1', h2: "6. So beantragst du eine Erstattung", html: `
       <p>6.1. <strong>So stellst du deinen Antrag.</strong></p>
       <ul class="list">
         <li>Schreib an <a href="mailto:support@magicesim.store">support@magicesim.store</a>. Gib deine Bestellnummer, die für die Bestellung verwendete E-Mail-Adresse und den Grund deines Antrags an.</li>
-        <li>Du kannst uns jederzeit schreiben. Wir antworten an Geschäftstagen und bemühen uns, innerhalb von <strong>1–2 Geschäftstagen</strong> eine erste Antwort zu senden, meist schneller.</li>
+        <li>Du kannst uns jederzeit schreiben. Wir antworten an Geschäftstagen und bemühen uns, innerhalb von <strong>24–48 Stunden</strong> eine erste Antwort zu senden, meist schneller.</li>
       </ul>
       <p>6.2. <strong>Wie du dein Geld zurückerhältst.</strong></p>
       <ul class="list">
