@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-12T15:00:34.597Z",
+  "generated_at": "2026-11-13T06:04:17.052Z",
   "source": "production-public-api",
-  "package_count": 2428,
+  "package_count": 2433,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -1921,6 +1921,79 @@
       ]
     },
     {
+      "package_id": "03af6051-8dd5-45d7-a85c-d8d04bf7b13a",
+      "name": "Guam 2GB/Day",
+      "country_code": "GU",
+      "region": "GU",
+      "coverage_country_codes": [
+        "GU"
+      ],
+      "coverage_flags": "🇬🇺",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 900,
+      "networks": [
+        {
+          "operator": "GTA Wireless",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2300
+        },
+        {
+          "days": 5,
+          "price": 3250
+        },
+        {
+          "days": 7,
+          "price": 4500
+        },
+        {
+          "days": 10,
+          "price": 6200
+        },
+        {
+          "days": 15,
+          "price": 9300
+        },
+        {
+          "days": 30,
+          "price": 17150
+        }
+      ]
+    },
+    {
       "package_id": "03c513d8-9fc4-4c19-a57a-6b5932c8bcce",
       "name": "Africa (21 areas) 5GB/Day",
       "country_code": "AF-21",
@@ -2108,7 +2181,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1250,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -6264,7 +6337,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2100,
+      "price": 1750,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -6302,27 +6375,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5300
+          "price": 4400
         },
         {
           "days": 5,
-          "price": 8450
+          "price": 7050
         },
         {
           "days": 7,
-          "price": 11800
+          "price": 9850
         },
         {
           "days": 10,
-          "price": 16300
+          "price": 13600
         },
         {
           "days": 15,
-          "price": 24400
+          "price": 20350
         },
         {
           "days": 30,
-          "price": 44950
+          "price": 37500
         }
       ]
     },
@@ -7077,7 +7150,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -8960,7 +9035,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -11350,6 +11427,46 @@
         "FR",
         "NL",
         "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "127bea68-f065-4e9a-a1fe-fff223d6d573",
+      "name": "Dominican Republic 20GB 30Days",
+      "country_code": "DO",
+      "region": "DO",
+      "coverage_country_codes": [
+        "DO"
+      ],
+      "coverage_flags": "🇩🇴",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 4850,
+      "networks": [
+        {
+          "operator": "Altice",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -15987,6 +16104,79 @@
       ]
     },
     {
+      "package_id": "19c10bc3-da7f-4321-b3d9-750335b4a971",
+      "name": "Dominican Republic 1GB/Day",
+      "country_code": "DO",
+      "region": "DO",
+      "coverage_country_codes": [
+        "DO"
+      ],
+      "coverage_flags": "🇩🇴",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 400,
+      "networks": [
+        {
+          "operator": "Altice",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1050
+        },
+        {
+          "days": 5,
+          "price": 1500
+        },
+        {
+          "days": 7,
+          "price": 2100
+        },
+        {
+          "days": 10,
+          "price": 2900
+        },
+        {
+          "days": 15,
+          "price": 3900
+        },
+        {
+          "days": 30,
+          "price": 7150
+        }
+      ]
+    },
+    {
       "package_id": "19d955ad-8366-45dc-87b8-db3bfd3ca162",
       "name": "Dominica 500MB/Day",
       "country_code": "DM",
@@ -18906,7 +19096,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1000,
+      "price": 1100,
       "networks": [
         {
           "operator": "Altice",
@@ -21489,79 +21679,6 @@
         {
           "days": 30,
           "price": 9150
-        }
-      ]
-    },
-    {
-      "package_id": "23200514-6a65-4ffa-a02e-d12f786b1401",
-      "name": "Guam 3GB/Day FUP1Mbps",
-      "country_code": "GU",
-      "region": "GU",
-      "coverage_country_codes": [
-        "GU"
-      ],
-      "coverage_flags": "🇬🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1600,
-      "networks": [
-        {
-          "operator": "GTA Wireless",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 4100
-        },
-        {
-          "days": 5,
-          "price": 6500
-        },
-        {
-          "days": 7,
-          "price": 9100
-        },
-        {
-          "days": 10,
-          "price": 12550
-        },
-        {
-          "days": 15,
-          "price": 18850
-        },
-        {
-          "days": 30,
-          "price": 34700
         }
       ]
     },
@@ -26231,7 +26348,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1550,
       "networks": [
         {
           "operator": "Altice",
@@ -30079,7 +30196,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1350,
+      "price": 1200,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -30848,12 +30965,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30868,7 +30985,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -36130,7 +36247,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 550,
+      "price": 500,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -47224,6 +47341,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "564bec45-d21d-49ae-8c3c-effe53605a10",
+      "name": "Dominican Republic 500MB/Day",
+      "country_code": "DO",
+      "region": "DO",
+      "coverage_country_codes": [
+        "DO"
+      ],
+      "coverage_flags": "🇩🇴",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Altice",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 650
+        },
+        {
+          "days": 5,
+          "price": 1050
+        },
+        {
+          "days": 7,
+          "price": 1300
+        },
+        {
+          "days": 10,
+          "price": 1750
+        },
+        {
+          "days": 15,
+          "price": 2650
+        },
+        {
+          "days": 30,
+          "price": 4300
+        }
+      ]
+    },
+    {
       "package_id": "566584e6-7905-4821-b73d-49e7e0206bdc",
       "name": "Botswana 10GB/Day",
       "country_code": "BW",
@@ -56238,6 +56428,46 @@
       "sellable_days": []
     },
     {
+      "package_id": "67cc83e1-4db8-4d63-9b03-1b8cf33aaece",
+      "name": "Dominican Republic 3GB 15Days",
+      "country_code": "DO",
+      "region": "DO",
+      "coverage_country_codes": [
+        "DO"
+      ],
+      "coverage_flags": "🇩🇴",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1050,
+      "networks": [
+        {
+          "operator": "Altice",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "6829df7a-08fa-48f6-9f8b-d1dff2c7b88a",
       "name": "Maldives 3GB 15Days",
       "country_code": "MV",
@@ -63118,7 +63348,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63133,7 +63363,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -68201,12 +68431,12 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -68221,7 +68451,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -69628,6 +69858,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "7e3d4b0e-2d5e-45fa-aafa-27d91ad6ad9a",
+      "name": "Guam 500MB/Day",
+      "country_code": "GU",
+      "region": "GU",
+      "coverage_country_codes": [
+        "GU"
+      ],
+      "coverage_flags": "🇬🇺",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "GTA Wireless",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 850
+        },
+        {
+          "days": 5,
+          "price": 1200
+        },
+        {
+          "days": 7,
+          "price": 1650
+        },
+        {
+          "days": 10,
+          "price": 2250
+        },
+        {
+          "days": 15,
+          "price": 3000
+        },
+        {
+          "days": 30,
+          "price": 5500
+        }
+      ]
+    },
+    {
       "package_id": "7e6037c0-68f9-4e27-986d-d5197bbcea9c",
       "name": "French Guiana 3GB 15Days",
       "country_code": "GF",
@@ -69716,7 +70019,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 3700,
+      "price": 1350,
       "networks": [
         {
           "operator": "Altice",
@@ -69754,27 +70057,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 10550
+          "price": 3450
         },
         {
           "days": 5,
-          "price": 16850
+          "price": 5500
         },
         {
           "days": 7,
-          "price": 23550
+          "price": 7700
         },
         {
           "days": 10,
-          "price": 32550
+          "price": 10600
         },
         {
           "days": 15,
-          "price": 48800
+          "price": 15900
         },
         {
           "days": 30,
-          "price": 89900
+          "price": 29300
         }
       ]
     },
@@ -74141,7 +74444,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -79958,79 +80263,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "9046e575-b421-44eb-a024-75a5f3389caf",
-      "name": "Guam 2GB/Day FUP1Mbps",
-      "country_code": "GU",
-      "region": "GU",
-      "coverage_country_codes": [
-        "GU"
-      ],
-      "coverage_flags": "🇬🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "GTA Wireless",
-          "type": "4G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2650
-        },
-        {
-          "days": 5,
-          "price": 4250
-        },
-        {
-          "days": 7,
-          "price": 5900
-        },
-        {
-          "days": 10,
-          "price": 8150
-        },
-        {
-          "days": 15,
-          "price": 12250
-        },
-        {
-          "days": 30,
-          "price": 22550
-        }
-      ]
     },
     {
       "package_id": "9085a068-6dc9-4fc4-99eb-db9c352a8a8b",
@@ -87906,7 +88138,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -87921,7 +88153,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96811,7 +97043,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 0,
       "validity_days": null,
-      "price": 3400,
+      "price": 2850,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -96849,27 +97081,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 9800
+          "price": 8150
         },
         {
           "days": 5,
-          "price": 15650
+          "price": 13050
         },
         {
           "days": 7,
-          "price": 21900
+          "price": 18250
         },
         {
           "days": 10,
-          "price": 30200
+          "price": 25200
         },
         {
           "days": 15,
-          "price": 45300
+          "price": 37750
         },
         {
           "days": 30,
-          "price": 83500
+          "price": 69600
         }
       ]
     },
@@ -98950,7 +99182,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2200,
+      "price": 2000,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -106508,7 +106740,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3900,
+      "price": 3200,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -109563,7 +109795,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -109584,7 +109816,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 7250,
+      "price": 6550,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -118677,37 +118909,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "d17617c4-585b-4853-aefe-e01ec4a32085",
-      "name": "Dominican Republic 20 GB",
-      "country_code": "DO",
-      "region": "DO",
-      "coverage_country_codes": [
-        "DO"
-      ],
-      "coverage_flags": "🇩🇴",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 4900,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "d1a09ffd-4929-4cbb-81e0-6f514e1e230e",
       "name": "Dominican Republic 1GB 7Days",
       "country_code": "DO",
@@ -120999,7 +121200,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2900,
+      "price": 2800,
       "networks": [
         {
           "operator": "Altice",
@@ -123484,6 +123685,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "d7d63ad6-943f-4c21-8ec2-2befef0c33bb",
+      "name": "Guam 3GB/Day",
+      "country_code": "GU",
+      "region": "GU",
+      "coverage_country_codes": [
+        "GU"
+      ],
+      "coverage_flags": "🇬🇺",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1150,
+      "networks": [
+        {
+          "operator": "GTA Wireless",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2850
+        },
+        {
+          "days": 5,
+          "price": 4550
+        },
+        {
+          "days": 7,
+          "price": 6350
+        },
+        {
+          "days": 10,
+          "price": 8750
+        },
+        {
+          "days": 15,
+          "price": 13100
+        },
+        {
+          "days": 30,
+          "price": 24100
+        }
+      ]
+    },
+    {
       "package_id": "d7f32575-ceaf-49ce-a2a1-244fccc16068",
       "name": "Albania 1GB/Day",
       "country_code": "AL",
@@ -124729,7 +125003,7 @@
       "coverage_flags": "🇬🇺",
       "data_gb": 0,
       "validity_days": null,
-      "price": 550,
+      "price": 500,
       "networks": [
         {
           "operator": "GTA Wireless",
@@ -124767,27 +125041,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1450
+          "price": 1250
         },
         {
           "days": 5,
-          "price": 2250
+          "price": 1950
         },
         {
           "days": 7,
-          "price": 2800
+          "price": 2700
         },
         {
           "days": 10,
-          "price": 3900
+          "price": 3300
         },
         {
           "days": 15,
-          "price": 5800
+          "price": 4950
         },
         {
           "days": 30,
-          "price": 10700
+          "price": 9150
         }
       ]
     },
@@ -125535,7 +125809,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -125550,7 +125824,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -128176,12 +128450,12 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -128196,7 +128470,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -138592,6 +138866,79 @@
       ]
     },
     {
+      "package_id": "f0554af1-f309-45f2-8091-467e251fd9e8",
+      "name": "Dominican Republic 2GB/Day",
+      "country_code": "DO",
+      "region": "DO",
+      "coverage_country_codes": [
+        "DO"
+      ],
+      "coverage_flags": "🇩🇴",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 700,
+      "networks": [
+        {
+          "operator": "Altice",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1800
+        },
+        {
+          "days": 5,
+          "price": 2850
+        },
+        {
+          "days": 7,
+          "price": 3550
+        },
+        {
+          "days": 10,
+          "price": 4850
+        },
+        {
+          "days": 15,
+          "price": 7300
+        },
+        {
+          "days": 30,
+          "price": 13400
+        }
+      ]
+    },
+    {
       "package_id": "f0ba6094-74d4-40a8-bea0-688762f54945",
       "name": "Kyrgyzstan 5GB 30Days",
       "country_code": "KG",
@@ -141504,7 +141851,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -142093,7 +142440,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 4550,
+      "price": 2500,
       "networks": [
         {
           "operator": "Altice",
@@ -142131,27 +142478,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 13050
+          "price": 6400
         },
         {
           "days": 5,
-          "price": 20850
+          "price": 10200
         },
         {
           "days": 7,
-          "price": 29150
+          "price": 14250
         },
         {
           "days": 10,
-          "price": 40300
+          "price": 19700
         },
         {
           "days": 15,
-          "price": 60400
+          "price": 29550
         },
         {
           "days": 30,
-          "price": 111300
+          "price": 54400
         }
       ]
     },
@@ -142476,8 +142823,8 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Airtel",
-          "type": "5G"
+          "operator": "tiGO",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -142490,7 +142837,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -148570,10 +148917,11 @@
       "DO": {
         "local": [
           "d1a09ffd-4929-4cbb-81e0-6f514e1e230e",
+          "67cc83e1-4db8-4d63-9b03-1b8cf33aaece",
           "1de0bc1c-00bb-4f52-a5cf-28a9c83eec10",
           "2cc12a5f-cb32-43cd-85d7-6c1d8ee7d224",
           "d507ece4-c8bc-41c4-b9ad-cda4bc89e72f",
-          "d17617c4-585b-4853-aefe-e01ec4a32085"
+          "127bea68-f065-4e9a-a1fe-fff223d6d573"
         ],
         "regional": [
           "b9c4528c-550e-43b8-aa15-f95926f4957e",
@@ -148586,7 +148934,9 @@
           "f94920d6-b11c-49ef-ab0f-f3c574ea55fc"
         ],
         "daily": [
-          "4a15043a-71a2-442e-9737-14df374de980",
+          "564bec45-d21d-49ae-8c3c-effe53605a10",
+          "19c10bc3-da7f-4321-b3d9-750335b4a971",
+          "f0554af1-f309-45f2-8091-467e251fd9e8",
           "b1997942-a266-43d6-8bb1-85fccafa71b2",
           "7e872553-4b80-4f8e-9648-66adf894c27b",
           "f648f256-d57e-4890-8e87-6bb0e76b5fa6"
@@ -149276,9 +149626,10 @@
           "616f8ef6-6874-457d-889b-098b7ed1fc33"
         ],
         "daily": [
+          "7e3d4b0e-2d5e-45fa-aafa-27d91ad6ad9a",
           "da882394-c56e-45bb-b7cf-3ced29971c28",
-          "9046e575-b421-44eb-a024-75a5f3389caf",
-          "23200514-6a65-4ffa-a02e-d12f786b1401",
+          "03af6051-8dd5-45d7-a85c-d8d04bf7b13a",
+          "d7d63ad6-943f-4c21-8ec2-2befef0c33bb",
           "08d802fb-ec69-4eb7-81c9-5b2de4dba9dc",
           "ac0ad5bf-ec62-414b-ae8b-64770f8382e2"
         ],
