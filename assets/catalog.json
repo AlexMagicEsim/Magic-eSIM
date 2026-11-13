@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T06:04:17.052Z",
+  "generated_at": "2026-11-13T09:05:01.052Z",
   "source": "production-public-api",
   "package_count": 2433,
   "packages": [
@@ -3661,7 +3661,7 @@
       "package_id": "06121835-e264-47cb-97de-1f5067a66486",
       "name": "LATAM 7 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -3670,10 +3670,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 7,
       "validity_days": 30,
       "price": 2800,
@@ -16293,7 +16294,7 @@
       "package_id": "1a137ccb-3a24-41bc-b1c8-5a9836e205e3",
       "name": "LATAM 2 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -16302,10 +16303,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 2,
       "validity_days": 15,
       "price": 1100,
@@ -44938,6 +44940,18 @@
         {
           "operator": "NTT docomo",
           "type": "5G"
+        },
+        {
+          "operator": "Rakuten Mobile",
+          "type": "5G"
+        },
+        {
+          "operator": "KDDI/au",
+          "type": "5G"
+        },
+        {
+          "operator": "SoftBank",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -44952,7 +44966,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "JP"
+        "HK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -77108,7 +77122,7 @@
       "package_id": "89e8d664-aff5-4505-a60c-b0e748356444",
       "name": "LATAM 3 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -77117,10 +77131,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 3,
       "validity_days": 30,
       "price": 1600,
@@ -84204,7 +84219,7 @@
       "package_id": "965b0776-3da9-46f0-9c42-d9ef5da8f9de",
       "name": "LATAM 5 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -84213,10 +84228,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 5,
       "validity_days": 30,
       "price": 2350,
@@ -135934,7 +135950,7 @@
       "package_id": "ec03cdf6-7042-4304-b73e-68de5b00d09e",
       "name": "LATAM 1 GB",
       "country_code": "AR",
-      "region": "AR, BR, CL, CO, CR, EC, SV, PE, UY",
+      "region": "AR, BR, CL, CO, CR, EC, SV, PY, PE, UY",
       "coverage_country_codes": [
         "AR",
         "BR",
@@ -135943,10 +135959,11 @@
         "CR",
         "EC",
         "SV",
+        "PY",
         "PE",
         "UY"
       ],
-      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇪 🇺🇾",
+      "coverage_flags": "🇦🇷 🇧🇷 🇨🇱 🇨🇴 🇨🇷 🇪🇨 🇸🇻 🇵🇾 🇵🇪 🇺🇾",
       "data_gb": 1,
       "validity_days": 7,
       "price": 700,
