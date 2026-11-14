@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-14T00:05:01.692Z",
+  "generated_at": "2026-11-14T09:05:05.809Z",
   "source": "production-public-api",
-  "package_count": 2432,
+  "package_count": 2433,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -3392,7 +3392,7 @@
       "coverage_flags": "🇸🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2150,
       "networks": [
         {
           "operator": "Digicel",
@@ -14156,7 +14156,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2750,
+      "price": 2350,
       "networks": [
         {
           "operator": "VIVA",
@@ -30426,7 +30426,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2900,
+      "price": 2150,
       "networks": [
         {
           "operator": "SETAR",
@@ -30796,7 +30796,7 @@
       "coverage_flags": "🇬🇾",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2750,
+      "price": 2700,
       "networks": [
         {
           "operator": "Digicel",
@@ -36286,7 +36286,7 @@
       "coverage_flags": "🇸🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3250,
+      "price": 3000,
       "networks": [
         {
           "operator": "Digicel",
@@ -37330,7 +37330,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2200,
+      "price": 2100,
       "networks": [
         {
           "operator": "FLOW",
@@ -41070,7 +41070,7 @@
       "coverage_flags": "🇬🇫",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1900,
+      "price": 1650,
       "networks": [
         {
           "operator": "Orange",
@@ -42149,7 +42149,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7300,
+      "price": 5500,
       "networks": [
         {
           "operator": "SETAR",
@@ -46550,7 +46550,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2700,
+      "price": 2100,
       "networks": [
         {
           "operator": "SETAR",
@@ -51619,7 +51619,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13800,
+      "price": 10800,
       "networks": [
         {
           "operator": "VIVA",
@@ -51802,6 +51802,78 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "5e4b0deb-2583-44d5-a0cb-6d8b53193efb",
+      "name": "Paraguay 500MB/Day",
+      "country_code": "PY",
+      "region": "PY",
+      "coverage_country_codes": [
+        "PY"
+      ],
+      "coverage_flags": "🇵🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "3G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 550
+        },
+        {
+          "days": 5,
+          "price": 900
+        },
+        {
+          "days": 7,
+          "price": 1100
+        },
+        {
+          "days": 10,
+          "price": 1550
+        },
+        {
+          "days": 15,
+          "price": 2300
+        },
+        {
+          "days": 30,
+          "price": 3750
+        }
+      ]
     },
     {
       "package_id": "5e7149a9-1e4d-44a4-b5a1-76c9641d2582",
@@ -52483,7 +52555,7 @@
       "coverage_flags": "🇹🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13900,
+      "price": 12750,
       "networks": [
         {
           "operator": "FLOW",
@@ -62026,7 +62098,7 @@
       "coverage_flags": "🇸🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2200,
+      "price": 2100,
       "networks": [
         {
           "operator": "Digicel",
@@ -79915,7 +79987,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2950,
+      "price": 2450,
       "networks": [
         {
           "operator": "SETAR",
@@ -79954,27 +80026,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8400
+          "price": 6250
         },
         {
           "days": 5,
-          "price": 13400
+          "price": 10000
         },
         {
           "days": 7,
-          "price": 18700
+          "price": 14000
         },
         {
           "days": 10,
-          "price": 25850
+          "price": 19300
         },
         {
           "days": 15,
-          "price": 38750
+          "price": 28950
         },
         {
           "days": 30,
-          "price": 71400
+          "price": 53350
         }
       ]
     },
@@ -89095,7 +89167,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 11250,
+      "price": 10500,
       "networks": [
         {
           "operator": "FLOW",
@@ -93959,7 +94031,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6900,
+      "price": 5650,
       "networks": [
         {
           "operator": "VIVA",
@@ -100561,7 +100633,7 @@
       "coverage_flags": "🇵🇪",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 11050,
+      "price": 9700,
       "networks": [
         {
           "operator": "Claro",
@@ -105993,7 +106065,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2750,
+      "price": 2850,
       "networks": [
         {
           "operator": "SETAR",
@@ -106029,27 +106101,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 7850
+          "price": 7300
         },
         {
           "days": 5,
-          "price": 12550
+          "price": 11650
         },
         {
           "days": 7,
-          "price": 17550
+          "price": 16300
         },
         {
           "days": 10,
-          "price": 24200
+          "price": 22500
         },
         {
           "days": 15,
-          "price": 36300
+          "price": 33750
         },
         {
           "days": 30,
-          "price": 66900
+          "price": 62150
         }
       ]
     },
@@ -110193,7 +110265,7 @@
       "coverage_flags": "🇧🇱",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1650,
       "networks": [
         {
           "operator": "Orange",
@@ -113447,7 +113519,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1300,
       "networks": [
         {
           "operator": "Claro",
@@ -114948,7 +115020,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1550,
+      "price": 1450,
       "networks": [
         {
           "operator": "SETAR",
@@ -117906,7 +117978,7 @@
       "coverage_flags": "🇸🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 11250,
+      "price": 10700,
       "networks": [
         {
           "operator": "Digicel",
@@ -119571,7 +119643,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 4100,
+      "price": 3800,
       "networks": [
         {
           "operator": "SETAR",
@@ -119607,27 +119679,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 11750
+          "price": 10950
         },
         {
           "days": 5,
-          "price": 18800
+          "price": 17450
         },
         {
           "days": 7,
-          "price": 26300
+          "price": 24400
         },
         {
           "days": 10,
-          "price": 36300
+          "price": 33700
         },
         {
           "days": 15,
-          "price": 54450
+          "price": 50550
         },
         {
           "days": 30,
-          "price": 100300
+          "price": 93150
         }
       ]
     },
@@ -120276,7 +120348,7 @@
       "coverage_flags": "🇬🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4000,
+      "price": 3750,
       "networks": [
         {
           "operator": "Digicel",
@@ -124657,7 +124729,7 @@
       "coverage_flags": "🇲🇫",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1650,
       "networks": [
         {
           "operator": "Orange",
@@ -125222,7 +125294,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 0,
       "validity_days": null,
-      "price": 5950,
+      "price": 4450,
       "networks": [
         {
           "operator": "SETAR",
@@ -125261,27 +125333,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 17050
+          "price": 12750
         },
         {
           "days": 5,
-          "price": 27200
+          "price": 20350
         },
         {
           "days": 7,
-          "price": 38100
+          "price": 28450
         },
         {
           "days": 10,
-          "price": 52650
+          "price": 39350
         },
         {
           "days": 15,
-          "price": 78950
+          "price": 59000
         },
         {
           "days": 30,
-          "price": 145450
+          "price": 108650
         }
       ]
     },
@@ -125861,7 +125933,7 @@
       "coverage_flags": "🇹🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7700,
+      "price": 6650,
       "networks": [
         {
           "operator": "FLOW",
@@ -126519,7 +126591,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3850,
+      "price": 3100,
       "networks": [
         {
           "operator": "VIVA",
@@ -126760,7 +126832,7 @@
       "coverage_flags": "🇬🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13900,
+      "price": 13100,
       "networks": [
         {
           "operator": "Digicel",
@@ -129093,7 +129165,7 @@
       "coverage_flags": "🇦🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "SETAR",
@@ -129129,27 +129201,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4150
+          "price": 3850
         },
         {
           "days": 5,
-          "price": 6600
+          "price": 6150
         },
         {
           "days": 7,
-          "price": 9250
+          "price": 8600
         },
         {
           "days": 10,
-          "price": 12800
+          "price": 11900
         },
         {
           "days": 15,
-          "price": 19150
+          "price": 17800
         },
         {
           "days": 30,
-          "price": 35300
+          "price": 32800
         }
       ]
     },
@@ -129967,7 +130039,7 @@
       "coverage_flags": "🇸🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5900,
+      "price": 5450,
       "networks": [
         {
           "operator": "Digicel",
@@ -141001,7 +141073,7 @@
       "coverage_flags": "🇲🇸",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2150,
       "networks": [
         {
           "operator": "FLOW",
@@ -141923,7 +141995,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 14000,
+      "price": 10750,
       "networks": [
         {
           "operator": "SETAR",
@@ -141964,7 +142036,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1100,
+      "price": 900,
       "networks": [
         {
           "operator": "VIVA",
@@ -147268,7 +147340,7 @@
       "coverage_flags": "🇧🇶",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4000,
+      "price": 3000,
       "networks": [
         {
           "operator": "SETAR",
@@ -151743,6 +151815,7 @@
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8"
         ],
         "daily": [
+          "5e4b0deb-2583-44d5-a0cb-6d8b53193efb",
           "1c8d53cb-3d4d-40a2-893b-e5e48ba529f8",
           "c4a35f2e-028c-49d3-9ce6-612ccb3e8561",
           "b2f3efba-5a6e-46e1-8cc2-00a66faabf6a",

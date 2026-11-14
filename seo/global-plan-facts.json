@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-13",
+ "updated": "2026-11-14",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -8718,6 +8718,7 @@
    ],
    "daily": {
     "gb_per_day": [
+     0.49,
      1,
      2,
      3,
