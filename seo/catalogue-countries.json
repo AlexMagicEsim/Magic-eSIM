@@ -3776,10 +3776,10 @@
       "slug": "panama",
       "nameRu": "Панама",
       "flagEmoji": "🇵🇦",
-      "local_count": 8,
+      "local_count": 7,
       "regional_count": 6,
       "daily_count": 6,
-      "total_count": 20,
+      "total_count": 19,
       "min_price_rub": 800,
       "volumes": [
         1,
@@ -3834,15 +3834,16 @@
       "nameRu": "Парагвай",
       "flagEmoji": "🇵🇾",
       "local_count": 7,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 4,
-      "total_count": 17,
+      "total_count": 18,
       "min_price_rub": 400,
       "volumes": [
         1,
         2,
         3,
         5,
+        7,
         10,
         20,
         25
@@ -5758,6 +5759,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-11-13T09:05:01.052Z",
+  "fetched_at": "2026-11-14T00:05:01.692Z",
   "source": "assets/catalog.json"
 }
