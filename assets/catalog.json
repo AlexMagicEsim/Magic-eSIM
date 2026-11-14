@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-14T09:05:05.809Z",
+  "generated_at": "2026-11-14T15:05:02.864Z",
   "source": "production-public-api",
-  "package_count": 2433,
+  "package_count": 2435,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -179,7 +179,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 950,
+      "price": 900,
       "networks": [
         {
           "operator": "Omantel",
@@ -5011,7 +5011,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1400,
+      "price": 1300,
       "networks": [
         {
           "operator": "Omantel",
@@ -6337,7 +6337,7 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 700
+          "price": 650
         },
         {
           "days": 5,
@@ -6345,19 +6345,19 @@
         },
         {
           "days": 7,
-          "price": 1400
+          "price": 1250
         },
         {
           "days": 10,
-          "price": 1950
+          "price": 1750
         },
         {
           "days": 15,
-          "price": 2900
+          "price": 2600
         },
         {
           "days": 30,
-          "price": 4750
+          "price": 4250
         }
       ]
     },
@@ -11518,7 +11518,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5900,
+      "price": 5500,
       "networks": [
         {
           "operator": "FLOW",
@@ -14117,7 +14117,7 @@
       "coverage_flags": "🇮🇶",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4050,
+      "price": 3800,
       "networks": [
         {
           "operator": "Asia Cell",
@@ -15260,7 +15260,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 10600,
+      "price": 7950,
       "networks": [
         {
           "operator": "FLOW",
@@ -15529,7 +15529,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2600,
+      "price": 2450,
       "networks": [
         {
           "operator": "Claro",
@@ -19963,7 +19963,7 @@
       "coverage_flags": "🇩🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2650,
+      "price": 2550,
       "networks": [
         {
           "operator": "Mobilis",
@@ -26492,7 +26492,7 @@
       "coverage_flags": "🇸🇱",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 14450,
+      "price": 11850,
       "networks": [
         {
           "operator": "Orange",
@@ -27220,7 +27220,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4100,
+      "price": 4050,
       "networks": [
         {
           "operator": "Omantel",
@@ -27762,7 +27762,7 @@
       "coverage_flags": "🇸🇱",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7750,
+      "price": 6200,
       "networks": [
         {
           "operator": "Orange",
@@ -29962,7 +29962,7 @@
       "coverage_flags": "🇩🇿",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 6000,
+      "price": 5600,
       "networks": [
         {
           "operator": "Mobilis",
@@ -34815,7 +34815,7 @@
       "coverage_flags": "🇶🇦",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2400,
+      "price": 2100,
       "networks": [
         {
           "operator": "ooredoo",
@@ -35443,7 +35443,7 @@
       "coverage_flags": "🇧🇹",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3900,
+      "price": 3050,
       "networks": [
         {
           "operator": "TashiCell",
@@ -38821,7 +38821,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1500,
       "networks": [
         {
           "operator": "Du",
@@ -39004,7 +39004,7 @@
       "coverage_flags": "🇶🇦",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1350,
+      "price": 1150,
       "networks": [
         {
           "operator": "ooredoo",
@@ -44706,7 +44706,7 @@
       "coverage_flags": "🇬🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6750,
+      "price": 6350,
       "networks": [
         {
           "operator": "Orange",
@@ -53260,7 +53260,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 19400,
+      "price": 15550,
       "networks": [
         {
           "operator": "FLOW",
@@ -53657,7 +53657,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 5750,
+      "price": 4050,
       "networks": [
         {
           "operator": "FLOW",
@@ -54225,27 +54225,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1150
+          "price": 1100
         },
         {
           "days": 5,
-          "price": 1850
+          "price": 1750
         },
         {
           "days": 7,
-          "price": 2550
+          "price": 2450
         },
         {
           "days": 10,
-          "price": 3150
+          "price": 3000
         },
         {
           "days": 15,
-          "price": 4700
+          "price": 4500
         },
         {
           "days": 30,
-          "price": 8650
+          "price": 8300
         }
       ]
     },
@@ -57270,7 +57270,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2150,
       "networks": [
         {
           "operator": "FLOW",
@@ -60888,7 +60888,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 650,
+      "price": 600,
       "networks": [
         {
           "operator": "Du",
@@ -60924,27 +60924,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1600
+          "price": 1500
         },
         {
           "days": 5,
-          "price": 2500
+          "price": 2400
         },
         {
           "days": 7,
-          "price": 3150
+          "price": 2950
         },
         {
           "days": 10,
-          "price": 4300
+          "price": 4100
         },
         {
           "days": 15,
-          "price": 6450
+          "price": 6150
         },
         {
           "days": 30,
-          "price": 11900
+          "price": 11300
         }
       ]
     },
@@ -65200,7 +65200,7 @@
       "coverage_flags": "🇲🇳",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3950,
+      "price": 3650,
       "networks": [
         {
           "operator": "Mobicom",
@@ -69802,7 +69802,7 @@
       "coverage_flags": "🇳🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5600,
+      "price": 5300,
       "networks": [
         {
           "operator": "Airtel",
@@ -74468,7 +74468,7 @@
       "coverage_flags": "🇨🇮",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7050,
+      "price": 4800,
       "networks": [
         {
           "operator": "Orange",
@@ -77574,44 +77574,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "8a842b32-1bb4-4b64-b2f1-2395dfb0bab3",
-      "name": "Oman 3GB 30Days",
-      "country_code": "OM",
-      "region": "OM",
-      "coverage_country_codes": [
-        "OM"
-      ],
-      "coverage_flags": "🇴🇲",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1000,
-      "networks": [
-        {
-          "operator": "Omantel",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "8a8a3b4d-4476-4f90-b0cb-cd763c5949b8",
       "name": "Zambia 10GB 30Days",
       "country_code": "ZM",
@@ -78386,7 +78348,7 @@
       "coverage_flags": "🇶🇦",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 950,
+      "price": 850,
       "networks": [
         {
           "operator": "ooredoo",
@@ -79757,7 +79719,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3700,
+      "price": 2950,
       "networks": [
         {
           "operator": "FLOW",
@@ -81376,6 +81338,50 @@
           "price": 56950
         }
       ]
+    },
+    {
+      "package_id": "92031375-b7b8-460d-9f65-05b67af3599d",
+      "name": "United States 2GB 15Days",
+      "country_code": "US",
+      "region": "US",
+      "coverage_country_codes": [
+        "US"
+      ],
+      "coverage_flags": "🇺🇸",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 350,
+      "networks": [
+        {
+          "operator": "Verizon",
+          "type": "5G"
+        },
+        {
+          "operator": "AT&T",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "US"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "920a00a8-d365-48b9-9812-f87da4cebcb4",
@@ -88124,83 +88130,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "9c4f562c-3981-493e-b1a7-55cc8472158c",
-      "name": "United States 3GB/Day FUP1Mbps (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1400
-        },
-        {
-          "days": 5,
-          "price": 2250
-        },
-        {
-          "days": 7,
-          "price": 2800
-        },
-        {
-          "days": 10,
-          "price": 3850
-        },
-        {
-          "days": 15,
-          "price": 5800
-        },
-        {
-          "days": 30,
-          "price": 10650
-        }
-      ]
-    },
-    {
       "package_id": "9c5d595c-2358-4c3b-a1bb-63723a3279be",
       "name": "Uruguay 3GB 15Days",
       "country_code": "UY",
@@ -88971,7 +88900,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 3500,
+      "price": 2850,
       "networks": [
         {
           "operator": "FLOW",
@@ -95883,7 +95812,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 950,
       "networks": [
         {
           "operator": "Omantel",
@@ -95919,27 +95848,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2800
+          "price": 2450
         },
         {
           "days": 5,
-          "price": 3950
+          "price": 3500
         },
         {
           "days": 7,
-          "price": 5500
+          "price": 4850
         },
         {
           "days": 10,
-          "price": 7600
+          "price": 6700
         },
         {
           "days": 15,
-          "price": 11400
+          "price": 10050
         },
         {
           "days": 30,
-          "price": 21000
+          "price": 18500
         }
       ]
     },
@@ -97165,7 +97094,7 @@
       "coverage_flags": "🇲🇶",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1650,
       "networks": [
         {
           "operator": "Orange",
@@ -97676,7 +97605,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2550,
+      "price": 2300,
       "networks": [
         {
           "operator": "Omantel",
@@ -99778,7 +99707,7 @@
       "coverage_flags": "🇶🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 3900,
+      "price": 3650,
       "networks": [
         {
           "operator": "ooredoo",
@@ -101284,7 +101213,7 @@
       "coverage_flags": "🇲🇳",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8050,
+      "price": 7000,
       "networks": [
         {
           "operator": "Mobicom",
@@ -102309,7 +102238,7 @@
       "coverage_flags": "🇧🇹",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 7250,
+      "price": 6000,
       "networks": [
         {
           "operator": "TashiCell",
@@ -102519,7 +102448,7 @@
       "coverage_flags": "🇶🇦",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 900,
+      "price": 800,
       "networks": [
         {
           "operator": "ooredoo",
@@ -106182,7 +106111,7 @@
       "coverage_flags": "🇺🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 700,
+      "price": 650,
       "networks": [
         {
           "operator": "Verizon",
@@ -106224,27 +106153,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1850
+          "price": 1700
         },
         {
           "days": 5,
-          "price": 2900
+          "price": 2700
         },
         {
           "days": 7,
-          "price": 3600
+          "price": 3350
         },
         {
           "days": 10,
-          "price": 5000
+          "price": 4600
         },
         {
           "days": 15,
-          "price": 7500
+          "price": 6900
         },
         {
           "days": 30,
-          "price": 13750
+          "price": 12750
         }
       ]
     },
@@ -108165,6 +108094,83 @@
       "sellable_days": []
     },
     {
+      "package_id": "bdc59f92-7459-4d83-983b-7741975512a5",
+      "name": "United States 1.5GB/Day",
+      "country_code": "US",
+      "region": "US",
+      "coverage_country_codes": [
+        "US"
+      ],
+      "coverage_flags": "🇺🇸",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "Verizon",
+          "type": "5G"
+        },
+        {
+          "operator": "AT&T",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "US"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1.5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 600
+        },
+        {
+          "days": 5,
+          "price": 950
+        },
+        {
+          "days": 7,
+          "price": 1200
+        },
+        {
+          "days": 10,
+          "price": 1650
+        },
+        {
+          "days": 15,
+          "price": 2500
+        },
+        {
+          "days": 30,
+          "price": 4050
+        }
+      ]
+    },
+    {
       "package_id": "bded5dd0-7fa3-4740-bd41-c8de6e7fc7ce",
       "name": "MENA 10 GB",
       "country_code": "BH",
@@ -109217,7 +109223,7 @@
       "coverage_flags": "🇸🇦",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1350,
       "networks": [
         {
           "operator": "STC",
@@ -111633,7 +111639,7 @@
       "coverage_flags": "🇬🇩",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2200,
+      "price": 2100,
       "networks": [
         {
           "operator": "FLOW",
@@ -116228,7 +116234,7 @@
       "coverage_flags": "🇬🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6700,
+      "price": 6300,
       "networks": [
         {
           "operator": "Orange",
@@ -117665,7 +117671,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 18300,
+      "price": 13100,
       "networks": [
         {
           "operator": "Du",
@@ -120023,7 +120029,7 @@
       "coverage_flags": "🇾🇹",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1850,
+      "price": 1650,
       "networks": [
         {
           "operator": "Orange",
@@ -120847,6 +120853,78 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "d464e30c-7675-4b5d-8496-4e0576ed9f3b",
+      "name": "Honduras 500MB/Day",
+      "country_code": "HN",
+      "region": "HN",
+      "coverage_country_codes": [
+        "HN"
+      ],
+      "coverage_flags": "🇭🇳",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 0.49,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 550
+        },
+        {
+          "days": 5,
+          "price": 900
+        },
+        {
+          "days": 7,
+          "price": 1100
+        },
+        {
+          "days": 10,
+          "price": 1550
+        },
+        {
+          "days": 15,
+          "price": 2300
+        },
+        {
+          "days": 30,
+          "price": 3750
+        }
+      ]
     },
     {
       "package_id": "d46e60b5-5dcd-437f-91e5-c3c463a843e6",
@@ -124512,6 +124590,83 @@
       "sellable_days": []
     },
     {
+      "package_id": "d967be77-e37d-4419-a12e-b19a8a3eac14",
+      "name": "United States 3GB/Day",
+      "country_code": "US",
+      "region": "US",
+      "coverage_country_codes": [
+        "US"
+      ],
+      "coverage_flags": "🇺🇸",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 450,
+      "networks": [
+        {
+          "operator": "Verizon",
+          "type": "5G"
+        },
+        {
+          "operator": "AT&T",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "US"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1100
+        },
+        {
+          "days": 5,
+          "price": 1750
+        },
+        {
+          "days": 7,
+          "price": 2450
+        },
+        {
+          "days": 10,
+          "price": 3000
+        },
+        {
+          "days": 15,
+          "price": 4450
+        },
+        {
+          "days": 30,
+          "price": 8200
+        }
+      ]
+    },
+    {
       "package_id": "d9a99f64-6984-430f-8c33-113ec2ad525c",
       "name": "Italy 500MB/Day",
       "country_code": "IT",
@@ -125438,7 +125593,7 @@
       "coverage_flags": "🇻🇨",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1500,
+      "price": 1050,
       "networks": [
         {
           "operator": "FLOW",
@@ -127958,7 +128113,7 @@
       "coverage_flags": "🇰🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2200,
+      "price": 2050,
       "networks": [
         {
           "operator": "Ooredoo",
@@ -131127,7 +131282,7 @@
       "coverage_flags": "🇺🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 350,
+      "price": 300,
       "networks": [
         {
           "operator": "Verizon",
@@ -131169,27 +131324,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 950
+          "price": 750
         },
         {
           "days": 5,
-          "price": 1350
+          "price": 1100
         },
         {
           "days": 7,
-          "price": 1900
+          "price": 1550
         },
         {
           "days": 10,
-          "price": 2600
+          "price": 2100
         },
         {
           "days": 15,
-          "price": 3450
+          "price": 2800
         },
         {
           "days": 30,
-          "price": 6300
+          "price": 5100
         }
       ]
     },
@@ -133870,7 +134025,7 @@
       "coverage_flags": "🇧🇭",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2350,
+      "price": 2200,
       "networks": [
         {
           "operator": "STC",
@@ -134172,7 +134327,7 @@
       "coverage_flags": "🇨🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1100,
+      "price": 1050,
       "networks": [
         {
           "operator": "Claro",
@@ -135667,6 +135822,77 @@
         {
           "days": 30,
           "price": 10500
+        }
+      ]
+    },
+    {
+      "package_id": "eb766076-ca55-4d84-94ad-8d6a6f705ee3",
+      "name": "United Arab Emirates 1GB/Day",
+      "country_code": "AE",
+      "region": "AE",
+      "coverage_country_codes": [
+        "AE"
+      ],
+      "coverage_flags": "🇦🇪",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 350,
+      "networks": [
+        {
+          "operator": "Du",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "512 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 950
+        },
+        {
+          "days": 5,
+          "price": 1400
+        },
+        {
+          "days": 7,
+          "price": 1950
+        },
+        {
+          "days": 10,
+          "price": 2650
+        },
+        {
+          "days": 15,
+          "price": 3550
+        },
+        {
+          "days": 30,
+          "price": 6500
         }
       ]
     },
@@ -139375,7 +139601,7 @@
       "coverage_flags": "🇺🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 200,
+      "price": 150,
       "networks": [
         {
           "operator": "Verizon",
@@ -139417,27 +139643,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 500
+          "price": 450
         },
         {
           "days": 5,
-          "price": 800
+          "price": 700
         },
         {
           "days": 7,
-          "price": 1100
+          "price": 1000
         },
         {
           "days": 10,
-          "price": 1350
+          "price": 1200
         },
         {
           "days": 15,
-          "price": 2000
+          "price": 1800
         },
         {
           "days": 30,
-          "price": 3250
+          "price": 2950
         }
       ]
     },
@@ -140982,27 +141208,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 450
+          "price": 350
         },
         {
           "days": 5,
-          "price": 700
+          "price": 500
         },
         {
           "days": 7,
-          "price": 950
+          "price": 700
         },
         {
           "days": 10,
-          "price": 1150
+          "price": 950
         },
         {
           "days": 15,
-          "price": 1700
+          "price": 1300
         },
         {
           "days": 30,
-          "price": 2800
+          "price": 2400
         }
       ]
     },
@@ -141372,7 +141598,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2850,
+      "price": 2700,
       "networks": [
         {
           "operator": "Du",
@@ -147490,77 +147716,6 @@
           "price": 7300
         }
       ]
-    },
-    {
-      "package_id": "fffe7bf3-f9f2-41fe-bad5-4c039dfa79f8",
-      "name": "United Arab Emirates 1GB/Day FUP1Mbps",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 400,
-      "networks": [
-        {
-          "operator": "Du",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1100
-        },
-        {
-          "days": 5,
-          "price": 1550
-        },
-        {
-          "days": 7,
-          "price": 2150
-        },
-        {
-          "days": 10,
-          "price": 2650
-        },
-        {
-          "days": 15,
-          "price": 3950
-        },
-        {
-          "days": 30,
-          "price": 7300
-        }
-      ]
     }
   ],
   "assortment": {
@@ -147620,7 +147775,7 @@
         ],
         "daily": [
           "08cf43a3-34ab-4c3c-9ce1-131b5322b79a",
-          "fffe7bf3-f9f2-41fe-bad5-4c039dfa79f8",
+          "eb766076-ca55-4d84-94ad-8d6a6f705ee3",
           "6ef545ff-c6d5-4caf-a7c8-a941eb3053db",
           "e90fccc2-af24-4bdf-bc15-6720a6c49716",
           "408aa792-ded5-4a3d-8fb8-f6e8e92a578f",
@@ -149782,6 +149937,7 @@
           "ee649461-09b1-48c0-b8fc-f3cec8546ec8"
         ],
         "daily": [
+          "d464e30c-7675-4b5d-8496-4e0576ed9f3b",
           "6433a338-6c84-4980-b2b3-cdccfc3c17e9",
           "246427e4-757c-44a2-a19b-1c1101136578",
           "0d2d7e72-dca8-4434-911f-d3d6a824d059",
@@ -151508,7 +151664,6 @@
           "09990a8f-7290-48c0-9f56-4a246b75a122",
           "9d299310-438e-4625-aaf7-df634e50a2ef",
           "006376b7-bd69-402d-9442-56ff8e33bb95",
-          "8a842b32-1bb4-4b64-b2f1-2395dfb0bab3",
           "0797ff37-78cc-4627-a5bc-a53f63b1fcbb",
           "ad0884af-7ca6-4692-a84a-6c48ad5a7ec2",
           "2f4fb2de-d670-418e-968c-801b985a152a",
@@ -152684,6 +152839,7 @@
       "US": {
         "local": [
           "359f0909-41ff-49d8-b8f4-04f2dc22df9a",
+          "92031375-b7b8-460d-9f65-05b67af3599d",
           "94dadd73-a429-43be-acfe-90593a76d2e0",
           "6bdbd66f-fe21-41b8-bad5-add7a70437a2",
           "24ac9288-95c1-4e9f-a97a-b71cead5df82",
@@ -152707,8 +152863,9 @@
         "daily": [
           "9a0083b1-12d5-4ca4-b686-235e43748fca",
           "f14be62b-7731-4321-a8b3-d19ca0a43036",
+          "bdc59f92-7459-4d83-983b-7741975512a5",
           "e3b4b6f2-06f2-429b-81d5-3a9b3382e4d0",
-          "9c4f562c-3981-493e-b1a7-55cc8472158c",
+          "d967be77-e37d-4419-a12e-b19a8a3eac14",
           "bb04e002-dc2e-4cc1-b997-4ef83dd394aa",
           "d0eb0b35-cbd1-4059-8bab-ff5964108168"
         ],
