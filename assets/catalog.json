@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T21:05:00.731Z",
+  "generated_at": "2026-11-14T00:05:01.692Z",
   "source": "production-public-api",
   "package_count": 2432,
   "packages": [
@@ -27722,7 +27722,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 550,
+      "price": 400,
       "networks": [
         {
           "operator": "Vodafone",
@@ -32810,7 +32810,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 700,
+      "price": 650,
       "networks": [
         {
           "operator": "Vodafone",
@@ -87761,7 +87761,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1100,
       "networks": [
         {
           "operator": "Vodafone",
@@ -93999,7 +93999,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 2700,
+      "price": 2750,
       "networks": [
         {
           "operator": "Vodafone",
