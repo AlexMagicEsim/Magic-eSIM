@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-14T00:05:01.692Z",
+  "fetched_at": "2026-11-14T15:05:02.864Z",
   "source": "assets/catalog.json",
   "countries": 201,
   "sheets": {
@@ -195,7 +195,7 @@
       "daily_count": 6,
       "total_count": 24,
       "min_price_rub": 400,
-      "max_price_rub": 18300,
+      "max_price_rub": 16950,
       "validity_days_min": 0,
       "validity_days_max": 180,
       "volumes_gb": [
@@ -214,7 +214,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 700,
+          "price_rub": 650,
           "validity_days": 0,
           "kind": "local"
         },
@@ -238,13 +238,13 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 1600,
+          "price_rub": 1500,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2850,
+          "price_rub": 2700,
           "validity_days": 30,
           "kind": "local"
         },
@@ -270,51 +270,51 @@
       "all_purchasable_prices": [
         400,
         550,
-        700,
+        650,
         800,
+        950,
         1000,
         1050,
         1100,
+        1250,
         1350,
         1400,
-        1550,
+        1500,
         1600,
+        1750,
         1850,
         1950,
-        2150,
         2250,
-        2500,
+        2400,
+        2600,
         2650,
-        2850,
-        2900,
+        2700,
         2950,
         3000,
-        3150,
         3200,
         3250,
-        3950,
-        4300,
+        3550,
+        4100,
+        4250,
         4450,
         4550,
-        4750,
         4900,
         5150,
         5200,
         6150,
-        6450,
+        6500,
         7200,
-        7300,
         7800,
         9200,
         9900,
         10900,
-        11900,
+        11300,
         12550,
+        13100,
         14850,
         15050,
         16950,
         17000,
-        18300,
         22550,
         27400,
         41550
@@ -382,7 +382,6 @@
       "networks_rows": 16,
       "rows_total": 24,
       "fup_policies": [
-        "1 Mbps",
         "500 Kbps",
         "512 Kbps"
       ],
@@ -402,7 +401,7 @@
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
-      "min_daily_price_rub": 700
+      "min_daily_price_rub": 650
     },
     "afghanistan": {
       "iso": "AF",
@@ -2257,7 +2256,7 @@
       "regional_count": 3,
       "daily_count": 4,
       "total_count": 13,
-      "min_price_rub": 1550,
+      "min_price_rub": 1450,
       "max_price_rub": 19650,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -2274,13 +2273,13 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 4150,
+          "price_rub": 3850,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1550,
+          "price_rub": 1450,
           "validity_days": 7,
           "kind": "local"
         },
@@ -2310,37 +2309,38 @@
         }
       ],
       "all_purchasable_prices": [
-        1550,
+        1450,
         2050,
         2650,
         3400,
         3600,
-        4150,
+        3850,
         5600,
         5650,
-        6600,
-        7850,
-        9250,
+        6150,
+        7300,
+        8600,
         10250,
-        11750,
-        12550,
-        12800,
+        10950,
+        11650,
+        11900,
         15250,
-        17550,
-        18800,
-        19150,
+        16300,
+        17450,
+        17800,
         19650,
-        24200,
+        22500,
         24350,
-        26300,
+        24400,
+        32800,
+        33700,
+        33750,
         34050,
-        35300,
-        36300,
         47050,
-        54450,
-        66900,
+        50550,
+        62150,
         70550,
-        100300,
+        93150,
         130000
       ],
       "term_days": [
@@ -2397,8 +2397,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1550,
-      "min_daily_price_rub": 4150
+      "min_volume_price_rub": 1450,
+      "min_daily_price_rub": 3850
     },
     "aland-islands": {
       "iso": "AX",
@@ -4331,7 +4331,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2350,
+          "price_rub": 2200,
           "validity_days": 30,
           "kind": "local"
         },
@@ -4364,7 +4364,7 @@
         1850,
         1950,
         2150,
-        2350,
+        2200,
         2400,
         2900,
         2950,
@@ -4709,7 +4709,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1850,
+          "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
         }
@@ -5151,7 +5151,7 @@
       "regional_count": 6,
       "daily_count": 6,
       "total_count": 17,
-      "min_price_rub": 1050,
+      "min_price_rub": 900,
       "max_price_rub": 20050,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -5175,9 +5175,9 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1050,
+          "price_rub": 900,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -5211,21 +5211,21 @@
         }
       ],
       "all_purchasable_prices": [
+        900,
         1050,
-        1100,
         1450,
         1550,
         1900,
+        2350,
         2450,
         2700,
-        2750,
         3050,
         3100,
         3800,
-        3850,
         4200,
         4900,
         5600,
+        5650,
         5900,
         6300,
         6900,
@@ -5235,7 +5235,6 @@
         10800,
         11600,
         13100,
-        13800,
         14050,
         14250,
         17250,
@@ -5344,7 +5343,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1050,
+      "min_volume_price_rub": 900,
       "min_daily_price_rub": 1550
     },
     "bonaire": {
@@ -5356,7 +5355,7 @@
       "daily_count": 5,
       "total_count": 19,
       "min_price_rub": 1050,
-      "max_price_rub": 17050,
+      "max_price_rub": 12750,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -5391,71 +5390,72 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2500,
-          "validity_days": 30,
-          "kind": "regional"
+          "price_rub": 2100,
+          "validity_days": 15,
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3450,
+          "price_rub": 3000,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5500,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11450,
+          "price_rub": 10750,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
         1050,
         1700,
         2050,
+        2100,
+        2150,
         2500,
-        2700,
         2850,
-        2900,
         2950,
+        3000,
         3450,
-        4000,
         4700,
+        5500,
         5600,
+        6250,
         6600,
-        7300,
-        8400,
         8950,
         9100,
+        10000,
+        10750,
         10850,
         11450,
         12500,
-        13400,
+        12750,
         13650,
         14000,
-        17050,
         17250,
         17350,
-        18700,
+        19300,
+        20350,
         24250,
         25150,
         25850,
-        27200,
+        28450,
+        28950,
         33500,
-        38100,
-        38750,
+        39350,
         47600,
         50250,
-        52650,
-        71400,
-        78950,
+        53350,
+        59000,
         92550,
-        145450
+        108650
       ],
       "term_days": [
         3,
@@ -5891,7 +5891,7 @@
       "daily_count": 5,
       "total_count": 18,
       "min_price_rub": 400,
-      "max_price_rub": 7250,
+      "max_price_rub": 6000,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -5965,8 +5965,8 @@
         2650,
         2800,
         2850,
+        3050,
         3250,
-        3900,
         3950,
         4000,
         4300,
@@ -7457,9 +7457,9 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 5050,
+          "price_rub": 4800,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
@@ -7479,6 +7479,7 @@
         3700,
         3950,
         4550,
+        4800,
         5050,
         5100,
         7050,
@@ -8405,7 +8406,7 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1100,
+          "price_rub": 1050,
           "validity_days": 15,
           "kind": "local"
         },
@@ -10358,7 +10359,7 @@
       "daily_count": 9,
       "total_count": 23,
       "min_price_rub": 250,
-      "max_price_rub": 6000,
+      "max_price_rub": 5600,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -10412,13 +10413,13 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 2650,
+          "price_rub": 2550,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 50,
-          "price_rub": 6000,
+          "price_rub": 5600,
           "validity_days": 30,
           "kind": "local"
         }
@@ -10448,7 +10449,6 @@
         2350,
         2450,
         2550,
-        2650,
         2850,
         3050,
         3250,
@@ -10459,6 +10459,7 @@
         4200,
         4500,
         4900,
+        5600,
         6000,
         6300,
         8700,
@@ -10604,7 +10605,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 1450,
+          "price_rub": 1300,
           "validity_days": 30,
           "kind": "local"
         },
@@ -10641,6 +10642,7 @@
         950,
         1100,
         1150,
+        1300,
         1350,
         1400,
         1450,
@@ -13119,7 +13121,7 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2200,
+          "price_rub": 2100,
           "validity_days": 15,
           "kind": "local"
         },
@@ -13131,13 +13133,13 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5500,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11250,
+          "price_rub": 10500,
           "validity_days": 30,
           "kind": "local"
         }
@@ -13150,8 +13152,6 @@
         2050,
         2100,
         2150,
-        2200,
-        2350,
         2500,
         2700,
         2850,
@@ -13161,15 +13161,15 @@
         3700,
         4150,
         5200,
+        5500,
         5550,
         5600,
         5750,
-        5900,
         7250,
         8600,
         10050,
         10150,
-        11250,
+        10500,
         11450,
         15050,
         15800,
@@ -13465,7 +13465,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1900,
+          "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
         },
@@ -13494,9 +13494,9 @@
         1450,
         1500,
         1550,
+        1650,
         1800,
         1850,
-        1900,
         2050,
         2150,
         2350,
@@ -14759,7 +14759,7 @@
         4400,
         5600,
         6100,
-        6750,
+        6350,
         7000,
         9100,
         9750,
@@ -15360,7 +15360,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2600,
+          "price_rub": 2450,
           "validity_days": 30,
           "kind": "local"
         },
@@ -15386,8 +15386,8 @@
         1900,
         2100,
         2300,
+        2450,
         2550,
-        2600,
         2700,
         2750,
         2800,
@@ -15754,7 +15754,7 @@
         5050,
         5200,
         6000,
-        6700,
+        6300,
         6900,
         7800,
         9000,
@@ -15869,7 +15869,7 @@
       "daily_count": 4,
       "total_count": 17,
       "min_price_rub": 1100,
-      "max_price_rub": 13900,
+      "max_price_rub": 13100,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -15910,7 +15910,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 4000,
+          "price_rub": 3750,
           "validity_days": 30,
           "kind": "local"
         },
@@ -15935,11 +15935,11 @@
         2400,
         2550,
         2650,
-        2750,
+        2700,
         2800,
         2900,
         3500,
-        4000,
+        3750,
         4100,
         4750,
         4800,
@@ -15954,8 +15954,8 @@
         10800,
         11450,
         11850,
+        13100,
         13200,
-        13900,
         14500,
         14900,
         20300,
@@ -16277,8 +16277,8 @@
       "strategy": "LOCAL",
       "local_count": 5,
       "regional_count": 6,
-      "daily_count": 4,
-      "total_count": 15,
+      "daily_count": 5,
+      "total_count": 16,
       "min_price_rub": 400,
       "max_price_rub": 5600,
       "validity_days_min": 0,
@@ -16297,7 +16297,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 950,
+          "price_rub": 550,
           "validity_days": 0,
           "kind": "local"
         },
@@ -16340,10 +16340,14 @@
       ],
       "all_purchasable_prices": [
         400,
+        550,
+        900,
         950,
         1050,
+        1100,
         1350,
         1450,
+        1550,
         1850,
         1900,
         2300,
@@ -16352,6 +16356,7 @@
         2800,
         2850,
         3400,
+        3750,
         3800,
         3950,
         4300,
@@ -16379,6 +16384,7 @@
         30
       ],
       "daily_gb": [
+        0.49,
         1,
         2,
         3,
@@ -16405,8 +16411,8 @@
           "Claro"
         ]
       },
-      "networks_rows": 9,
-      "rows_total": 15,
+      "networks_rows": 10,
+      "rows_total": 16,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -16421,12 +16427,12 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 15,
-      "topup_no": 0,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
-      "min_daily_price_rub": 950
+      "min_daily_price_rub": 550
     },
     "croatia": {
       "iso": "HR",
@@ -17734,7 +17740,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 450,
+          "price_rub": 350,
           "validity_days": 0,
           "kind": "local"
         },
@@ -17830,31 +17836,31 @@
         950,
         1000,
         1100,
-        1150,
         1250,
+        1300,
         1550,
-        1700,
-        1850,
+        1750,
         1900,
         2000,
         2100,
         2200,
         2300,
-        2550,
+        2400,
+        2450,
         2700,
         2800,
+        3000,
         3050,
         3100,
-        3150,
         3350,
         3700,
         4500,
         4600,
-        4700,
         5150,
         6250,
         6450,
         7700,
+        8300,
         8650,
         12950,
         23850
@@ -17937,7 +17943,7 @@
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
-      "min_daily_price_rub": 450
+      "min_daily_price_rub": 350
     },
     "isle-of-man": {
       "iso": "IM",
@@ -18594,7 +18600,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 4050,
+          "price_rub": 3800,
           "validity_days": 30,
           "kind": "local"
         },
@@ -18630,7 +18636,7 @@
         3050,
         3300,
         3650,
-        4050,
+        3800,
         4150,
         4250,
         5200,
@@ -21491,7 +21497,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 2200,
+          "price_rub": 2050,
           "validity_days": 30,
           "kind": "local"
         },
@@ -21532,7 +21538,6 @@
         1950,
         2050,
         2150,
-        2200,
         2650,
         2700,
         2800,
@@ -25045,7 +25050,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1850,
+          "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
         }
@@ -25822,13 +25827,13 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 3950,
+          "price_rub": 3650,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 8050,
+          "price_rub": 7000,
           "validity_days": 30,
           "kind": "local"
         }
@@ -25842,15 +25847,15 @@
         2450,
         2950,
         3500,
-        3950,
+        3650,
         4100,
         4700,
         5400,
         5550,
         6100,
         6600,
+        7000,
         7800,
-        8050,
         8650,
         9100,
         10050,
@@ -26320,7 +26325,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1850,
+          "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
         }
@@ -26634,7 +26639,7 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2200,
+          "price_rub": 2100,
           "validity_days": 15,
           "kind": "local"
         },
@@ -26665,8 +26670,6 @@
         2050,
         2100,
         2150,
-        2200,
-        2350,
         2500,
         2700,
         2850,
@@ -28271,6 +28274,7 @@
         4200,
         4600,
         5200,
+        5300,
         5550,
         5600,
         5800,
@@ -29879,10 +29883,10 @@
       "iso": "OM",
       "name_ru": "Оман",
       "strategy": "LOCAL",
-      "local_count": 8,
+      "local_count": 7,
       "regional_count": 8,
       "daily_count": 9,
-      "total_count": 25,
+      "total_count": 24,
       "min_price_rub": 350,
       "max_price_rub": 9700,
       "validity_days_min": 0,
@@ -29921,25 +29925,25 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 950,
+          "price_rub": 900,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1400,
+          "price_rub": 1300,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2550,
+          "price_rub": 2300,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 4100,
+          "price_rub": 4050,
           "validity_days": 30,
           "kind": "local"
         },
@@ -29962,12 +29966,10 @@
         700,
         900,
         950,
-        1000,
         1100,
         1150,
         1300,
         1350,
-        1400,
         1450,
         1600,
         1800,
@@ -29976,30 +29978,28 @@
         2350,
         2400,
         2450,
-        2550,
         2800,
         2850,
         3000,
         3300,
         3500,
         3900,
-        3950,
-        4100,
+        4050,
         4350,
+        4850,
         5200,
-        5500,
         5550,
         5850,
         6000,
-        7600,
+        6700,
         8850,
         9050,
         9700,
+        10050,
         10750,
-        11400,
         12400,
         17150,
-        21000,
+        18500,
         25700,
         47300
       ],
@@ -30044,8 +30044,8 @@
           "Omantel"
         ]
       },
-      "networks_rows": 13,
-      "rows_total": 25,
+      "networks_rows": 12,
+      "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
         "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
@@ -30060,7 +30060,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 20,
+      "topup_yes": 19,
       "topup_no": 5,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
@@ -30324,7 +30324,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 11050,
+          "price_rub": 9700,
           "validity_days": 30,
           "kind": "local"
         }
@@ -30367,10 +30367,10 @@
         7100,
         7150,
         8000,
+        9700,
         9850,
         10600,
         10900,
-        11050,
         11200,
         14800,
         15500,
@@ -32098,8 +32098,8 @@
       "strategy": "LOCAL",
       "local_count": 7,
       "regional_count": 7,
-      "daily_count": 4,
-      "total_count": 18,
+      "daily_count": 5,
+      "total_count": 19,
       "min_price_rub": 400,
       "max_price_rub": 6100,
       "validity_days_min": 0,
@@ -32120,7 +32120,7 @@
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 950,
+          "price_rub": 550,
           "validity_days": 0,
           "kind": "local"
         },
@@ -32175,12 +32175,15 @@
       ],
       "all_purchasable_prices": [
         400,
+        550,
         700,
+        900,
         950,
         1050,
         1100,
         1350,
         1450,
+        1550,
         1600,
         1850,
         2300,
@@ -32190,6 +32193,7 @@
         2800,
         2850,
         3400,
+        3750,
         3800,
         3950,
         4450,
@@ -32218,6 +32222,7 @@
         30
       ],
       "daily_gb": [
+        0.49,
         1,
         2,
         3,
@@ -32244,8 +32249,8 @@
           "Claro"
         ]
       },
-      "networks_rows": 10,
-      "rows_total": 18,
+      "networks_rows": 11,
+      "rows_total": 19,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -32260,12 +32265,12 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 18,
-      "topup_no": 0,
+      "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 400,
-      "min_daily_price_rub": 950
+      "min_daily_price_rub": 550
     },
     "qatar": {
       "iso": "QA",
@@ -32312,25 +32317,25 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 900,
+          "price_rub": 800,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1350,
+          "price_rub": 1150,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2400,
+          "price_rub": 2100,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 3900,
+          "price_rub": 3650,
           "validity_days": 30,
           "kind": "local"
         },
@@ -32347,24 +32352,22 @@
         600,
         700,
         750,
-        900,
-        950,
+        800,
+        850,
         1050,
         1100,
-        1350,
+        1150,
         1500,
         1550,
         1650,
         1850,
         2100,
-        2400,
         2650,
         2800,
         2850,
         2950,
         3650,
         3800,
-        3900,
         4500,
         5050,
         5100,
@@ -33386,7 +33389,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 1450,
+          "price_rub": 1350,
           "validity_days": 30,
           "kind": "local"
         },
@@ -33418,7 +33421,7 @@
         1000,
         1050,
         1200,
-        1450,
+        1350,
         1500,
         1600,
         1650,
@@ -35063,7 +35066,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 14450,
+          "price_rub": 11850,
           "validity_days": 30,
           "kind": "local"
         }
@@ -35081,13 +35084,13 @@
         5600,
         5850,
         5950,
-        7750,
+        6200,
         8000,
         8250,
         8750,
         11200,
+        11850,
         12350,
-        14450,
         14900,
         15500,
         16100,
@@ -35664,25 +35667,25 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 2200,
+          "price_rub": 2100,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 3250,
+          "price_rub": 3000,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 5600,
+          "price_rub": 5450,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 11250,
+          "price_rub": 10700,
           "validity_days": 30,
           "kind": "local"
         }
@@ -35693,8 +35696,8 @@
         1450,
         2050,
         2100,
+        2150,
         2200,
-        2350,
         2550,
         2650,
         2750,
@@ -35704,17 +35707,17 @@
         4150,
         4750,
         5200,
+        5450,
         5600,
         5650,
         5750,
-        5900,
         6250,
         7250,
         8600,
         10000,
         10050,
         10400,
-        11250,
+        10700,
         11450,
         12750,
         14000,
@@ -36286,7 +36289,7 @@
       "daily_count": 3,
       "total_count": 17,
       "min_price_rub": 1050,
-      "max_price_rub": 13900,
+      "max_price_rub": 12750,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -36362,15 +36365,15 @@
         4950,
         5600,
         5850,
+        6650,
         6850,
         7050,
-        7700,
         9900,
         10250,
         10750,
         11450,
+        12750,
         13650,
-        13900,
         18900,
         20450,
         37700
@@ -38816,10 +38819,10 @@
       "iso": "US",
       "name_ru": "США",
       "strategy": "LOCAL",
-      "local_count": 10,
+      "local_count": 11,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 7,
+      "total_count": 26,
       "min_price_rub": 200,
       "max_price_rub": 9750,
       "validity_days_min": 0,
@@ -38854,9 +38857,9 @@
         },
         {
           "data_gb": 2,
-          "price_rub": 600,
+          "price_rub": 350,
           "validity_days": 15,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 3,
@@ -38910,48 +38913,48 @@
       "all_purchasable_prices": [
         200,
         300,
+        350,
         450,
         500,
         600,
         700,
         750,
-        800,
         950,
+        1000,
         1050,
         1100,
         1200,
         1250,
-        1350,
-        1400,
+        1550,
         1600,
+        1650,
         1700,
-        1850,
-        1900,
+        1750,
+        1800,
         2000,
         2100,
-        2250,
         2300,
-        2600,
+        2450,
+        2500,
         2700,
         2800,
-        2900,
-        3250,
-        3450,
-        3600,
-        3850,
+        2950,
+        3000,
+        3350,
         4000,
+        4050,
+        4450,
+        4600,
         4900,
-        5000,
+        5100,
         5550,
-        5800,
         6100,
-        6300,
-        7500,
+        6900,
         7700,
+        8200,
         9750,
-        10650,
         11500,
-        13750,
+        12750,
         21200
       ],
       "term_days": [
@@ -38965,6 +38968,7 @@
       "daily_gb": [
         0.49,
         1,
+        1.5,
         2,
         3,
         5,
@@ -39002,10 +39006,9 @@
           "Verizon"
         ]
       },
-      "networks_rows": 16,
-      "rows_total": 24,
+      "networks_rows": 18,
+      "rows_total": 26,
       "fup_policies": [
-        "1 Mbps",
         "384 Kbps",
         "512 Kbps"
       ],
@@ -39017,8 +39020,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 23,
-      "topup_no": 1,
+      "topup_yes": 24,
+      "topup_no": 2,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -39707,7 +39710,7 @@
       "daily_count": 3,
       "total_count": 17,
       "min_price_rub": 1050,
-      "max_price_rub": 19400,
+      "max_price_rub": 15550,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -39732,7 +39735,7 @@
           "data_gb": 1,
           "price_rub": 1050,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -39767,34 +39770,32 @@
       ],
       "all_purchasable_prices": [
         1050,
-        1500,
         1550,
         1700,
         2050,
         2450,
         2500,
         2850,
+        2950,
         3050,
         3100,
         3450,
-        3500,
-        3700,
+        4050,
         4200,
         4900,
         5600,
-        5750,
         5850,
         6300,
         6900,
+        7950,
         9350,
         9500,
-        10600,
         11450,
         11600,
         13100,
         14250,
+        15550,
         18050,
-        19400,
         26200,
         27100,
         49900
@@ -41120,7 +41121,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1850,
+          "price_rub": 1650,
           "validity_days": 30,
           "kind": "local"
         }
