@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-15T15:05:19.256Z",
+  "generated_at": "2026-11-15T18:56:05.608Z",
   "source": "production-public-api",
-  "package_count": 2438,
+  "package_count": 2437,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -1566,7 +1566,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4550,
+      "price": 4200,
       "networks": [
         {
           "operator": "Du",
@@ -11440,7 +11440,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4850,
+      "price": 4200,
       "networks": [
         {
           "operator": "Altice",
@@ -15534,7 +15534,7 @@
       "coverage_flags": "🇦🇱",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 5600,
+      "price": 5250,
       "networks": [
         {
           "operator": "One Albania",
@@ -18895,7 +18895,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 4050,
+      "price": 4900,
       "networks": [
         {
           "operator": "Airtel",
@@ -19057,7 +19057,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1100,
+      "price": 1000,
       "networks": [
         {
           "operator": "Altice",
@@ -19606,7 +19606,7 @@
       "coverage_flags": "🇳🇿",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1400,
       "networks": [
         {
           "operator": "One NZ",
@@ -26257,7 +26257,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1550,
+      "price": 1300,
       "networks": [
         {
           "operator": "Altice",
@@ -31209,7 +31209,7 @@
       "coverage_flags": "🇪🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "Orange",
@@ -31701,7 +31701,7 @@
       "coverage_flags": "🇬🇧",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "EE",
@@ -45645,7 +45645,7 @@
       "coverage_flags": "🇮🇹",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "TIM",
@@ -49916,7 +49916,7 @@
       "coverage_flags": "🇳🇱",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 5000,
+      "price": 4550,
       "networks": [
         {
           "operator": "KPN",
@@ -55267,7 +55267,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1200,
       "networks": [
         {
           "operator": "U Mobile",
@@ -56637,7 +56637,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1050,
+      "price": 950,
       "networks": [
         {
           "operator": "Altice",
@@ -73130,6 +73130,50 @@
       "sellable_days": []
     },
     {
+      "package_id": "835dd86c-8b1c-493b-be73-670a23baf106",
+      "name": "Singapore 20GB 30Days",
+      "country_code": "SG",
+      "region": "SG",
+      "coverage_country_codes": [
+        "SG"
+      ],
+      "coverage_flags": "🇸🇬",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 1250,
+      "networks": [
+        {
+          "operator": "M1",
+          "type": "5G"
+        },
+        {
+          "operator": "SingTel",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "HK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "836974a3-bcdc-4975-9395-d28b2e9dcaa3",
       "name": "Bulgaria 3GB/Day FUP1Mbps",
       "country_code": "BG",
@@ -84009,37 +84053,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "95efd4c0-4a46-4851-baa0-a09971431aac",
-      "name": "Singapore 20 GB",
-      "country_code": "SG",
-      "region": "SG",
-      "coverage_country_codes": [
-        "SG"
-      ],
-      "coverage_flags": "🇸🇬",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 1450,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "95f4483d-9194-4436-b6da-04c3e865580d",
       "name": "Slovakia 10GB/Day",
       "country_code": "SK",
@@ -84289,7 +84302,7 @@
       "coverage_flags": "🇺🇾",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 3500,
+      "price": 2850,
       "networks": [
         {
           "operator": "Movistar",
@@ -95848,7 +95861,7 @@
       "coverage_flags": "🇫🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "Orange",
@@ -99728,7 +99741,7 @@
       "coverage_flags": "🇬🇧",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 4900,
+      "price": 4350,
       "networks": [
         {
           "operator": "EE",
@@ -104005,7 +104018,7 @@
       "coverage_flags": "🇲🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2700,
+      "price": 2850,
       "networks": [
         {
           "operator": "Orange Morocco",
@@ -109868,38 +109881,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "c07d66eb-905f-4ee2-b533-5822c05be5ca",
-      "name": "Dubai 50 GB",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 50,
-      "validity_days": 30,
-      "price": 12550,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "c0883db8-037a-4abb-8460-63de7528b3f2",
       "name": "Turkey 25 GB",
       "country_code": "TR",
@@ -111858,7 +111839,7 @@
       "coverage_flags": "🇩🇪",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1650,
+      "price": 1500,
       "networks": [
         {
           "operator": "O2",
@@ -117809,7 +117790,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 13100,
+      "price": 12050,
       "networks": [
         {
           "operator": "Du",
@@ -141775,7 +141756,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2700,
+      "price": 2550,
       "networks": [
         {
           "operator": "Du",
@@ -145650,7 +145631,7 @@
       "coverage_flags": "🇲🇾",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 4900,
+      "price": 4350,
       "networks": [
         {
           "operator": "Maxis",
@@ -147936,7 +147917,6 @@
           "f3f9f094-a8e7-4f36-819a-539aa6f8405c",
           "b3462c75-74df-4ea9-8307-21724ddbd96f",
           "02e8e6e3-8b47-445d-bf67-ba7e9f8a8ca4",
-          "c07d66eb-905f-4ee2-b533-5822c05be5ca",
           "cfaa4dd8-4fc4-4560-b349-5bbcb2f46a59",
           "547ac082-cbfb-4f01-8f88-2c273a5c0af8"
         ],
@@ -152416,7 +152396,7 @@
           "9f452e8b-8f6f-48a5-a8aa-0e29689a9505",
           "5b8b528d-54a1-475b-9de0-21bab680bc6c",
           "6cdc776f-19cb-4611-95ab-dfc260e0cdc6",
-          "95efd4c0-4a46-4851-baa0-a09971431aac",
+          "835dd86c-8b1c-493b-be73-670a23baf106",
           "3683f5da-5bfb-4a21-836b-8da5f6e8754b",
           "2cfe0243-bd29-4402-9ec5-bad596a8f4ce"
         ],
