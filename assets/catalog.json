@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-15T12:05:05.661Z",
+  "generated_at": "2026-11-15T15:05:19.256Z",
   "source": "production-public-api",
-  "package_count": 2436,
+  "package_count": 2438,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -16379,7 +16379,7 @@
       "coverage_flags": "🇧🇳",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1500,
+      "price": 1700,
       "networks": [
         {
           "operator": "DS",
@@ -18127,7 +18127,7 @@
       "coverage_flags": "🇨🇦",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 1950,
+      "price": 2300,
       "networks": [
         {
           "operator": "Rogers Wireless",
@@ -18934,7 +18934,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 250,
+      "price": 300,
       "networks": [
         {
           "operator": "CTM",
@@ -18976,27 +18976,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 700
+          "price": 850
         },
         {
           "days": 5,
-          "price": 1000
+          "price": 1200
         },
         {
           "days": 7,
-          "price": 1400
+          "price": 1650
         },
         {
           "days": 10,
-          "price": 1950
+          "price": 2300
         },
         {
           "days": 15,
-          "price": 2900
+          "price": 3050
         },
         {
           "days": 30,
-          "price": 4750
+          "price": 5600
         }
       ]
     },
@@ -20291,7 +20291,7 @@
       "coverage_flags": "🇳🇵",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1700,
+      "price": 1500,
       "networks": [
         {
           "operator": "Ncell",
@@ -21239,7 +21239,7 @@
       "coverage_flags": "🇮🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1000,
+      "price": 1050,
       "networks": [
         {
           "operator": "Pronto GSM",
@@ -27787,7 +27787,7 @@
       "coverage_flags": "🇯🇪",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 600,
+      "price": 800,
       "networks": [
         {
           "operator": "JT",
@@ -42151,45 +42151,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "4aa04cd7-2ece-4ee7-8dd7-a7f0b2eddb19",
-      "name": "Brunei Darussalam 10GB 30Days",
-      "country_code": "BN",
-      "region": "BN",
-      "coverage_country_codes": [
-        "BN"
-      ],
-      "coverage_flags": "🇧🇳",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 4050,
-      "networks": [
-        {
-          "operator": "DS",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
       "name": "Africa 1 GB",
       "country_code": "DZ",
@@ -44785,7 +44746,7 @@
       "coverage_flags": "🇲🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 450,
       "networks": [
         {
           "operator": "CTM",
@@ -44827,27 +44788,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1000
+          "price": 1150
         },
         {
           "days": 5,
-          "price": 1600
+          "price": 1800
         },
         {
           "days": 7,
-          "price": 2250
+          "price": 2550
         },
         {
           "days": 10,
-          "price": 2750
+          "price": 3100
         },
         {
           "days": 15,
-          "price": 4100
+          "price": 4650
         },
         {
           "days": 30,
-          "price": 7500
+          "price": 8550
         }
       ]
     },
@@ -45088,7 +45049,7 @@
       "coverage_flags": "🇯🇵",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 4900,
+      "price": 5600,
       "networks": [
         {
           "operator": "NTT docomo",
@@ -46747,7 +46708,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 650,
+      "price": 800,
       "networks": [
         {
           "operator": "Airtel",
@@ -67565,6 +67526,77 @@
       "sellable_days": []
     },
     {
+      "package_id": "7a04d62d-593b-482e-932a-484a3984636c",
+      "name": "France 2GB/Day",
+      "country_code": "FR",
+      "region": "FR",
+      "coverage_country_codes": [
+        "FR"
+      ],
+      "coverage_flags": "🇫🇷",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "Orange",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "500 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "500 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 800
+        },
+        {
+          "days": 5,
+          "price": 1100
+        },
+        {
+          "days": 7,
+          "price": 1550
+        },
+        {
+          "days": 10,
+          "price": 2100
+        },
+        {
+          "days": 15,
+          "price": 2800
+        },
+        {
+          "days": 30,
+          "price": 5150
+        }
+      ]
+    },
+    {
       "package_id": "7a34d9bd-1a8b-46eb-a06e-5e8057e7c868",
       "name": "Israel 50GB 180Days",
       "country_code": "IL",
@@ -72687,6 +72719,45 @@
           "price": 171250
         }
       ]
+    },
+    {
+      "package_id": "82722870-ecaa-4586-bcfd-16c41a4d3903",
+      "name": "Sri Lanka 3GB 15Days",
+      "country_code": "LK",
+      "region": "LK",
+      "coverage_country_codes": [
+        "LK"
+      ],
+      "coverage_flags": "🇱🇰",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 650,
+      "networks": [
+        {
+          "operator": "Hutch",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "NL"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "828290c2-5584-405c-9cbb-94a2379c67fa",
@@ -78393,7 +78464,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2500,
+      "price": 2700,
       "networks": [
         {
           "operator": "Airtel",
@@ -79566,7 +79637,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1950,
       "networks": [
         {
           "operator": "Airtel",
@@ -108335,7 +108406,7 @@
       "coverage_flags": "🇳🇵",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1050,
+      "price": 1000,
       "networks": [
         {
           "operator": "Ncell",
@@ -116345,7 +116416,7 @@
       "coverage_flags": "🇬🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 6300,
+      "price": 5050,
       "networks": [
         {
           "operator": "Orange",
@@ -121282,7 +121353,7 @@
       "coverage_flags": "🇧🇳",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 1600,
+      "price": 1850,
       "networks": [
         {
           "operator": "DS",
@@ -122164,7 +122235,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 450,
       "networks": [
         {
           "operator": "Airtel",
@@ -122201,27 +122272,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1050
+          "price": 1150
         },
         {
           "days": 5,
-          "price": 1500
+          "price": 1800
         },
         {
           "days": 7,
-          "price": 2100
+          "price": 2550
         },
         {
           "days": 10,
-          "price": 2850
+          "price": 3100
         },
         {
           "days": 15,
-          "price": 3800
+          "price": 4650
         },
         {
           "days": 30,
-          "price": 7000
+          "price": 8550
         }
       ]
     },
@@ -126155,7 +126226,7 @@
       "coverage_flags": "🇧🇳",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 650,
+      "price": 800,
       "networks": [
         {
           "operator": "DS",
@@ -127168,27 +127239,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 750
+          "price": 850
         },
         {
           "days": 5,
-          "price": 1050
+          "price": 1250
         },
         {
           "days": 7,
-          "price": 1500
+          "price": 1750
         },
         {
           "days": 10,
-          "price": 2050
+          "price": 2400
         },
         {
           "days": 15,
-          "price": 2700
+          "price": 3150
         },
         {
           "days": 30,
-          "price": 5000
+          "price": 5800
         }
       ]
     },
@@ -128626,7 +128697,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1500,
+      "price": 1850,
       "networks": [
         {
           "operator": "Airtel",
@@ -142566,7 +142637,7 @@
       "coverage_flags": "🇨🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 200,
+      "price": 250,
       "networks": [
         {
           "operator": "Claro",
@@ -142604,27 +142675,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 550
+          "price": 700
         },
         {
           "days": 5,
-          "price": 850
+          "price": 1000
         },
         {
           "days": 7,
-          "price": 1050
-        },
-        {
-          "days": 10,
           "price": 1400
         },
         {
+          "days": 10,
+          "price": 1950
+        },
+        {
           "days": 15,
-          "price": 2100
+          "price": 2900
         },
         {
           "days": 30,
-          "price": 3450
+          "price": 4750
         }
       ]
     },
@@ -144300,7 +144371,7 @@
       "coverage_flags": "🇬🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 400,
+      "price": 450,
       "networks": [
         {
           "operator": "Magti",
@@ -144345,27 +144416,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 1150
         },
         {
           "days": 5,
-          "price": 1550
+          "price": 1800
         },
         {
           "days": 7,
-          "price": 2200
+          "price": 2550
         },
         {
           "days": 10,
-          "price": 2650
+          "price": 3100
         },
         {
           "days": 15,
-          "price": 4000
+          "price": 4650
         },
         {
           "days": 30,
-          "price": 7350
+          "price": 8550
         }
       ]
     },
@@ -145675,6 +145746,38 @@
       "hotspot_supported": true,
       "activation_policy": "first_data_usage",
       "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "fc0bb439-364b-4915-b11e-7b21cd5f3202",
+      "name": "Brunei 10 GB",
+      "country_code": "BN",
+      "region": "BN",
+      "coverage_country_codes": [
+        "BN"
+      ],
+      "coverage_flags": "🇧🇳",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 4600,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
       "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -148479,7 +148582,7 @@
           "1a6094c7-2b0f-42e3-8603-7f49aac69e82",
           "d4fb7ba1-3329-435c-9911-f24da0814bbb",
           "a8720074-ed83-4a7b-8fda-2f054d2c441d",
-          "4aa04cd7-2ece-4ee7-8dd7-a7f0b2eddb19",
+          "fc0bb439-364b-4915-b11e-7b21cd5f3202",
           "9dda58c4-09da-4ff1-acf1-85f90f5d93ad"
         ],
         "regional": [
@@ -148496,7 +148599,7 @@
           "d667ca46-ed47-4e94-9944-28822e61103c",
           "1290ee31-22d7-46a8-bc01-49fe923edcba"
         ],
-        "best": "4aa04cd7-2ece-4ee7-8dd7-a7f0b2eddb19"
+        "best": "fc0bb439-364b-4915-b11e-7b21cd5f3202"
       },
       "BO": {
         "local": [
@@ -149513,6 +149616,7 @@
         ],
         "daily": [
           "f9e66f83-9da2-45a1-b9dc-1056bedd0298",
+          "7a04d62d-593b-482e-932a-484a3984636c",
           "dc232bb1-7850-483e-a077-927e6dbc5f4b",
           "a9834376-cd31-47dc-9faf-a9819d23259a",
           "dc24ebed-3765-4572-8125-1d1c58a8494f",
@@ -150811,6 +150915,7 @@
           "942fef15-2d15-446d-a396-eb8645baf33f",
           "dd8587fb-1b56-4cad-a05b-fdee450ca95c",
           "3c4c6c7d-7821-4363-9822-48984b964bc8",
+          "82722870-ecaa-4586-bcfd-16c41a4d3903",
           "c87d7889-be37-4975-bc61-81b1acc1d1eb",
           "7d2cfd76-6a8c-43d6-9a6d-04c310767a12",
           "c2c5ad69-e221-484d-b1e2-00bd2d24ad2f",
