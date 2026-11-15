@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-14T15:05:02.864Z",
+  "generated_at": "2026-11-15T09:05:04.518Z",
   "source": "production-public-api",
-  "package_count": 2435,
+  "package_count": 2434,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -9038,44 +9038,6 @@
           "price": 21000
         }
       ]
-    },
-    {
-      "package_id": "0d504f79-eab1-40dc-891a-c1f60cf11f06",
-      "name": "United Arab Emirates 3GB 30Days",
-      "country_code": "AE",
-      "region": "AE",
-      "coverage_country_codes": [
-        "AE"
-      ],
-      "coverage_flags": "🇦🇪",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1100,
-      "networks": [
-        {
-          "operator": "Du",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "0d9299a6-e845-4614-872f-7f9d4096959f",
@@ -62252,7 +62214,7 @@
       "coverage_flags": "🇽🇰",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 10450,
+      "price": 8700,
       "networks": [
         {
           "operator": "Vala",
@@ -84836,7 +84798,7 @@
       "coverage_flags": "🇽🇰",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 800,
+      "price": 750,
       "networks": [
         {
           "operator": "Vala",
@@ -117111,7 +117073,7 @@
       "coverage_flags": "🇽🇰",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 2000,
+      "price": 1800,
       "networks": [
         {
           "operator": "Vala",
@@ -125581,6 +125543,45 @@
           "price": 27700
         }
       ]
+    },
+    {
+      "package_id": "dac03f54-239a-4a8e-b0a3-f14a00700719",
+      "name": "Kosovo 10GB 30Days",
+      "country_code": "XK",
+      "region": "XK",
+      "coverage_country_codes": [
+        "XK"
+      ],
+      "coverage_flags": "🇽🇰",
+      "data_gb": 10,
+      "validity_days": 30,
+      "price": 4550,
+      "networks": [
+        {
+          "operator": "Vala",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "US"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "dac7ca3d-b560-4121-8f67-60a65314e4c3",
@@ -142362,38 +142363,6 @@
       ]
     },
     {
-      "package_id": "f4f491cd-83e2-4560-8062-54b81ba5e396",
-      "name": "Kosovo 10 GB",
-      "country_code": "XK",
-      "region": "XK",
-      "coverage_country_codes": [
-        "XK"
-      ],
-      "coverage_flags": "🇽🇰",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 4600,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "f4f7e7f9-92ab-4965-8536-2c4767e2c88b",
       "name": "Nauru 5GB 30Days",
       "country_code": "NR",
@@ -143970,7 +143939,7 @@
       "coverage_flags": "🇽🇰",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 1900,
+      "price": 1750,
       "networks": [
         {
           "operator": "Vala",
@@ -147755,7 +147724,6 @@
           "85a3c7d9-92a9-4cf4-99a5-6e0ed03521e7",
           "028b86b6-0189-46d1-92ca-12b12d586977",
           "096d1bf0-282f-4e55-97da-d9ccccc57694",
-          "0d504f79-eab1-40dc-891a-c1f60cf11f06",
           "455bf85d-c9ca-41c3-b2a0-9a287fb50a5d",
           "f3f9f094-a8e7-4f36-819a-539aa6f8405c",
           "b3462c75-74df-4ea9-8307-21724ddbd96f",
@@ -153141,7 +153109,7 @@
           "f93c8f7e-1536-43d1-a755-5a6bd56dde91",
           "cea3cd0b-105b-4a00-8d2c-aab4915292c1",
           "e714841e-6566-4cb3-a499-850bd143d8c0",
-          "f4f491cd-83e2-4560-8062-54b81ba5e396",
+          "dac03f54-239a-4a8e-b0a3-f14a00700719",
           "706482f2-0412-4c66-bff2-2ca3e6eee295"
         ],
         "regional": [
@@ -153156,7 +153124,7 @@
           "0ff6fb48-a319-4e47-ac99-562494caed67",
           "c4ce510b-77a8-45ff-bd9a-f4ca59b27b9d"
         ],
-        "best": "f4f491cd-83e2-4560-8062-54b81ba5e396"
+        "best": "dac03f54-239a-4a8e-b0a3-f14a00700719"
       },
       "YT": {
         "local": [
