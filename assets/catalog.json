@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T06:05:17.320Z",
+  "generated_at": "2026-11-16T09:05:18.767Z",
   "source": "production-public-api",
   "package_count": 2437,
   "packages": [
@@ -4726,12 +4726,12 @@
       "price": 700,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -4746,7 +4746,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -10486,6 +10486,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -10500,7 +10504,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 5,
@@ -12442,6 +12447,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -12456,7 +12465,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -21659,6 +21669,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -21673,7 +21687,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -24513,6 +24528,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -24527,7 +24546,8 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -27637,6 +27657,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -27651,7 +27675,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -29043,6 +29068,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -29056,7 +29085,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -30918,12 +30948,12 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30938,7 +30968,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -32854,6 +32884,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -32868,7 +32902,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -35332,6 +35367,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -35341,17 +35380,18 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "500 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "500 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -48846,12 +48886,12 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48866,7 +48906,7 @@
       "activation_policy": "unknown",
       "topup_available": false,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 0.49,
@@ -50676,6 +50716,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -50690,7 +50734,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 3,
@@ -57959,12 +58004,12 @@
       "price": 600,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -57979,7 +58024,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 2,
@@ -68700,12 +68745,12 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -68720,7 +68765,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -88007,6 +88052,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -88021,7 +88070,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -89343,12 +89393,12 @@
       "price": 13200,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -89363,7 +89413,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -94168,6 +94218,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -94182,7 +94236,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -94533,12 +94588,12 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -94553,7 +94608,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -95338,6 +95393,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -95352,7 +95411,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -103171,6 +103231,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -103185,7 +103249,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -107561,6 +107626,10 @@
         {
           "operator": "Vodafone",
           "type": "5G"
+        },
+        {
+          "operator": "Avea/Türk Telekom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -107575,7 +107644,8 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "NL",
+        "FR"
       ],
       "plan_type": "DAILY",
       "daily_gb": 1,
@@ -119573,12 +119643,12 @@
       "price": 2050,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -119593,7 +119663,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "DAILY",
       "daily_gb": 10,
@@ -121535,12 +121605,12 @@
       "price": 2700,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -121555,7 +121625,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -123791,12 +123861,12 @@
       "price": 1500,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -123811,7 +123881,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -128812,12 +128882,12 @@
       "price": 1000,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -128832,7 +128902,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -147021,12 +147091,12 @@
       "price": 4300,
       "networks": [
         {
-          "operator": "Telcel",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "AT&T",
-          "type": "5G"
+          "operator": "Telcel",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -147041,7 +147111,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
