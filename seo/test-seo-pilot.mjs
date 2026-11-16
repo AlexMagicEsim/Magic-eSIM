@@ -199,26 +199,26 @@ test('egypt: the ladder from 1 to 25 GB, the dense 7–10–12 GB steps and the 
   assert.ok(at('EG', 3, 30).length && at('EG', 3, 30).every(bare), '3 GB / 30 days lists neither');
 });
 
-test('georgia: the equal-price daily pair, equal from three to ten days, the 3 GB twins', () => {
+test('georgia: the daily pair — 3 GB/day not cheaper, cheaper per gigabyte at every term; the 3 GB twins', () => {
   const daily = own('GE').filter(isDaily);
   const pick = (gb, fup) => daily.filter((p) => Number(p.daily_gb) === gb && kbps(p.fup_policy) === fup);
   const [plain2] = pick(2, 512); const [fup3] = pick(3, 1000);
   assert.ok(plain2 && fup3, 'the two daily plans the copy compares');
-  assert.equal(term(plain2, 3), term(fup3, 3), '2 GB/day and 3 GB/day cost the same for three days');
   assert.ok(kbps(fup3.fup_policy) > kbps(plain2.fup_policy), 'the larger limit keeps the higher speed after it');
-  // Until 2026-10-25 the copy also said «тариф на 2 ГБ в день с той же мягкой политикой стоит дороже, чем 3 ГБ в день»
-  // (Georgia 2GB/Day FUP1Mbps). The assortment took that plan off the shelf; the sentence and the FAQ answer now state
-  // «на 5, 7 и 10 дней эти два тарифа тоже стоят одинаково» / «на срок от трёх до десяти дней … столько же».
-  // 2026-10-25 (whole-cost pricing, new assortment): at 7 days they part (2150 vs 2200 ₽), so the copy now says
-  // «на 5 и 10 дней эти два тарифа тоже стоят одинаково» / «на 3, 5 и 10 дней … столько же», and 7 days is pinned apart.
-  for (const d of [3, 5, 10]) {
-    assert.ok(Number.isFinite(term(plain2, d)), `2 GB/day is sold for ${d} days`);
-    assert.equal(term(plain2, d), term(fup3, d), `2 GB/day and 3 GB/day cost the same for ${d} days`);
+  // Until 2026-11-15 the copy said the two cost the same («Два посуточных тарифа стоят одинаково», «на 3, 5 и 10 дней …
+  // столько же»). The 15:00 sync of 2026-11-15 raised Georgia 3GB/Day FUP1Mbps (3 days 1100 → 1150 ₽), every SEO refresh
+  // went red on this test, and the copy now says what holds on the pages' catalogue (2026-11-14: equal at 3, 5, 10 days)
+  // and on today's (3 GB dearer at every term): «не дешевле», and «гигабайт … на любой срок обходится дешевле».
+  const days = (p) => (p.term_prices || []).map((t) => Number(t.days)).sort((a, b) => a - b);
+  assert.deepEqual(days(fup3), days(plain2), '«на любой срок»: both are sold for the same terms');
+  assert.ok(days(plain2).length >= 3, 'a ladder of terms');
+  for (const d of days(plain2)) {
+    assert.ok(term(fup3, d) >= term(plain2, d), `«не дешевле»: 3 GB/day ≥ 2 GB/day for ${d} days`);
+    assert.ok(term(plain2, d) * 1.5 > term(fup3, d), `per gigabyte 3 GB/day is cheaper for ${d} days`);
   }
   const [t15] = at('GE', 3, 15); const [t30] = at('GE', 3, 30);
   assert.ok(t15 && t30, '3 GB is sold for 15 and for 30 days');
   assert.ok(purchasablePrice(t30) - purchasablePrice(t15) <= purchasablePrice(t15) * 0.2, '«небольшая доплата»');
-  assert.notEqual(term(plain2, 7), term(fup3, 7), 'at 7 days the pair differs — the copy no longer names 7 days');
   const l = ladder('GE');
   // «Самый доступный объёмный тариф в блоке «Тарифы для Грузии» — 1 ГБ на 7 дней» (since 2026-10-25).
   const [g1] = at('GE', 1, 7);
