@@ -862,7 +862,7 @@
       "regional_count": 6,
       "daily_count": 4,
       "total_count": 17,
-      "min_price_rub": 650,
+      "min_price_rub": 800,
       "volumes": [
         1,
         2,
@@ -1800,7 +1800,7 @@
       "regional_count": 7,
       "daily_count": 6,
       "total_count": 19,
-      "min_price_rub": 650,
+      "min_price_rub": 800,
       "volumes": [
         1,
         3,
@@ -2586,7 +2586,7 @@
       "regional_count": 3,
       "daily_count": 5,
       "total_count": 15,
-      "min_price_rub": 800,
+      "min_price_rub": 750,
       "volumes": [
         1,
         2,
@@ -3033,10 +3033,10 @@
       "slug": "macau",
       "nameRu": "Макао",
       "flagEmoji": "🇲🇴",
-      "local_count": 7,
+      "local_count": 8,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 21,
+      "total_count": 22,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -3659,10 +3659,10 @@
       "slug": "uae",
       "nameRu": "ОАЭ",
       "flagEmoji": "🇦🇪",
-      "local_count": 11,
+      "local_count": 9,
       "regional_count": 7,
       "daily_count": 6,
-      "total_count": 24,
+      "total_count": 22,
       "min_price_rub": 400,
       "volumes": [
         1,
@@ -4729,8 +4729,8 @@
       "flagEmoji": "🇹🇭",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 5,
-      "total_count": 23,
+      "daily_count": 6,
+      "total_count": 24,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -4747,6 +4747,7 @@
       "daily_gb": [
         0.49,
         1,
+        2,
         3,
         5,
         10
@@ -5171,8 +5172,8 @@
       "flagEmoji": "🇫🇷",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 7,
+      "total_count": 25,
       "min_price_rub": 150,
       "volumes": [
         1,
@@ -5189,6 +5190,7 @@
       ],
       "daily_gb": [
         1,
+        2,
         3,
         5,
         10
@@ -5493,10 +5495,10 @@
       "slug": "sri-lanka",
       "nameRu": "Шри-Ланка",
       "flagEmoji": "🇱🇰",
-      "local_count": 9,
+      "local_count": 10,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 23,
+      "total_count": 24,
       "min_price_rub": 250,
       "volumes": [
         1,
@@ -5762,6 +5764,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-11-14T15:05:02.864Z",
+  "fetched_at": "2026-11-15T18:56:05.608Z",
   "source": "assets/catalog.json"
 }
