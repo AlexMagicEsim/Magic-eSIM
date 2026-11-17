@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-17T03:59:50.949Z",
+  "generated_at": "2026-11-17T09:06:31.193Z",
   "source": "production-public-api",
   "package_count": 2437,
   "packages": [
@@ -7185,7 +7185,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -11444,7 +11446,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -16078,7 +16080,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -19057,7 +19059,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -26257,7 +26259,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -31059,6 +31061,10 @@
       "price": 750,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -31074,7 +31080,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -47462,7 +47470,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -54151,10 +54159,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -56621,7 +56625,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -66567,6 +66571,10 @@
       "price": 300,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -66582,7 +66590,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -70268,7 +70278,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -74772,7 +74782,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "UK"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -101042,7 +101054,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -102580,6 +102592,10 @@
       "price": 700,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -102595,7 +102611,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -103985,6 +104003,10 @@
       "price": 2850,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -104000,7 +104022,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -117080,6 +117104,10 @@
       "price": 1000,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -117095,7 +117123,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -119061,7 +119091,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -121414,7 +121444,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -123098,6 +123128,10 @@
       "price": 5450,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -123113,7 +123147,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -135715,6 +135751,10 @@
       "price": 1750,
       "networks": [
         {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
           "operator": "Orange Morocco",
           "type": "5G"
         }
@@ -135730,7 +135770,9 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [],
+      "ip_export": [
+        "BE"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -139270,7 +139312,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -142802,7 +142844,7 @@
       "networks": [
         {
           "operator": "Altice",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
