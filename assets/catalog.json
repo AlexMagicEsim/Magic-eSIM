@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-17T12:05:56.836Z",
+  "generated_at": "2026-11-17T18:38:07.037Z",
   "source": "production-public-api",
   "package_count": 2437,
   "packages": [
@@ -5030,6 +5030,46 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "079cf080-ed4e-4eba-a90e-39fccb9ecbe1",
+      "name": "Turkey 3GB 30Days",
+      "country_code": "TR",
+      "region": "TR",
+      "coverage_country_codes": [
+        "TR"
+      ],
+      "coverage_flags": "🇹🇷",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 350,
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "NL"
+      ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -73879,77 +73919,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "84ac8da8-faba-47b0-a387-916cc373e7c0",
-      "name": "Morocco 3GB/Day",
-      "country_code": "MA",
-      "region": "MA",
-      "coverage_country_codes": [
-        "MA"
-      ],
-      "coverage_flags": "🇲🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 850,
-      "networks": [
-        {
-          "operator": "Orange Morocco",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2100
-        },
-        {
-          "days": 5,
-          "price": 3000
-        },
-        {
-          "days": 7,
-          "price": 4150
-        },
-        {
-          "days": 10,
-          "price": 5750
-        },
-        {
-          "days": 15,
-          "price": 8600
-        },
-        {
-          "days": 30,
-          "price": 15850
-        }
-      ]
-    },
-    {
       "package_id": "84b6b01a-23cc-4ff2-9e26-3f98d2ec4b87",
       "name": "Malaysia 10GB/Day",
       "country_code": "MY",
@@ -93136,6 +93105,77 @@
       "sellable_days": []
     },
     {
+      "package_id": "a5873d95-646a-4d89-bb4c-5d4c478be890",
+      "name": "Morocco 3GB/Day FUP1Mbps",
+      "country_code": "MA",
+      "region": "MA",
+      "coverage_country_codes": [
+        "MA"
+      ],
+      "coverage_flags": "🇲🇦",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 750,
+      "networks": [
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1900
+        },
+        {
+          "days": 5,
+          "price": 2650
+        },
+        {
+          "days": 7,
+          "price": 3700
+        },
+        {
+          "days": 10,
+          "price": 5150
+        },
+        {
+          "days": 15,
+          "price": 7700
+        },
+        {
+          "days": 30,
+          "price": 14150
+        }
+      ]
+    },
+    {
       "package_id": "a5a892c1-5af8-4cbf-8ff3-8e410944079a",
       "name": "Estonia 10GB/Day",
       "country_code": "EE",
@@ -95317,7 +95357,7 @@
       "coverage_flags": "🇹🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 350,
+      "price": 300,
       "networks": [
         {
           "operator": "Vodafone",
@@ -103132,46 +103172,6 @@
           "price": 6850
         }
       ]
-    },
-    {
-      "package_id": "b60df4a0-fb94-4bf0-92a4-3675747514c1",
-      "name": "Turkey 2GB 15Days",
-      "country_code": "TR",
-      "region": "TR",
-      "coverage_country_codes": [
-        "TR"
-      ],
-      "coverage_flags": "🇹🇷",
-      "data_gb": 2,
-      "validity_days": 15,
-      "price": 300,
-      "networks": [
-        {
-          "operator": "Vodafone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "NL"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "b626d790-a36a-4fb2-88a3-6320a0078655",
@@ -151078,7 +151078,7 @@
           "cdbdbb5b-4615-4c19-a070-c2909c0a5dfe",
           "e42a533e-d9d2-4766-97b8-f87c7c6178db",
           "d54e4924-4601-4a6b-b666-9316379763d3",
-          "84ac8da8-faba-47b0-a387-916cc373e7c0",
+          "a5873d95-646a-4d89-bb4c-5d4c478be890",
           "5f81c502-fa50-43d4-afbd-7810171ba39f"
         ],
         "best": "ea92cef3-1f42-4164-b68f-eb50443db5bf"
@@ -152852,8 +152852,8 @@
       "TR": {
         "local": [
           "2335b080-3394-4117-962a-6f032b69a246",
-          "b60df4a0-fb94-4bf0-92a4-3675747514c1",
           "a8fc2ace-4568-4436-a446-5460b3d064b1",
+          "079cf080-ed4e-4eba-a90e-39fccb9ecbe1",
           "30af17ab-4296-4e28-b47e-e3e400af8e69",
           "3a625917-2e7a-439a-8c9e-f410a5bd448f",
           "9b820c0e-a3e6-4c3a-a738-9e31f3b93c05",
