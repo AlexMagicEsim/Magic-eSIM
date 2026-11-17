@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T12:05:19.566Z",
+  "generated_at": "2026-11-17T03:59:50.949Z",
   "source": "production-public-api",
   "package_count": 2437,
   "packages": [
@@ -17620,10 +17620,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28269,10 +28265,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -37447,10 +37439,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -38894,10 +38882,6 @@
         },
         {
           "operator": "Vinaphone",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -46899,10 +46883,6 @@
         },
         {
           "operator": "Vinaphone",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -62101,10 +62081,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63546,7 +63522,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63561,7 +63537,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -88311,7 +88287,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -88326,7 +88302,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -96697,10 +96673,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -102774,10 +102746,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -103093,10 +103061,6 @@
         },
         {
           "operator": "Vinaphone",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -110013,7 +109977,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -123670,10 +123634,6 @@
         {
           "operator": "Vinaphone",
           "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -126171,7 +126131,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -126186,7 +126146,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -126994,10 +126954,6 @@
         },
         {
           "operator": "Vinaphone",
-          "type": "5G"
-        },
-        {
-          "operator": "MobiFone",
           "type": "5G"
         }
       ],
@@ -142285,7 +142241,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -143225,8 +143181,8 @@
       "price": 750,
       "networks": [
         {
-          "operator": "Airtel",
-          "type": "5G"
+          "operator": "tiGO",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -143239,7 +143195,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "SG"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
