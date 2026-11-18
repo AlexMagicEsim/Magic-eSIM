@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-18T02:58:09.535Z",
+  "generated_at": "2026-11-18T09:05:35.418Z",
   "source": "production-public-api",
-  "package_count": 2441,
+  "package_count": 2440,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -2814,6 +2814,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -9545,54 +9549,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "0e6ff95a-75a9-46a3-b82f-dcdc242dd7f6",
-      "name": "Israel 20GB 30Days",
-      "country_code": "IL",
-      "region": "IL",
-      "coverage_country_codes": [
-        "IL"
-      ],
-      "coverage_flags": "🇮🇱",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 2200,
-      "networks": [
-        {
-          "operator": "Hot Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "Cellcom",
-          "type": "5G"
-        },
-        {
-          "operator": "Pelephone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "IL"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "0f3e4596-f50c-46e4-8003-a712db1da5e1",
       "name": "Honduras 5GB 30Days",
       "country_code": "HN",
@@ -11097,38 +11053,6 @@
           "price": 4350
         }
       ]
-    },
-    {
-      "package_id": "11f6898c-3886-444e-be93-f93737be43d0",
-      "name": "Vietnam 20 GB",
-      "country_code": "VN",
-      "region": "VN",
-      "coverage_country_codes": [
-        "VN"
-      ],
-      "coverage_flags": "🇻🇳",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 2000,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "network_connection",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "12037cda-ac4c-49c9-b1b0-43b31b46e9d0",
@@ -14175,7 +14099,7 @@
       "coverage_flags": "🇧🇴",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 2350,
+      "price": 2250,
       "networks": [
         {
           "operator": "VIVA",
@@ -14609,7 +14533,7 @@
       "coverage_flags": "🇨🇦",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4000,
+      "price": 3800,
       "networks": [
         {
           "operator": "Rogers Wireless",
@@ -15451,7 +15375,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "US"
       ],
@@ -18480,6 +18404,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -18622,7 +18550,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -22207,6 +22135,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -23028,6 +22960,46 @@
           "price": 5100
         }
       ]
+    },
+    {
+      "package_id": "25554f3e-4e9b-486b-a56c-209ea6cb195c",
+      "name": "Vietnam 20GB 30Days (VNIP)",
+      "country_code": "VN",
+      "region": "VN",
+      "coverage_country_codes": [
+        "VN"
+      ],
+      "coverage_flags": "🇻🇳",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 1250,
+      "networks": [
+        {
+          "operator": "Vinaphone",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": false,
+      "ip_export": [
+        "VN"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "25576a8b-1a7d-4f7c-ba34-12d91f8dc64e",
@@ -24086,7 +24058,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -27580,7 +27552,7 @@
       "coverage_flags": "🇨🇱",
       "data_gb": 2,
       "validity_days": 15,
-      "price": 800,
+      "price": 700,
       "networks": [
         {
           "operator": "movistar",
@@ -28691,6 +28663,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -31626,7 +31602,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -31705,7 +31681,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true,
+      "topup_available": false,
       "ip_export": [
         "MY"
       ],
@@ -31745,7 +31721,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true,
+      "topup_available": false,
       "ip_export": [
         "MY"
       ],
@@ -32200,7 +32176,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 900,
+      "price": 850,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -32709,6 +32685,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -32928,6 +32908,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -37555,7 +37539,7 @@
       "coverage_flags": "🇺🇸",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 4900,
+      "price": 4800,
       "networks": [
         {
           "operator": "Verizon",
@@ -39006,6 +38990,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -42172,7 +42160,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "US"
       ],
@@ -42860,7 +42848,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "SG"
       ],
@@ -43348,6 +43336,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -43576,6 +43568,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -47797,6 +47793,50 @@
           "price": 4300
         }
       ]
+    },
+    {
+      "package_id": "564e2e80-114b-45b7-907b-7de33a1c6b6a",
+      "name": "United States 5GB 30Days",
+      "country_code": "US",
+      "region": "US",
+      "coverage_country_codes": [
+        "US"
+      ],
+      "coverage_flags": "🇺🇸",
+      "data_gb": 5,
+      "validity_days": 30,
+      "price": 750,
+      "networks": [
+        {
+          "operator": "Verizon",
+          "type": "5G"
+        },
+        {
+          "operator": "AT&T",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "US"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "566584e6-7905-4821-b73d-49e7e0206bdc",
@@ -53250,7 +53290,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "FR",
         "NL",
@@ -53306,7 +53346,7 @@
       "coverage_flags": "🇦🇷",
       "data_gb": 2,
       "validity_days": 15,
-      "price": 800,
+      "price": 700,
       "networks": [
         {
           "operator": "Claro",
@@ -54626,7 +54666,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -54672,27 +54712,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 1050
         },
         {
           "days": 5,
-          "price": 1750
+          "price": 1650
         },
         {
           "days": 7,
-          "price": 2450
+          "price": 2300
         },
         {
           "days": 10,
-          "price": 3000
+          "price": 2800
         },
         {
           "days": 15,
-          "price": 4500
+          "price": 4200
         },
         {
           "days": 30,
-          "price": 8300
+          "price": 7750
         }
       ]
     },
@@ -55614,7 +55654,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true,
+      "topup_available": false,
       "ip_export": [
         "MY"
       ],
@@ -55933,7 +55973,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 850,
+      "price": 800,
       "networks": [
         {
           "operator": "Orange",
@@ -59643,50 +59683,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "6bdbd66f-fe21-41b8-bad5-add7a70437a2",
-      "name": "United States 5GB 30Days (USIP)",
-      "country_code": "US",
-      "region": "US",
-      "coverage_country_codes": [
-        "US"
-      ],
-      "coverage_flags": "🇺🇸",
-      "data_gb": 5,
-      "validity_days": 30,
-      "price": 750,
-      "networks": [
-        {
-          "operator": "Verizon",
-          "type": "5G"
-        },
-        {
-          "operator": "AT&T",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "US"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "6c49e49b-0ebe-4c9f-ad96-62af7af68fcf",
       "name": "El Salvador 3GB 15Days",
       "country_code": "SV",
@@ -60549,6 +60545,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -63617,6 +63617,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -64231,6 +64235,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -66245,7 +66253,7 @@
       "coverage_flags": "🇺🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2200,
+      "price": 2050,
       "networks": [
         {
           "operator": "Movistar",
@@ -67251,7 +67259,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "US"
       ],
@@ -67939,7 +67947,7 @@
       "coverage_flags": "🇮🇱",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 6450,
+      "price": 5400,
       "networks": [
         {
           "operator": "Hot Mobile",
@@ -68462,6 +68470,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -69356,6 +69368,38 @@
           "price": 3450
         }
       ]
+    },
+    {
+      "package_id": "7c211819-f529-4cd0-8b2d-5e73bfdaa3d1",
+      "name": "Israel 20 GB",
+      "country_code": "IL",
+      "region": "IL",
+      "coverage_country_codes": [
+        "IL"
+      ],
+      "coverage_flags": "🇮🇱",
+      "data_gb": 20,
+      "validity_days": 30,
+      "price": 2350,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "7c3c780e-0ba2-4cb7-a378-daac5c961311",
@@ -71404,6 +71448,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -80654,7 +80702,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true,
+      "topup_available": false,
       "ip_export": [
         "MY"
       ],
@@ -82679,6 +82727,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -89377,6 +89429,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -90563,6 +90619,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -91228,6 +91288,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -97179,50 +97243,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "ab98e7f3-4a32-4744-a9f4-be9ef6d63ebd",
-      "name": "Vietnam 10GB 30Days",
-      "country_code": "VN",
-      "region": "VN",
-      "coverage_country_codes": [
-        "VN"
-      ],
-      "coverage_flags": "🇻🇳",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 1350,
-      "networks": [
-        {
-          "operator": "Viettel Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "Vinaphone",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "abbbf071-e6a8-456f-b022-813b284cef0f",
       "name": "Iraq 3GB/Day",
       "country_code": "IQ",
@@ -99177,6 +99197,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -99654,7 +99678,7 @@
       "fup_policy": "512 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": false,
+      "topup_available": true,
       "ip_export": [
         "UK"
       ],
@@ -104207,6 +104231,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -106850,6 +106878,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -108219,6 +108251,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -112842,6 +112878,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -113379,7 +113419,7 @@
       "fup_policy": "",
       "hotspot_supported": null,
       "activation_policy": "unknown",
-      "topup_available": true,
+      "topup_available": false,
       "ip_export": [
         "MY"
       ],
@@ -113858,6 +113898,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -114315,6 +114359,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -120917,7 +120965,7 @@
       "coverage_flags": "🇬🇾",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3750,
+      "price": 3500,
       "networks": [
         {
           "operator": "Digicel",
@@ -121890,7 +121938,7 @@
       "coverage_flags": "🇩🇴",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2800,
+      "price": 2450,
       "networks": [
         {
           "operator": "Altice",
@@ -122278,77 +122326,6 @@
         {
           "days": 30,
           "price": 41150
-        }
-      ]
-    },
-    {
-      "package_id": "d54e4924-4601-4a6b-b666-9316379763d3",
-      "name": "Morocco 2GB/Day",
-      "country_code": "MA",
-      "region": "MA",
-      "coverage_country_codes": [
-        "MA"
-      ],
-      "coverage_flags": "🇲🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 550,
-      "networks": [
-        {
-          "operator": "Orange Morocco",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "500 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "500 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1450
-        },
-        {
-          "days": 5,
-          "price": 2300
-        },
-        {
-          "days": 7,
-          "price": 2850
-        },
-        {
-          "days": 10,
-          "price": 3900
-        },
-        {
-          "days": 15,
-          "price": 5850
-        },
-        {
-          "days": 30,
-          "price": 10750
         }
       ]
     },
@@ -125165,7 +125142,7 @@
       "coverage_flags": "🇺🇸",
       "data_gb": 0,
       "validity_days": null,
-      "price": 450,
+      "price": 400,
       "networks": [
         {
           "operator": "Verizon",
@@ -125207,27 +125184,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1100
+          "price": 1050
         },
         {
           "days": 5,
-          "price": 1750
+          "price": 1650
         },
         {
           "days": 7,
-          "price": 2450
+          "price": 2250
         },
         {
           "days": 10,
-          "price": 3000
+          "price": 2800
         },
         {
           "days": 15,
-          "price": 4450
+          "price": 4150
         },
         {
           "days": 30,
-          "price": 8200
+          "price": 7650
         }
       ]
     },
@@ -127481,6 +127458,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -128949,6 +128930,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -137887,6 +137872,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -145755,6 +145744,77 @@
       ]
     },
     {
+      "package_id": "fad12162-3e06-479d-92fe-3be12684dae7",
+      "name": "Morocco 2GB/Day FUP1Mbps",
+      "country_code": "MA",
+      "region": "MA",
+      "coverage_country_codes": [
+        "MA"
+      ],
+      "coverage_flags": "🇲🇦",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1350
+        },
+        {
+          "days": 5,
+          "price": 2150
+        },
+        {
+          "days": 7,
+          "price": 2650
+        },
+        {
+          "days": 10,
+          "price": 3650
+        },
+        {
+          "days": 15,
+          "price": 5500
+        },
+        {
+          "days": 30,
+          "price": 10100
+        }
+      ]
+    },
+    {
       "package_id": "faff2b8c-6ea9-4950-8ad3-13ed91f2f926",
       "name": "Latin America 3 GB",
       "country_code": "AR",
@@ -150484,7 +150544,7 @@
           "99be98f0-a671-4f96-9e35-5fdcfc54e068",
           "38d5742b-1aa3-4451-b874-a43e7c23b6b1",
           "8a82b2d8-6191-42a6-bd8e-e696bb646f7f",
-          "0e6ff95a-75a9-46a3-b82f-dcdc242dd7f6",
+          "7c211819-f529-4cd0-8b2d-5e73bfdaa3d1",
           "0e2d31c3-a150-4816-a3ca-4c91436e2a50",
           "284d717c-9a86-461d-8762-b5f6a2e9d1e4",
           "7a34d9bd-1a8b-46eb-a06e-5e8057e7c868",
@@ -151305,7 +151365,7 @@
         "daily": [
           "cdbdbb5b-4615-4c19-a070-c2909c0a5dfe",
           "5744ec14-5f1d-454c-9282-a765ccded152",
-          "d54e4924-4601-4a6b-b666-9316379763d3",
+          "fad12162-3e06-479d-92fe-3be12684dae7",
           "a5873d95-646a-4d89-bb4c-5d4c478be890",
           "5f81c502-fa50-43d4-afbd-7810171ba39f"
         ],
@@ -153225,7 +153285,7 @@
           "359f0909-41ff-49d8-b8f4-04f2dc22df9a",
           "92031375-b7b8-460d-9f65-05b67af3599d",
           "94dadd73-a429-43be-acfe-90593a76d2e0",
-          "6bdbd66f-fe21-41b8-bad5-add7a70437a2",
+          "564e2e80-114b-45b7-907b-7de33a1c6b6a",
           "24ac9288-95c1-4e9f-a97a-b71cead5df82",
           "fe58c8da-a37f-456a-ab28-1ed15fdb84d2",
           "e6f27c82-8a0c-4736-9d19-116cb7e7cd60",
@@ -153439,8 +153499,7 @@
           "4550563a-3eef-4ff6-8af3-4004bdc36f4c",
           "4268916f-3f0a-4e3f-8997-f0cce43145f0",
           "32ec73cf-88f0-4a82-b333-12a2856e67e6",
-          "ab98e7f3-4a32-4744-a9f4-be9ef6d63ebd",
-          "11f6898c-3886-444e-be93-f93737be43d0",
+          "25554f3e-4e9b-486b-a56c-209ea6cb195c",
           "c2d4d65f-9bc1-4bfe-b6ea-fba65364012a",
           "b314b036-b5bb-4373-a70b-1340984293f5",
           "dbeed0df-8a5c-42a1-87b1-f29a53463bce"
