@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-17T18:38:07.037Z",
+  "generated_at": "2026-11-18T00:05:40.469Z",
   "source": "production-public-api",
-  "package_count": 2437,
+  "package_count": 2441,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -179,7 +179,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 900,
+      "price": 850,
       "networks": [
         {
           "operator": "Omantel",
@@ -5011,7 +5011,7 @@
       "coverage_flags": "🇴🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1250,
       "networks": [
         {
           "operator": "Omantel",
@@ -19961,7 +19961,7 @@
       "coverage_flags": "🇩🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 2550,
+      "price": 2350,
       "networks": [
         {
           "operator": "Mobilis",
@@ -22821,6 +22821,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "2524bd31-d69c-4e33-8f03-d25dfc90fd70",
+      "name": "Australia 3GB/Day FUP1Mbps",
+      "country_code": "AU",
+      "region": "AU",
+      "coverage_country_codes": [
+        "AU"
+      ],
+      "coverage_flags": "🇦🇺",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "Optus",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1400
+        },
+        {
+          "days": 5,
+          "price": 2200
+        },
+        {
+          "days": 7,
+          "price": 2700
+        },
+        {
+          "days": 10,
+          "price": 3750
+        },
+        {
+          "days": 15,
+          "price": 5600
+        },
+        {
+          "days": 30,
+          "price": 10300
+        }
+      ]
+    },
+    {
       "package_id": "252e2fc7-d887-43cf-9bba-d47f463d5d0b",
       "name": "Haiti 3GB 15Days",
       "country_code": "HT",
@@ -24636,6 +24709,78 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "299a7899-43b7-4efe-b361-26eae5fbcc20",
+      "name": "Tunisia 2GB/Day FUP1Mbps",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 450,
+      "networks": [
+        {
+          "operator": "OOREDOO TN",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1100
+        },
+        {
+          "days": 5,
+          "price": 1700
+        },
+        {
+          "days": 7,
+          "price": 2400
+        },
+        {
+          "days": 10,
+          "price": 2950
+        },
+        {
+          "days": 15,
+          "price": 4400
+        },
+        {
+          "days": 30,
+          "price": 8050
+        }
+      ]
     },
     {
       "package_id": "29b2c785-e4c6-4e26-90e8-e37f6dc2785e",
@@ -32604,7 +32749,7 @@
       "coverage_flags": "🇫🇯",
       "data_gb": 0,
       "validity_days": null,
-      "price": 800,
+      "price": 700,
       "networks": [
         {
           "operator": "Vodafone",
@@ -32641,27 +32786,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2000
+          "price": 1850
         },
         {
           "days": 5,
-          "price": 2850
+          "price": 2900
         },
         {
           "days": 7,
-          "price": 3950
+          "price": 3600
         },
         {
           "days": 10,
-          "price": 5450
+          "price": 5000
         },
         {
           "days": 15,
-          "price": 8150
+          "price": 7450
         },
         {
           "days": 30,
-          "price": 15000
+          "price": 13700
         }
       ]
     },
@@ -35208,6 +35353,46 @@
       "sellable_days": []
     },
     {
+      "package_id": "3e4a1133-2687-41d7-85fb-45484d317df7",
+      "name": "Egypt 2GB 15Days",
+      "country_code": "EG",
+      "region": "EG",
+      "coverage_country_codes": [
+        "EG"
+      ],
+      "coverage_flags": "🇪🇬",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 600,
+      "networks": [
+        {
+          "operator": "Orange",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "EU"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "3e4b5e6e-fe3a-4430-b0db-a4c5ed83b86d",
       "name": "Cayman Islands 2GB/Day",
       "country_code": "KY",
@@ -36369,7 +36554,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1300,
+      "price": 1200,
       "networks": [
         {
           "operator": "Du",
@@ -36405,27 +36590,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 3250
+          "price": 3050
         },
         {
           "days": 5,
-          "price": 5150
+          "price": 4900
         },
         {
           "days": 7,
-          "price": 7200
+          "price": 6850
         },
         {
           "days": 10,
-          "price": 9900
+          "price": 9450
         },
         {
           "days": 15,
-          "price": 14850
+          "price": 14150
         },
         {
           "days": 30,
-          "price": 27400
+          "price": 26000
         }
       ]
     },
@@ -37043,7 +37228,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 850,
+      "price": 800,
       "networks": [
         {
           "operator": "Claro",
@@ -43456,7 +43641,7 @@
       "coverage_flags": "🇵🇬",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8050,
+      "price": 7050,
       "networks": [
         {
           "operator": "Digicel",
@@ -44585,7 +44770,7 @@
       "coverage_flags": "🇼🇸",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8050,
+      "price": 7350,
       "networks": [
         {
           "operator": "Digicel",
@@ -48474,6 +48659,77 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "5744ec14-5f1d-454c-9282-a765ccded152",
+      "name": "Morocco 1GB/Day FUP1Mbps",
+      "country_code": "MA",
+      "region": "MA",
+      "coverage_country_codes": [
+        "MA"
+      ],
+      "coverage_flags": "🇲🇦",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 800
+        },
+        {
+          "days": 5,
+          "price": 1100
+        },
+        {
+          "days": 7,
+          "price": 1550
+        },
+        {
+          "days": 10,
+          "price": 2100
+        },
+        {
+          "days": 15,
+          "price": 2800
+        },
+        {
+          "days": 30,
+          "price": 5150
+        }
+      ]
     },
     {
       "package_id": "5755deda-c1f1-4b4b-9889-656cde791b88",
@@ -63795,7 +64051,7 @@
       "coverage_flags": "🇷🇼",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 11250,
+      "price": 10450,
       "networks": [
         {
           "operator": "Airtel",
@@ -68912,7 +69168,7 @@
       "coverage_flags": "🇯🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1200,
+      "price": 1100,
       "networks": [
         {
           "operator": "Zain",
@@ -68948,27 +69204,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2950
+          "price": 2800
         },
         {
           "days": 5,
-          "price": 4750
+          "price": 4500
         },
         {
           "days": 7,
-          "price": 6600
+          "price": 6300
         },
         {
           "days": 10,
-          "price": 9150
+          "price": 8650
         },
         {
           "days": 15,
-          "price": 13700
+          "price": 13000
         },
         {
           "days": 30,
-          "price": 25200
+          "price": 23900
         }
       ]
     },
@@ -76352,83 +76608,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "8804fc90-4139-4c9e-aee4-7b739ffd074c",
-      "name": "Bahrain 3GB/Day",
-      "country_code": "BH",
-      "region": "BH",
-      "coverage_country_codes": [
-        "BH"
-      ],
-      "coverage_flags": "🇧🇭",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1150,
-      "networks": [
-        {
-          "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2900
-        },
-        {
-          "days": 5,
-          "price": 4600
-        },
-        {
-          "days": 7,
-          "price": 6400
-        },
-        {
-          "days": 10,
-          "price": 8850
-        },
-        {
-          "days": 15,
-          "price": 13250
-        },
-        {
-          "days": 30,
-          "price": 24400
-        }
-      ]
-    },
-    {
       "package_id": "8829846e-b92c-4ce5-9107-192ef8f14cc7",
       "name": "Netherlands 50GB 30Days",
       "country_code": "NL",
@@ -77636,7 +77815,7 @@
       "coverage_flags": "🇫🇯",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1500,
+      "price": 1450,
       "networks": [
         {
           "operator": "Vodafone",
@@ -77789,6 +77968,44 @@
       "ip_export": [
         "IL"
       ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
+      "package_id": "8a842b32-1bb4-4b64-b2f1-2395dfb0bab3",
+      "name": "Oman 3GB 30Days",
+      "country_code": "OM",
+      "region": "OM",
+      "coverage_country_codes": [
+        "OM"
+      ],
+      "coverage_flags": "🇴🇲",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 900,
+      "networks": [
+        {
+          "operator": "Omantel",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -78305,6 +78522,156 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "8baba590-d7b3-48a7-bc7b-38041370ddba",
+      "name": "Qatar 3GB/Day FUP1Mbps",
+      "country_code": "QA",
+      "region": "QA",
+      "coverage_country_codes": [
+        "QA"
+      ],
+      "coverage_flags": "🇶🇦",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1000,
+      "networks": [
+        {
+          "operator": "ooredoo",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "SG"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2900
+        },
+        {
+          "days": 5,
+          "price": 4100
+        },
+        {
+          "days": 7,
+          "price": 5750
+        },
+        {
+          "days": 10,
+          "price": 7900
+        },
+        {
+          "days": 15,
+          "price": 11850
+        },
+        {
+          "days": 30,
+          "price": 21850
+        }
+      ]
+    },
+    {
+      "package_id": "8bd1da13-e5e2-4b44-bf9e-f5cd364a8337",
+      "name": "Bahrain 3GB/Day FUP1Mbps",
+      "country_code": "BH",
+      "region": "BH",
+      "coverage_country_codes": [
+        "BH"
+      ],
+      "coverage_flags": "🇧🇭",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 1100,
+      "networks": [
+        {
+          "operator": "STC",
+          "type": "5G"
+        },
+        {
+          "operator": "Zain",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 2850
+        },
+        {
+          "days": 5,
+          "price": 4500
+        },
+        {
+          "days": 7,
+          "price": 6300
+        },
+        {
+          "days": 10,
+          "price": 8700
+        },
+        {
+          "days": 15,
+          "price": 13050
+        },
+        {
+          "days": 30,
+          "price": 24000
+        }
+      ]
     },
     {
       "package_id": "8bd5de85-706f-4887-a91b-d7e727e092ae",
@@ -79033,37 +79400,6 @@
           "price": 17550
         }
       ]
-    },
-    {
-      "package_id": "8ce92d8e-90c0-474a-9dae-be7d158848f7",
-      "name": "Egypt 2 GB",
-      "country_code": "EG",
-      "region": "EG",
-      "coverage_country_codes": [
-        "EG"
-      ],
-      "coverage_flags": "🇪🇬",
-      "data_gb": 2,
-      "validity_days": 15,
-      "price": 700,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
     },
     {
       "package_id": "8ced18a9-a555-41f0-979d-ca2354a5feb5",
@@ -80337,7 +80673,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1300,
+      "price": 1200,
       "networks": [
         {
           "operator": "Claro",
@@ -81416,7 +81752,7 @@
       "coverage_flags": "🇧🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2650,
+      "price": 2050,
       "networks": [
         {
           "operator": "Claro",
@@ -81462,27 +81798,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6700
+          "price": 5250
         },
         {
           "days": 5,
-          "price": 10650
+          "price": 8400
         },
         {
           "days": 7,
-          "price": 14950
+          "price": 11700
         },
         {
           "days": 10,
-          "price": 20600
+          "price": 16200
         },
         {
           "days": 15,
-          "price": 30900
+          "price": 24300
         },
         {
           "days": 30,
-          "price": 56950
+          "price": 44700
         }
       ]
     },
@@ -89327,6 +89663,78 @@
       "sellable_days": []
     },
     {
+      "package_id": "9e5aa5b1-3d92-4404-b566-c40f4f874e30",
+      "name": "Tunisia 1GB/Day FUP1Mbps",
+      "country_code": "TN",
+      "region": "TN",
+      "coverage_country_codes": [
+        "TN"
+      ],
+      "coverage_flags": "🇹🇳",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 250,
+      "networks": [
+        {
+          "operator": "OOREDOO TN",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G"
+      ],
+      "speed": "3G/4G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 650
+        },
+        {
+          "days": 5,
+          "price": 1000
+        },
+        {
+          "days": 7,
+          "price": 1250
+        },
+        {
+          "days": 10,
+          "price": 1750
+        },
+        {
+          "days": 15,
+          "price": 2600
+        },
+        {
+          "days": 30,
+          "price": 4250
+        }
+      ]
+    },
+    {
       "package_id": "9e65f9a8-9a30-41ab-ad84-e0f2291a53e6",
       "name": "Republic of the Congo 5GB 30Days",
       "country_code": "CG",
@@ -95758,7 +96166,7 @@
       "coverage_flags": "🇰🇼",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1100,
+      "price": 950,
       "networks": [
         {
           "operator": "Ooredoo",
@@ -95804,27 +96212,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2800
+          "price": 2500
         },
         {
           "days": 5,
-          "price": 3950
+          "price": 3500
         },
         {
           "days": 7,
-          "price": 5500
+          "price": 4900
         },
         {
           "days": 10,
-          "price": 7600
+          "price": 6750
         },
         {
           "days": 15,
-          "price": 11400
+          "price": 10150
         },
         {
           "days": 30,
-          "price": 21000
+          "price": 18650
         }
       ]
     },
@@ -98383,79 +98791,6 @@
         {
           "days": 30,
           "price": 6450
-        }
-      ]
-    },
-    {
-      "package_id": "ae7e0d99-b269-497a-8c67-9fd286601aa2",
-      "name": "Australia 3GB/Day (nonhkip)",
-      "country_code": "AU",
-      "region": "AU",
-      "coverage_country_codes": [
-        "AU"
-      ],
-      "coverage_flags": "🇦🇺",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 600,
-      "networks": [
-        {
-          "operator": "Optus",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1500
-        },
-        {
-          "days": 5,
-          "price": 2400
-        },
-        {
-          "days": 7,
-          "price": 3000
-        },
-        {
-          "days": 10,
-          "price": 4100
-        },
-        {
-          "days": 15,
-          "price": 6150
-        },
-        {
-          "days": 30,
-          "price": 11350
         }
       ]
     },
@@ -103174,6 +103509,46 @@
       ]
     },
     {
+      "package_id": "b60df4a0-fb94-4bf0-92a4-3675747514c1",
+      "name": "Turkey 2GB 15Days",
+      "country_code": "TR",
+      "region": "TR",
+      "coverage_country_codes": [
+        "TR"
+      ],
+      "coverage_flags": "🇹🇷",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "Vodafone",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "NL"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "b626d790-a36a-4fb2-88a3-6320a0078655",
       "name": "Bermuda 5GB 30Days",
       "country_code": "BM",
@@ -107656,7 +108031,7 @@
       "coverage_flags": "🇻🇺",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8050,
+      "price": 7350,
       "networks": [
         {
           "operator": "Digicel",
@@ -108009,7 +108384,7 @@
       "coverage_flags": "🇪🇬",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2100,
+      "price": 1600,
       "networks": [
         {
           "operator": "Orange",
@@ -108047,27 +108422,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5400
+          "price": 4050
         },
         {
           "days": 5,
-          "price": 8600
+          "price": 6450
         },
         {
           "days": 7,
-          "price": 12000
+          "price": 9000
         },
         {
           "days": 10,
-          "price": 16600
+          "price": 12400
         },
         {
           "days": 15,
-          "price": 24900
+          "price": 18600
         },
         {
           "days": 30,
-          "price": 45850
+          "price": 34250
         }
       ]
     },
@@ -117780,7 +118155,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 50,
       "validity_days": 180,
-      "price": 12050,
+      "price": 10450,
       "networks": [
         {
           "operator": "Du",
@@ -129595,6 +129970,50 @@
       "sellable_days": []
     },
     {
+      "package_id": "df5212d6-7f9d-4e42-aa7f-e8906f874287",
+      "name": "Morocco 2GB 15Days",
+      "country_code": "MA",
+      "region": "MA",
+      "coverage_country_codes": [
+        "MA"
+      ],
+      "coverage_flags": "🇲🇦",
+      "data_gb": 2,
+      "validity_days": 15,
+      "price": 550,
+      "networks": [
+        {
+          "operator": "IAM",
+          "type": "4G"
+        },
+        {
+          "operator": "Orange Morocco",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BE"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "df5d95e4-fd4c-4cde-99d8-75e301cf0727",
       "name": "Albania 20GB 30Days",
       "country_code": "AL",
@@ -130141,78 +130560,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "e12a63c1-494c-484c-8161-271690fb336e",
-      "name": "Tunisia 1GB/Day",
-      "country_code": "TN",
-      "region": "TN",
-      "coverage_country_codes": [
-        "TN"
-      ],
-      "coverage_flags": "🇹🇳",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 250,
-      "networks": [
-        {
-          "operator": "OOREDOO TN",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 650
-        },
-        {
-          "days": 5,
-          "price": 1050
-        },
-        {
-          "days": 7,
-          "price": 1300
-        },
-        {
-          "days": 10,
-          "price": 1800
-        },
-        {
-          "days": 15,
-          "price": 2650
-        },
-        {
-          "days": 30,
-          "price": 4350
-        }
-      ]
     },
     {
       "package_id": "e1381b18-f6a1-4431-8401-61d048650c5c",
@@ -131014,6 +131361,54 @@
       ]
     },
     {
+      "package_id": "e2a6db9e-e39b-4a1e-8139-a6469befaf7f",
+      "name": "Brazil 3GB 30Days",
+      "country_code": "BR",
+      "region": "BR",
+      "coverage_country_codes": [
+        "BR"
+      ],
+      "coverage_flags": "🇧🇷",
+      "data_gb": 3,
+      "validity_days": 30,
+      "price": 850,
+      "networks": [
+        {
+          "operator": "Claro",
+          "type": "5G"
+        },
+        {
+          "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "BR"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "e2ae4f2f-99bc-4d23-9a82-d23ae0839a76",
       "name": "Niger 5GB 30Days",
       "country_code": "NE",
@@ -131491,77 +131886,6 @@
         {
           "days": 30,
           "price": 5100
-        }
-      ]
-    },
-    {
-      "package_id": "e42a533e-d9d2-4766-97b8-f87c7c6178db",
-      "name": "Morocco 1GB/Day",
-      "country_code": "MA",
-      "region": "MA",
-      "coverage_country_codes": [
-        "MA"
-      ],
-      "coverage_flags": "🇲🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 300,
-      "networks": [
-        {
-          "operator": "Orange Morocco",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 850
-        },
-        {
-          "days": 5,
-          "price": 1250
-        },
-        {
-          "days": 7,
-          "price": 1750
-        },
-        {
-          "days": 10,
-          "price": 2400
-        },
-        {
-          "days": 15,
-          "price": 3150
-        },
-        {
-          "days": 30,
-          "price": 5800
         }
       ]
     },
@@ -134513,7 +134837,7 @@
       "coverage_flags": "🇦🇪",
       "data_gb": 0,
       "validity_days": null,
-      "price": 900,
+      "price": 850,
       "networks": [
         {
           "operator": "Du",
@@ -134549,132 +134873,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2250
+          "price": 2150
         },
         {
           "days": 5,
-          "price": 3200
+          "price": 3050
         },
         {
           "days": 7,
-          "price": 4450
+          "price": 4300
         },
         {
           "days": 10,
-          "price": 6150
+          "price": 5900
         },
         {
           "days": 15,
-          "price": 9200
+          "price": 8850
         },
         {
           "days": 30,
-          "price": 17000
-        }
-      ]
-    },
-    {
-      "package_id": "e9141136-6429-4bcf-8c16-ef032026574a",
-      "name": "Middle East (5 areas) 3GB/Day FUP1Mbps",
-      "country_code": "ME-5",
-      "region": "QA,IL,IQ,KW,SA",
-      "coverage_country_codes": [
-        "QA",
-        "IL",
-        "IQ",
-        "KW",
-        "SA"
-      ],
-      "coverage_flags": "🇶🇦 🇮🇱 🇮🇶 🇰🇼 🇸🇦",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1100,
-      "networks": [
-        {
-          "operator": "Asia Cell",
-          "type": "4G"
-        },
-        {
-          "operator": "Cellcom",
-          "type": "5G"
-        },
-        {
-          "operator": "Pelephone",
-          "type": "5G"
-        },
-        {
-          "operator": "Hot Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "Partner",
-          "type": "5G"
-        },
-        {
-          "operator": "Ooredoo",
-          "type": "4G"
-        },
-        {
-          "operator": "ooredoo",
-          "type": "5G"
-        },
-        {
-          "operator": "STC",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "1 Mbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2800
-        },
-        {
-          "days": 5,
-          "price": 4500
-        },
-        {
-          "days": 7,
-          "price": 6300
-        },
-        {
-          "days": 10,
-          "price": 8650
-        },
-        {
-          "days": 15,
-          "price": 13000
-        },
-        {
-          "days": 30,
-          "price": 23900
+          "price": 16300
         }
       ]
     },
@@ -139404,78 +139623,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "f0bd906d-16a7-43c1-a90d-96b273c2d381",
-      "name": "Tunisia 2GB/Day",
-      "country_code": "TN",
-      "region": "TN",
-      "coverage_country_codes": [
-        "TN"
-      ],
-      "coverage_flags": "🇹🇳",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 450,
-      "networks": [
-        {
-          "operator": "OOREDOO TN",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "UK"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1100
-        },
-        {
-          "days": 5,
-          "price": 1750
-        },
-        {
-          "days": 7,
-          "price": 2450
-        },
-        {
-          "days": 10,
-          "price": 3000
-        },
-        {
-          "days": 15,
-          "price": 4450
-        },
-        {
-          "days": 30,
-          "price": 8200
-        }
-      ]
     },
     {
       "package_id": "f0c99624-3b71-4416-9749-097f51de8eae",
@@ -144620,7 +144767,7 @@
       "coverage_flags": "🇫🇯",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2700,
+      "price": 2750,
       "networks": [
         {
           "operator": "Vodafone",
@@ -148187,7 +148334,7 @@
           "7ea1a53a-1258-4510-9387-c4ca726b53fb",
           "70de8b37-a64f-4dd3-9155-1d67413b2aaa",
           "cba509b9-8bf7-40a0-993f-64a3fc1b9b59",
-          "ae7e0d99-b269-497a-8c67-9fd286601aa2",
+          "2524bd31-d69c-4e33-8f03-d25dfc90fd70",
           "7a794c05-f3ec-4514-bc55-db6def8a6199",
           "c8b68e94-025c-4a17-a268-89f471d38743",
           "79475e9d-1bb6-459d-aa7d-920f1b8a8e71",
@@ -148472,7 +148619,7 @@
           "6ab2deb5-b33d-4492-bf40-927189536a5a",
           "019f9d26-305a-4acc-9655-79428c9f6106",
           "38ee8c9e-a9be-4c76-ba46-3bd7f803d243",
-          "8804fc90-4139-4c9e-aee4-7b739ffd074c",
+          "8bd1da13-e5e2-4b44-bf9e-f5cd364a8337",
           "9308b55e-044f-4423-ac69-cf44f892ad05",
           "d48896d0-b347-4868-ba62-cd5c9bd3f43b"
         ],
@@ -148633,6 +148780,7 @@
         "local": [
           "9c67c75a-1762-400e-9002-2af3ab20a736",
           "41905c13-5374-4638-aee4-bfe06e9b7ad5",
+          "e2a6db9e-e39b-4a1e-8139-a6469befaf7f",
           "9005d70f-21d4-4277-959f-255ecae5cf44",
           "635e0feb-cf67-4a8b-96a4-9eecba2f765a",
           "eaa5ecc8-8fc2-4287-989e-c2c5d7052305",
@@ -149395,7 +149543,7 @@
         "local": [
           "61bbc950-694e-4296-a3e9-639b00742452",
           "800137c5-e16f-460d-8f7b-209e7622cfb1",
-          "8ce92d8e-90c0-474a-9dae-be7d158848f7",
+          "3e4a1133-2687-41d7-85fb-45484d317df7",
           "66b39076-aa2b-463b-b85d-290d11f59d93",
           "1fec49f5-09af-416b-9a50-1b9b0d0dfc7f",
           "c675dc40-bb85-4262-88a5-36d47e8a7578",
@@ -151057,6 +151205,7 @@
       "MA": {
         "local": [
           "78adb1f9-29ba-4c6b-89cd-aac6dd3ec7a9",
+          "df5212d6-7f9d-4e42-aa7f-e8906f874287",
           "b4cbe62c-e89e-435b-84b1-accff33e4c24",
           "3648f6d2-76a8-4c83-95df-7e92eee8a510",
           "ce6177b2-794f-49c1-a03c-e59ed7468313",
@@ -151076,7 +151225,7 @@
         ],
         "daily": [
           "cdbdbb5b-4615-4c19-a070-c2909c0a5dfe",
-          "e42a533e-d9d2-4766-97b8-f87c7c6178db",
+          "5744ec14-5f1d-454c-9282-a765ccded152",
           "d54e4924-4601-4a6b-b666-9316379763d3",
           "a5873d95-646a-4d89-bb4c-5d4c478be890",
           "5f81c502-fa50-43d4-afbd-7810171ba39f"
@@ -151817,6 +151966,7 @@
           "09990a8f-7290-48c0-9f56-4a246b75a122",
           "9d299310-438e-4625-aaf7-df634e50a2ef",
           "006376b7-bd69-402d-9442-56ff8e33bb95",
+          "8a842b32-1bb4-4b64-b2f1-2395dfb0bab3",
           "0797ff37-78cc-4627-a5bc-a53f63b1fcbb",
           "ad0884af-7ca6-4692-a84a-6c48ad5a7ec2",
           "2f4fb2de-d670-418e-968c-801b985a152a",
@@ -152155,7 +152305,7 @@
           "3484f17a-ea91-4c90-af61-fbe9e81efc8b",
           "cf5f2745-73e0-4bb7-806e-addec9304200",
           "57c1192c-175a-4625-9d53-836429a16638",
-          "e9141136-6429-4bcf-8c16-ef032026574a",
+          "8baba590-d7b3-48a7-bc7b-38041370ddba",
           "c9716026-fc87-4dc4-b00f-f8ff516cba30",
           "48c3af01-76e9-4bab-bc0f-421ff5bc30a4"
         ],
@@ -152812,8 +152962,8 @@
         ],
         "daily": [
           "ba591774-e370-4a59-aa77-9bf3899bac5d",
-          "e12a63c1-494c-484c-8161-271690fb336e",
-          "f0bd906d-16a7-43c1-a90d-96b273c2d381",
+          "9e5aa5b1-3d92-4404-b566-c40f4f874e30",
+          "299a7899-43b7-4efe-b361-26eae5fbcc20",
           "7d41009f-46b6-49b8-8495-c00ae9a66c5c",
           "4df6a3e9-1923-4ad1-a16a-dc43c6af7ad5",
           "c2764f08-1fe7-4a17-8ae9-bbeafed23eaa",
@@ -152852,6 +153002,7 @@
       "TR": {
         "local": [
           "2335b080-3394-4117-962a-6f032b69a246",
+          "b60df4a0-fb94-4bf0-92a4-3675747514c1",
           "a8fc2ace-4568-4436-a446-5460b3d064b1",
           "079cf080-ed4e-4eba-a90e-39fccb9ecbe1",
           "30af17ab-4296-4e28-b47e-e3e400af8e69",
