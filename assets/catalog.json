@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-18T15:06:12.470Z",
+  "generated_at": "2026-11-18T18:08:35.597Z",
   "source": "production-public-api",
   "package_count": 2440,
   "packages": [
@@ -4357,7 +4357,7 @@
       "price": 650,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -5943,10 +5943,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -11494,7 +11490,7 @@
       "price": 1550,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -12656,7 +12652,7 @@
       "coverage_flags": "🇧🇲",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2100,
+      "price": 1950,
       "networks": [
         {
           "operator": "One",
@@ -12694,27 +12690,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5400
+          "price": 5000
         },
         {
           "days": 5,
-          "price": 8600
+          "price": 7950
         },
         {
           "days": 7,
-          "price": 12050
+          "price": 11100
         },
         {
           "days": 10,
-          "price": 16650
+          "price": 15350
         },
         {
           "days": 15,
-          "price": 24950
+          "price": 23000
         },
         {
           "days": 30,
-          "price": 45900
+          "price": 42400
         }
       ]
     },
@@ -16361,7 +16357,7 @@
       "price": 1700,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -18794,7 +18790,7 @@
       "coverage_flags": "🇬🇵",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 1900,
+      "price": 1700,
       "networks": [
         {
           "operator": "Orange",
@@ -19528,7 +19524,7 @@
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "Hutch",
           "type": "4G"
         },
         {
@@ -24822,7 +24818,7 @@
       "coverage_flags": "🇦🇮",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2900,
       "networks": [
         {
           "operator": "FLOW",
@@ -25358,10 +25354,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -27190,10 +27182,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -29686,7 +29674,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 11250,
+      "price": 10700,
       "networks": [
         {
           "operator": "FLOW",
@@ -29959,7 +29947,7 @@
       "coverage_flags": "🇭🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2950,
+      "price": 2750,
       "networks": [
         {
           "operator": "Digicel",
@@ -29996,27 +29984,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8400
+          "price": 7950
         },
         {
           "days": 5,
-          "price": 13350
+          "price": 12650
         },
         {
           "days": 7,
-          "price": 18700
+          "price": 17750
         },
         {
           "days": 10,
-          "price": 25850
+          "price": 24500
         },
         {
           "days": 15,
-          "price": 38750
+          "price": 36750
         },
         {
           "days": 30,
-          "price": 71400
+          "price": 67650
         }
       ]
     },
@@ -30729,10 +30717,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -32012,7 +31996,7 @@
       "coverage_flags": "🇹🇴",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 8050,
+      "price": 7350,
       "networks": [
         {
           "operator": "Digicel",
@@ -33248,7 +33232,7 @@
       "coverage_flags": "🇰🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2850,
       "networks": [
         {
           "operator": "FLOW",
@@ -33542,10 +33526,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         },
@@ -33620,10 +33600,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -38709,10 +38685,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -48668,10 +48640,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -49916,7 +49884,7 @@
       "coverage_flags": "🇧🇲",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 8300,
+      "price": 7900,
       "networks": [
         {
           "operator": "One",
@@ -50923,10 +50891,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -58081,10 +58045,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         },
@@ -58159,10 +58119,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -59124,10 +59080,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -59597,7 +59549,7 @@
       "coverage_flags": "🇹🇹",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4200,
+      "price": 3750,
       "networks": [
         {
           "operator": "Digicel",
@@ -61704,7 +61656,7 @@
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "Hutch",
           "type": "4G"
         },
         {
@@ -73999,10 +73951,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -75423,10 +75371,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         },
@@ -75501,10 +75445,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -77495,10 +77435,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -89468,7 +89404,7 @@
       "price": 8300,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -89631,7 +89567,7 @@
       "coverage_flags": "🇲🇽",
       "data_gb": 50,
       "validity_days": 30,
-      "price": 13200,
+      "price": 10750,
       "networks": [
         {
           "operator": "Movistar",
@@ -90118,10 +90054,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -92568,7 +92500,7 @@
       "coverage_flags": "🇳🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 6050,
+      "price": 5850,
       "networks": [
         {
           "operator": "Digicel",
@@ -93378,10 +93310,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -94292,10 +94220,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -98856,7 +98780,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -103544,7 +103468,7 @@
       "coverage_flags": "🇧🇲",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 4150,
+      "price": 4100,
       "networks": [
         {
           "operator": "One",
@@ -107577,7 +107501,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5900,
+      "price": 5600,
       "networks": [
         {
           "operator": "FLOW",
@@ -112005,7 +111929,7 @@
       "coverage_flags": "🇭🇹",
       "data_gb": 0,
       "validity_days": null,
-      "price": 4400,
+      "price": 4150,
       "networks": [
         {
           "operator": "Digicel",
@@ -112042,27 +111966,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 12550
+          "price": 11900
         },
         {
           "days": 5,
-          "price": 20050
+          "price": 19000
         },
         {
           "days": 7,
-          "price": 28050
+          "price": 26600
         },
         {
           "days": 10,
-          "price": 38750
+          "price": 36750
         },
         {
           "days": 15,
-          "price": 58100
+          "price": 55100
         },
         {
           "days": 30,
-          "price": 107100
+          "price": 101450
         }
       ]
     },
@@ -112864,10 +112788,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -114364,7 +114284,7 @@
       "coverage_flags": "🇵🇫",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 37450,
+      "price": 35550,
       "networks": [
         {
           "operator": "Vini",
@@ -118167,7 +118087,7 @@
       "coverage_flags": "🇱🇨",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2850,
       "networks": [
         {
           "operator": "FLOW",
@@ -119309,10 +119229,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         },
@@ -119387,10 +119303,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -121676,7 +121588,7 @@
       "price": 1850,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -123167,7 +123079,7 @@
       "price": 1100,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -125160,10 +125072,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -125793,10 +125701,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -126480,7 +126384,7 @@
       "price": 800,
       "networks": [
         {
-          "operator": "DS",
+          "operator": "DST",
           "type": "5G"
         }
       ],
@@ -131210,7 +131114,7 @@
       "coverage_flags": "🇬🇱",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2400,
+      "price": 2150,
       "networks": [
         {
           "operator": "TELE Greenland",
@@ -131247,27 +131151,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 6050
+          "price": 5500
         },
         {
           "days": 5,
-          "price": 9650
+          "price": 8800
         },
         {
           "days": 7,
-          "price": 13550
+          "price": 12300
         },
         {
           "days": 10,
-          "price": 18700
+          "price": 17000
         },
         {
           "days": 15,
-          "price": 28000
+          "price": 25500
         },
         {
           "days": 30,
-          "price": 51600
+          "price": 46950
         }
       ]
     },
@@ -132012,10 +131916,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -133350,7 +133250,7 @@
       "coverage_flags": "🇹🇹",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 7900,
+      "price": 7450,
       "networks": [
         {
           "operator": "Digicel",
@@ -136959,7 +136859,7 @@
       "coverage_flags": "🇧🇧",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 3000,
+      "price": 2900,
       "networks": [
         {
           "operator": "FLOW",
@@ -138999,10 +138899,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         },
@@ -139077,10 +138973,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
@@ -140715,7 +140607,7 @@
           "type": "5G"
         },
         {
-          "operator": "3",
+          "operator": "Hutch",
           "type": "4G"
         },
         {
@@ -144866,10 +144758,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -145802,7 +145690,7 @@
       "coverage_flags": "🇯🇲",
       "data_gb": 2,
       "validity_days": 15,
-      "price": 1900,
+      "price": 1650,
       "networks": [
         {
           "operator": "FLOW",
@@ -146999,10 +146887,6 @@
           "type": "5G"
         },
         {
-          "operator": "TIM maritime",
-          "type": "3G"
-        },
-        {
           "operator": "Iliad",
           "type": "5G"
         }
@@ -147466,10 +147350,6 @@
         {
           "operator": "Wind",
           "type": "5G"
-        },
-        {
-          "operator": "TIM maritime",
-          "type": "3G"
         },
         {
           "operator": "Iliad",
