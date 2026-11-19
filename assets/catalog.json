@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-19T09:04:40.796Z",
+  "generated_at": "2026-11-19T12:05:53.680Z",
   "source": "production-public-api",
   "package_count": 2439,
   "packages": [
@@ -22243,7 +22243,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 22800,
+      "price": 19150,
       "networks": [
         {
           "operator": "Mattel",
@@ -36747,7 +36747,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 1750,
+      "price": 1500,
       "networks": [
         {
           "operator": "Mattel",
@@ -36784,27 +36784,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 4400
+          "price": 3800
         },
         {
           "days": 5,
-          "price": 7000
+          "price": 6050
         },
         {
           "days": 7,
-          "price": 9800
+          "price": 8450
         },
         {
           "days": 10,
-          "price": 13550
+          "price": 11650
         },
         {
           "days": 15,
-          "price": 20300
+          "price": 17450
         },
         {
           "days": 30,
-          "price": 37350
+          "price": 32150
         }
       ]
     },
@@ -41844,7 +41844,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 11100,
+      "price": 10450,
       "networks": [
         {
           "operator": "Mattel",
@@ -51323,7 +51323,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2900,
+      "price": 2850,
       "networks": [
         {
           "operator": "Mattel",
@@ -51360,27 +51360,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 8350
+          "price": 7300
         },
         {
           "days": 5,
-          "price": 13300
+          "price": 11650
         },
         {
           "days": 7,
-          "price": 18600
+          "price": 16250
         },
         {
           "days": 10,
-          "price": 25700
+          "price": 22500
         },
         {
           "days": 15,
-          "price": 38500
+          "price": 33700
         },
         {
           "days": 30,
-          "price": 70950
+          "price": 62100
         }
       ]
     },
@@ -54388,7 +54388,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 4100,
+      "price": 3850,
       "networks": [
         {
           "operator": "Mattel",
@@ -54425,27 +54425,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 11850
+          "price": 11050
         },
         {
           "days": 5,
-          "price": 18850
+          "price": 17650
         },
         {
           "days": 7,
-          "price": 26400
+          "price": 24700
         },
         {
           "days": 10,
-          "price": 36500
+          "price": 34100
         },
         {
           "days": 15,
-          "price": 54750
+          "price": 51150
         },
         {
           "days": 30,
-          "price": 100850
+          "price": 94200
         }
       ]
     },
@@ -62802,7 +62802,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 3,
       "validity_days": 30,
-      "price": 3900,
+      "price": 3500,
       "networks": [
         {
           "operator": "Mattel",
@@ -63822,7 +63822,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63837,7 +63837,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -65750,7 +65750,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 1550,
+      "price": 1400,
       "networks": [
         {
           "operator": "Mattel",
@@ -66912,7 +66912,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 5350,
+      "price": 4700,
       "networks": [
         {
           "operator": "Mattel",
@@ -66949,27 +66949,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 15300
+          "price": 13550
         },
         {
           "days": 5,
-          "price": 24450
+          "price": 21650
         },
         {
           "days": 7,
-          "price": 34250
+          "price": 30300
         },
         {
           "days": 10,
-          "price": 47300
+          "price": 41850
         },
         {
           "days": 15,
-          "price": 70950
+          "price": 62750
         },
         {
           "days": 30,
-          "price": 130700
+          "price": 115600
         }
       ]
     },
@@ -72286,7 +72286,16 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 200,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -74634,7 +74643,16 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 400,
-      "networks": [],
+      "networks": [
+        {
+          "operator": "TrueMove H",
+          "type": "5G"
+        },
+        {
+          "operator": "DTAC",
+          "type": "5G"
+        }
+      ],
       "network_technologies": [
         "3G",
         "4G",
@@ -76957,7 +76975,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 3,
       "validity_days": 15,
-      "price": 3650,
+      "price": 3300,
       "networks": [
         {
           "operator": "Mattel",
@@ -88446,7 +88464,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -88461,7 +88479,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -110209,7 +110227,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -126296,7 +126314,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -126311,7 +126329,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -139393,7 +139411,7 @@
       "coverage_flags": "🇲🇷",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 6100,
+      "price": 5400,
       "networks": [
         {
           "operator": "Mattel",
@@ -142184,7 +142202,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
