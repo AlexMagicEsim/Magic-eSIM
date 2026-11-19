@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-19T12:05:53.680Z",
+  "generated_at": "2026-11-19T15:05:16.634Z",
   "source": "production-public-api",
   "package_count": 2439,
   "packages": [
@@ -23857,7 +23857,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 0,
       "validity_days": null,
-      "price": 2000,
+      "price": 1700,
       "networks": [
         {
           "operator": "tiGO",
@@ -23895,27 +23895,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 5100
+          "price": 4350
         },
         {
           "days": 5,
-          "price": 8100
+          "price": 6900
         },
         {
           "days": 7,
-          "price": 11300
+          "price": 9650
         },
         {
           "days": 10,
-          "price": 15650
+          "price": 13350
         },
         {
           "days": 15,
-          "price": 23450
+          "price": 20000
         },
         {
           "days": 30,
-          "price": 43150
+          "price": 36850
         }
       ]
     },
@@ -27992,7 +27992,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 2,
       "validity_days": 15,
-      "price": 1400,
+      "price": 1100,
       "networks": [
         {
           "operator": "tiGO",
@@ -52188,37 +52188,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
-      "name": "Tanzania 3 GB",
-      "country_code": "TZ",
-      "region": "TZ",
-      "coverage_country_codes": [
-        "TZ"
-      ],
-      "coverage_flags": "🇹🇿",
-      "data_gb": 3,
-      "validity_days": 30,
-      "price": 1600,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "5e4b0deb-2583-44d5-a0cb-6d8b53193efb",
       "name": "Paraguay 500MB/Day",
       "country_code": "PY",
@@ -60741,6 +60710,44 @@
           "price": 64250
         }
       ]
+    },
+    {
+      "package_id": "6d6f56d8-2627-41e4-b957-0c2a03f229b4",
+      "name": "Tanzania 3GB 15Days",
+      "country_code": "TZ",
+      "region": "TZ",
+      "coverage_country_codes": [
+        "TZ"
+      ],
+      "coverage_flags": "🇹🇿",
+      "data_gb": 3,
+      "validity_days": 15,
+      "price": 1600,
+      "networks": [
+        {
+          "operator": "tiGO",
+          "type": "4G"
+        }
+      ],
+      "network_technologies": [
+        "3G"
+      ],
+      "speed": "3G",
+      "speed_note": "",
+      "fup_policy": "",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "UK"
+      ],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
     },
     {
       "package_id": "6d9ef126-5f83-453e-ada3-cc36f18f15b2",
@@ -132917,7 +132924,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 9400,
+      "price": 7850,
       "networks": [
         {
           "operator": "tiGO",
@@ -143139,7 +143146,7 @@
       "coverage_flags": "🇹🇿",
       "data_gb": 1,
       "validity_days": 7,
-      "price": 750,
+      "price": 650,
       "networks": [
         {
           "operator": "tiGO",
@@ -152922,7 +152929,7 @@
         "local": [
           "f6c02358-d397-488c-b59e-bb6ada767204",
           "31920fcd-17a1-468c-ab6a-498200a7086f",
-          "5e16fac2-cd5f-417b-9842-356fa8aed4f9",
+          "6d6f56d8-2627-41e4-b957-0c2a03f229b4",
           "f0e3ce16-03a9-4666-a8c5-6a9eac2f3098",
           "0e66d913-0091-40f3-aaab-6828caca2daa",
           "e6706e62-dc49-4712-9d0c-aeadb3ee8cb9"
