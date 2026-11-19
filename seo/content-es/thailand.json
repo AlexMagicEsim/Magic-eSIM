@@ -54,7 +54,7 @@
     },
     {
       "q": "¿Un mismo plan puede cubrir Tailandia y Malasia?",
-      "a": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam, Camboya y Sri Lanka."
+      "a": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam y Camboya."
     },
     {
       "q": "¿Qué tipo de enchufe necesito en Tailandia?",
@@ -105,14 +105,13 @@
       ]
     },
     {
-      "quote": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam, Camboya y Sri Lanka.",
+      "quote": "Los planes regionales que incluyen Tailandia también cubren Malasia, junto con Singapur, Vietnam y Camboya.",
       "kind": "regional_also",
       "codes": [
         "MY",
         "SG",
         "VN",
-        "KH",
-        "LK"
+        "KH"
       ]
     }
   ],

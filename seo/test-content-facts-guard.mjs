@@ -26,7 +26,11 @@ import { classify, renderMarkdown } from './refresh-summary.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (p) => readFileSync(join(ROOT, p), 'utf8');
-const FACTS = JSON.parse(read('seo/global-plan-facts.json'));
+/* The committed snapshot is the fixture's base — WITHOUT its `held` list. The bot commits `held` whenever a live fact
+ * contradicts an authored sentence (first time 2026-11-18: TH, Sri Lanka); carried into the sandbox it would keep that
+ * date and fail every hold test below, turning the guard's designed «hold and publish the rest» into a red SEO refresh. */
+const COMMITTED = JSON.parse(read('seo/global-plan-facts.json'));
+const FACTS = (() => { const f = JSON.parse(JSON.stringify(COMMITTED)); delete f.held; return f; })();
 const clone = (x) => JSON.parse(JSON.stringify(x));
 
 /* A USD catalogue answer whose derived facts are exactly `facts` (buildFacts(answerFrom(f)).countries == f.countries). */
@@ -78,6 +82,14 @@ test('the fixture answer reproduces the committed facts exactly (so the tests be
   assert.deepEqual(buildFacts(answerFrom(FACTS)).countries, FACTS.countries);
   assert.ok(TH_CLAIM, 'thailand.json names Malaysia in a regional_also claim — the fixture needs one');
   assert.ok(FACTS.countries.TH.also.includes('MY'));
+});
+
+test('a hold the bot committed never leaks into the fixture (2026-11-18: held TH turned 8 SEO refresh runs red)', () => {
+  assert.equal('held' in FACTS, false, 'the fixture base carries no held list');
+  assert.deepEqual(validateFacts(COMMITTED), [], 'the committed file, held list included, is a valid snapshot');
+  const withHold = { ...clone(COMMITTED), held: { TH: { since: '2026-11-18' } } };
+  const base = clone(withHold); delete base.held;
+  assert.deepEqual(base.countries, FACTS.countries, 'stripping held changes nothing else');
 });
 
 test('the committed content holds against the committed facts, and English is discovered', async () => {
