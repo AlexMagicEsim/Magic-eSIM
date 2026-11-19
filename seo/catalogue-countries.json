@@ -801,10 +801,10 @@
       "slug": "brazil",
       "nameRu": "Бразилия",
       "flagEmoji": "🇧🇷",
-      "local_count": 6,
+      "local_count": 7,
       "regional_count": 8,
       "daily_count": 9,
-      "total_count": 23,
+      "total_count": 24,
       "min_price_rub": 300,
       "volumes": [
         1,
@@ -1117,10 +1117,10 @@
       "slug": "vietnam",
       "nameRu": "Вьетнам",
       "flagEmoji": "🇻🇳",
-      "local_count": 11,
+      "local_count": 10,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 25,
+      "total_count": 24,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -3200,10 +3200,10 @@
       "slug": "morocco",
       "nameRu": "Марокко",
       "flagEmoji": "🇲🇦",
-      "local_count": 7,
+      "local_count": 8,
       "regional_count": 8,
       "daily_count": 5,
-      "total_count": 20,
+      "total_count": 21,
       "min_price_rub": 300,
       "volumes": [
         1,
@@ -3690,10 +3690,10 @@
       "slug": "oman",
       "nameRu": "Оман",
       "flagEmoji": "🇴🇲",
-      "local_count": 7,
+      "local_count": 8,
       "regional_count": 8,
       "daily_count": 9,
-      "total_count": 24,
+      "total_count": 25,
       "min_price_rub": 350,
       "volumes": [
         1,
@@ -4925,10 +4925,10 @@
       "slug": "turkey",
       "nameRu": "Турция",
       "flagEmoji": "🇹🇷",
-      "local_count": 10,
+      "local_count": 11,
       "regional_count": 8,
       "daily_count": 6,
-      "total_count": 24,
+      "total_count": 25,
       "min_price_rub": 150,
       "volumes": [
         1,
@@ -5764,6 +5764,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-11-16T06:05:17.320Z",
+  "fetched_at": "2026-11-19T06:00:44.499Z",
   "source": "assets/catalog.json"
 }
