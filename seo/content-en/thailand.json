@@ -54,7 +54,7 @@
     },
     {
       "q": "Can one plan cover Thailand and Malaysia?",
-      "a": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam, Cambodia and Sri Lanka."
+      "a": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam and Cambodia."
     },
     {
       "q": "What plugs are used in Thailand?",
@@ -105,14 +105,13 @@
       ]
     },
     {
-      "quote": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam, Cambodia and Sri Lanka.",
+      "quote": "Regional plans that include Thailand also cover Malaysia, along with Singapore, Vietnam and Cambodia.",
       "kind": "regional_also",
       "codes": [
         "MY",
         "SG",
         "VN",
-        "KH",
-        "LK"
+        "KH"
       ]
     }
   ],
