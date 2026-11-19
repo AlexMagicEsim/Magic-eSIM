@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-19T02:40:12.076Z",
+  "generated_at": "2026-11-19T06:00:44.499Z",
   "source": "production-public-api",
   "package_count": 2440,
   "packages": [
@@ -63892,7 +63892,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63907,7 +63907,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -72356,16 +72356,7 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 200,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -74713,16 +74704,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 400,
-      "networks": [
-        {
-          "operator": "TrueMove H",
-          "type": "5G"
-        },
-        {
-          "operator": "DTAC",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -88534,7 +88516,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -88549,7 +88531,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -110258,7 +110240,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -126345,7 +126327,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -126360,7 +126342,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -142233,7 +142215,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,

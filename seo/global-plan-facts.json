@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -9975,22 +9975,14 @@
     "ID",
     "KR",
     "VN",
+    "BD",
     "HK",
     "IN",
     "JP",
     "KH",
+    "LA",
     "MO",
     "PH",
-    "AU",
-    "BD",
-    "CN",
-    "IL",
-    "KW",
-    "LA",
-    "LK",
-    "NZ",
-    "PK",
-    "SA",
     "TW"
    ],
    "daily": {
@@ -12745,11 +12737,6 @@
      ]
     }
    ]
-  }
- },
- "held": {
-  "TH": {
-   "since": "2026-11-18"
   }
  }
 }
