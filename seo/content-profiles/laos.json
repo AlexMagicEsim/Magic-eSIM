@@ -14,7 +14,7 @@
   "lead": "Маршрут через Лаос редко ограничивается одной страной, и под Вьетнам с Камбоджей удобно брать пакет на семь стран Юго-Восточной Азии. Лаоса в нём нет — но это не значит, что на три страны нужны три тарифа.",
   "intro": [
     "Пакет на семь стран ЮВА включает Таиланд, Вьетнам, Камбоджу, Малайзию, Сингапур, Индонезию и Филиппины — поэтому в сетке Лаоса его нет. Все три страны маршрута покрывают пакеты «Asia 15 Countries» из блока «Региональные тарифы», в том числе 30 ГБ на 30 дней за {{price:a12_30gb}}; пополнение у них не отмечено. Годовой пакет на 40 ГБ на 365 дней из того же блока тоже покрывает все три страны.",
-    "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога все местные — на сети Lao Telecom."
+    "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога сеть Lao Telecom указана у каждого местного тарифа."
   ],
   "why": [
     {
@@ -49,7 +49,7 @@
     },
     {
       "q": "Чья сеть у лаосских тарифов?",
-      "a": "По данным каталога посуточные тарифы только на Лаос — на сети Lao Telecom. Качество приёма в конкретных местах каталог не описывает, поэтому обещать его мы не будем."
+      "a": "По данным каталога сеть Lao Telecom указана у каждого посуточного тарифа только на Лаос. Качество приёма в конкретных местах каталог не описывает, поэтому обещать его мы не будем."
     },
     {
       "q": "Какой тариф в Лаосе взять на две недели?",
@@ -297,7 +297,7 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога все местные — на сети Lao Telecom."
+          "text": "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога сеть Lao Telecom указана у каждого местного тарифа."
         }
       ],
       "terms": {
@@ -430,11 +430,11 @@
       "anchors": [
         {
           "field": "intro[1]",
-          "text": "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога все местные — на сети Lao Telecom."
+          "text": "Если Лаос — единственная страна поездки, проще взять местный тариф: от 1 ГБ на 7 дней за {{price:local_1gb_7d}} до 20 ГБ на 30 дней за {{price:local_20gb}}; по данным каталога сеть Lao Telecom указана у каждого местного тарифа."
         },
         {
           "field": "faq[2].a",
-          "text": "По данным каталога посуточные тарифы только на Лаос — на сети Lao Telecom."
+          "text": "По данным каталога сеть Lao Telecom указана у каждого посуточного тарифа только на Лаос."
         }
       ],
       "block": "local",
@@ -442,15 +442,15 @@
         "Lao Telecom"
       ],
       "every": true,
-      "only": true,
-      "all_listed": true
+      "all_listed": true,
+      "note": "2026-11-19: since the 2026-11-18 09:00 catalogue every Laos-only card lists ETL (4G) beside Lao Telecom (5G); «только Lao Telecom» fell. The sentences now say Lao Telecom is listed on every card (every + all_listed, no only) — true with and without ETL, never naming ETL, since providers flap operators."
     },
     {
       "id": "daily-all-lao-telecom",
       "anchors": [
         {
           "field": "faq[2].a",
-          "text": "По данным каталога посуточные тарифы только на Лаос — на сети Lao Telecom."
+          "text": "По данным каталога сеть Lao Telecom указана у каждого посуточного тарифа только на Лаос."
         }
       ],
       "block": "daily",
@@ -458,7 +458,6 @@
         "Lao Telecom"
       ],
       "every": true,
-      "only": true,
       "all_listed": true,
       "basis": [
         {
@@ -470,7 +469,7 @@
           "days": 7
         }
       ],
-      "note": "2026-11-02: rewritten after the auto-import's first live run (storefront fix/seo-after-live-import) — no card count, term or top-up the import keeps changing. 2026-11-03: the auto-import replaced the 1 and 2 GB/day Laos-only cards with «Asia (14 areas)» dailies; «Laos 500MB/Day» (Lao Telecom) remains, and «every» still holds for each Laos-only daily card."
+      "note": "2026-11-02: rewritten after the auto-import's first live run (storefront fix/seo-after-live-import) — no card count, term or top-up the import keeps changing. 2026-11-03: the auto-import replaced the 1 and 2 GB/day Laos-only cards with «Asia (14 areas)» dailies; «Laos 500MB/Day» (Lao Telecom) remains, and «every» still holds for each Laos-only daily card. 2026-11-19: since the 2026-11-18 09:00 catalogue every Laos-only card lists ETL (4G) beside Lao Telecom (5G); «только Lao Telecom» fell. The sentences now say Lao Telecom is listed on every card (every + all_listed, no only) — true with and without ETL, never naming ETL, since providers flap operators."
     }
   ]
 }
