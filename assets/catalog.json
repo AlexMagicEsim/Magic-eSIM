@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-18T18:08:35.597Z",
+  "generated_at": "2026-11-19T02:40:12.076Z",
   "source": "production-public-api",
   "package_count": 2440,
   "packages": [
@@ -9553,7 +9553,7 @@
       "coverage_flags": "🇭🇳",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 1450,
+      "price": 1400,
       "networks": [
         {
           "operator": "Claro",
@@ -37659,7 +37659,7 @@
       "coverage_flags": "🇳🇮",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2550,
+      "price": 2500,
       "networks": [
         {
           "operator": "Claro",
@@ -41405,7 +41405,7 @@
       "coverage_flags": "🇨🇷",
       "data_gb": 0,
       "validity_days": null,
-      "price": 550,
+      "price": 500,
       "networks": [
         {
           "operator": "Claro",
@@ -41443,27 +41443,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 1400
+          "price": 1250
         },
         {
           "days": 5,
-          "price": 2200
+          "price": 2000
         },
         {
           "days": 7,
-          "price": 2700
+          "price": 2800
         },
         {
           "days": 10,
-          "price": 3750
+          "price": 3450
         },
         {
           "days": 15,
-          "price": 5600
+          "price": 5150
         },
         {
           "days": 30,
-          "price": 10300
+          "price": 9450
         }
       ]
     },
@@ -110093,7 +110093,7 @@
       "coverage_flags": "🇪🇨",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 2600,
+      "price": 2550,
       "networks": [
         {
           "operator": "Claro",
@@ -111352,7 +111352,7 @@
       "coverage_flags": "🇨🇴",
       "data_gb": 0,
       "validity_days": null,
-      "price": 900,
+      "price": 850,
       "networks": [
         {
           "operator": "movistar",
@@ -111394,27 +111394,27 @@
       "term_prices": [
         {
           "days": 3,
-          "price": 2350
+          "price": 2150
         },
         {
           "days": 5,
-          "price": 3300
+          "price": 3050
         },
         {
           "days": 7,
-          "price": 4600
+          "price": 4300
         },
         {
           "days": 10,
-          "price": 6350
+          "price": 5950
         },
         {
           "days": 15,
-          "price": 9500
+          "price": 8900
         },
         {
           "days": 30,
-          "price": 17500
+          "price": 16350
         }
       ]
     },
@@ -121192,7 +121192,7 @@
       "coverage_flags": "🇬🇹",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 4450,
+      "price": 4200,
       "networks": [
         {
           "operator": "Claro",
