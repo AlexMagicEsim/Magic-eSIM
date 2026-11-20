@@ -171,13 +171,18 @@ const FORBIDDEN = [
 // P1-3: the frozen legal PDFs are the one kind of PDF the site publishes — exactly the paths their record names
 // (seo/legal-pdf.json, read here on its own, not through the script under test); every other PDF stays forbidden.
 const LEGAL_PDFS = new Set(JSON.parse(readFileSync(join(ROOT, 'seo', 'legal-pdf.json'), 'utf8')).files.map((r) => r.path));
-const forbiddenIn = (paths) => paths.flatMap((p) => FORBIDDEN.filter(([re]) => re.test(p) && !(LEGAL_PDFS.has(p) && /\.pdf$/i.test(p)))
+// The one dot-path the site publishes: the BIMI sender logo (2026-11-20, seo/test-bimi-logo.mjs) — by exact path, named
+// here on its own and not through the script under test; every other dotfile stays forbidden.
+const WELL_KNOWN_BIMI = '.well-known/bimi/magic-esim.svg';
+const forbiddenIn = (paths) => paths.flatMap((p) => FORBIDDEN.filter(([re]) => re.test(p)
+  && !(LEGAL_PDFS.has(p) && /\.pdf$/i.test(p)) && !(p === WELL_KNOWN_BIMI && re.source === '(^|\\/)\\.'))
   .map(([, why]) => `${p} (${why})`));
 
 test('negative control: the forbidden list catches every kind of file it exists for, and so does denyReason', () => {
   const samples = ['test/e2e/a.spec.js', 'app/core.test.js', '.claude/skills/x/SKILL.md', '.github/workflows/tests.yml',
     'infra/yandex-api-gateway/README.md', 'scripts/update-catalog-cache.mjs', 'seo/build-all.mjs', 'seo/fact-sheets.json',
     'package.json', 'package-lock.json', 'playwright.config.js', '.env.example', '.gitignore', '.nojekyll',
+    '.well-known/other.txt', '.well-known/bimi/other.svg',
     'Magic_eSIM_poster_A4_RepairBase10_v2_editable.pptx', 'Magic_eSIM_A4_poster_RepairBase10_print_A4.pdf', 'app/canary.html',
     'assets/story-workspace/compose_story.py', 'assets/brand/source/magic-esim-logo-master.svg', 'node_modules/x/index.js'];
   for (const s of samples) {
