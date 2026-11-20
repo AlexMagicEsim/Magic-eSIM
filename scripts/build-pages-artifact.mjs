@@ -63,6 +63,15 @@ export const ROOT_FILES = Object.freeze([
 ]);
 
 /**
+ * Files under /.well-known/, by EXACT path — the only dot-directory the site publishes. Every other dotfile and
+ * dot-directory stays denied (DENY_NAMES / denyReason), and deploy-pages.yml uploads hidden files only because the
+ * artifact can hold nothing hidden but these.
+ *   .well-known/bimi/magic-esim.svg — the BIMI sender logo (SVG Tiny P/S, 2026-11-20), named by the DNS record
+ *   default._bimi.magicesim.store; seo/test-bimi-logo.mjs pins the file, its format and its publication.
+ */
+export const WELL_KNOWN_FILES = Object.freeze(['.well-known/bimi/magic-esim.svg']);
+
+/**
  * Root files published by pattern: search-engine ownership verification files (Yandex, Google) and the IndexNow key
  * file (<32 hex>.txt holding exactly its own name — seo/indexnow.mjs readKey; seo/test-indexnow.mjs pins the one file).
  */
@@ -145,6 +154,7 @@ export const DENY_NAMES = Object.freeze([
 
 /** Why a path is denied, or null. */
 export function denyReason(rel) {
+  if (WELL_KNOWN_FILES.includes(rel)) return null;   // the exact /.well-known/ files above, nothing else under a dot
   const parts = rel.split('/');
   for (const p of parts.slice(0, -1)) if (DENY_SEGMENTS.includes(p) || p.startsWith('.')) return `inside ${p}/`;
   if (rel.startsWith('assets/brand/source/')) return 'logo master drawing';
@@ -160,6 +170,7 @@ export function allowRule(rel, rules = directoryRules()) {
   // The old addresses' client-side redirect pages (seo/build-legacy-redirects.mjs), each by its exact file — admitted
   // on purpose; a file under esim/ or at /iphone.html that is not one of them stays unpublished.
   if (isLegacyRedirectFile(rel)) return 'legacy redirect page';
+  if (WELL_KNOWN_FILES.includes(rel)) return 'well-known file';
   if (!rel.includes('/')) {
     if (ROOT_FILES.includes(rel)) return 'root file';
     if (ROOT_PATTERNS.some((re) => re.test(rel))) return 'verification file';

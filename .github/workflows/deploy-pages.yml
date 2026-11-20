@@ -81,6 +81,10 @@ jobs:
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
+          # v5 drops every path starting with a dot unless told otherwise. _site is the allowlist build, and the only
+          # dot-paths it can hold are scripts/build-pages-artifact.mjs WELL_KNOWN_FILES (the BIMI logo at
+          # /.well-known/bimi/magic-esim.svg); every other dotfile is denied before it reaches _site.
+          include-hidden-files: true
 
   deploy:
     name: deploy to GitHub Pages
