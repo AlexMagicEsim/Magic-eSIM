@@ -28,8 +28,10 @@ const HTML = planArtifact(ROOT, { scope: restoredScope() }).publish.filter((f) =
 const pathOf = (rel) => `/${rel.replace(/(^|\/)index\.html$/, '$1')}`;
 const fileOf = (path) => (path.endsWith('/') ? `${path.slice(1)}index.html` : path.slice(1));
 // The Russian SITE pages: lang="ru" with the site header (the Mini App at /app/ is Russian too, but has no site chrome).
-const RU_PAGES = HTML.filter((rel) => !isLegacyRedirectFile(rel) && rel !== '404.html' && /<html lang="ru"/.test(read(rel))
-  && read(rel).includes('<header class="site-header">'));
+// /payment-failed.html is not one of them since O2 (2026-11-20): its header (seo/ru-chrome.mjs RU_PAY_RETURN_HEADER)
+// has no language switch and no link to the hidden Russian site — seo/test-payment-failed-return.mjs holds its links.
+const RU_PAGES = HTML.filter((rel) => !isLegacyRedirectFile(rel) && rel !== '404.html' && rel !== 'payment-failed.html'
+  && /<html lang="ru"/.test(read(rel)) && read(rel).includes('<header class="site-header">'));
 
 /** The two «English» links of a Russian header: [header switch, phone menu]. */
 const switchTargets = (html) => [
@@ -95,5 +97,7 @@ test('no Russian page links to the English home except through the language swit
   // the buyer's way back after a payment, named
   const ok = read('payment-success.html');
   assert.match(ok, /<a class="btn secondary" id="actionHome" href="\/ru\/">Вернуться на главную<\/a>/);
-  for (const rel of ['payment-success.html', 'payment-failed.html', 'terms.html', 'privacy.html']) assert.ok(RU_PAGES.includes(rel), rel);
+  for (const rel of ['payment-success.html', 'terms.html', 'privacy.html']) assert.ok(RU_PAGES.includes(rel), rel);
+  // …and /payment-failed.html links no English home either (it links no site page but the two install guides)
+  assert.deepEqual(englishHomeLinks(read('payment-failed.html'), 'payment-failed.html'), []);
 });

@@ -143,7 +143,9 @@ test('every language publishes its catalogue where the registry says; the old ca
 });
 
 test('the payment return pages stay where Platega returns, and every way back leads to a Russian page, never the English «/»', () => {
-  for (const rel of ['payment-success.html', 'payment-failed.html']) {
+  // /payment-failed.html left this list with O2 (2026-11-20): its way back is the Mini App, and every link it has
+  // is pinned to a published destination by seo/test-payment-failed-return.mjs.
+  for (const rel of ['payment-success.html']) {
     const html = read(rel);
     const links = [...html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<a\b[^>]*\shref="(\/[^"]*)"[^>]*>/g)].map((m) => ({ tag: m[0], href: m[1] }));
     assert.ok(links.length > 10, `${rel}: links read`);
@@ -153,6 +155,6 @@ test('the payment return pages stay where Platega returns, and every way back le
       assert.match(href, /^\/(ru\/|terms\.html|privacy\.html|assets\/)/, `${rel}: ${href} leads off the Russian site`);
     }
   }
-  assert.match(read('payment-failed.html'), /<a class="btn" id="pfBack" href="\/ru\/#plans">/, 'the static «Вернуться к тарифам»');
-  assert.match(read('payment-failed.html'), /a\.href='\/ru\/esim\/'\+d\.slug\+'\/#tariffs'/, 'the buyer\'s own country page, under /ru/');
+  assert.match(read('payment-failed.html'), /<a class="btn" id="pfBack" href="https:\/\/t\.me\/magicesim_bot\?startapp">/, 'the way back is the Mini App');
+  assert.doesNotMatch(read('payment-failed.html'), /<a\b[^>]*\shref="\/(?!ru\/(iphone|android)\.html")[^"]*"/, 'no local link but the two published install guides');
 });
