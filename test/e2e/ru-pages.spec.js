@@ -172,6 +172,34 @@ test.describe('desktop width', () => {
   });
 });
 
+// O2 (2026-11-20): a failed payment from the Mini App goes back to Telegram on that order; nothing on the page
+// leads to the hidden Russian site, and the page makes no request of its own (a reload cannot pay twice).
+test('/payment-failed.html from the Mini App: «Вернуться в Telegram» on this order, clean URL, no dead link', async ({ page }) => {
+  const token = 'AbCdEfGhIjKlMnOpQrStUvWxYz0123456789_-XYZ12';
+  const local = [];
+  page.on('request', (r) => { if (r.url().startsWith('http://127.0.0.1') && r.resourceType() === 'fetch') local.push(r.url()); });
+  const st = await open(page, `/payment-failed.html?token=${token}&src=tma`);
+  const back = page.locator('#pfBack');
+  await expect(back).toHaveText('Вернуться в Telegram');
+  await expect(back).toHaveAttribute('href', `https://t.me/magicesim_bot?startapp=o_${token.slice(-6)}`);
+  expect(page.url()).not.toContain(token);
+  expect(page.url()).not.toContain('src=');
+  const hrefs = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')));
+  for (const h of hrefs) expect(h, h).toMatch(/^(https:\/\/t\.me\/magicesim(_bot\?startapp(=o_[A-Za-z0-9_-]{6})?)?|\/ru\/(iphone|android)\.html|mailto:support@magicesim\.store)$/);
+  await page.reload();
+  await expect(back).toHaveText('Открыть Magic eSIM в Telegram');   // the reload forgot the ref, nothing else happens
+  expect(local).toEqual([]);
+  expect(st.nonGet).toBe(0);
+  expect(st.errors).toEqual([]);
+});
+
+test('/payment-failed.html from the website: the plain Mini App entry', async ({ page }) => {
+  const st = await open(page, '/payment-failed.html?token=AbCdEfGhIjKlMnOpQrStUvWxYz0123456789_-XYZ12');
+  await expect(page.locator('#pfBack')).toHaveText('Открыть Magic eSIM в Telegram');
+  await expect(page.locator('#pfBack')).toHaveAttribute('href', 'https://t.me/magicesim_bot?startapp');
+  expect(st.errors).toEqual([]);
+});
+
 test.describe('the service pages', () => {
   for (const url of ['/payment-failed.html', '/payment-success.html', '/privacy.html', '/terms.html']) {
     test(`${url}: axe 0, no overflow, the shared chrome`, async ({ page }) => {

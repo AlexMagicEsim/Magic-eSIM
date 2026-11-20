@@ -168,3 +168,58 @@ ${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener norefe
     </div>
   </div>
 </footer>`;
+
+/* THE PAYMENT-RETURN CHROME (O2, 2026-11-20) — /payment-failed.html only.
+ *
+ * Since the EN-only publication (2026-11-09) the Russian site is hidden: /ru/,
+ * every /ru/esim/… page, /terms.html and /privacy.html answer 404, while
+ * Platega still returns Russian buyers — today all of them from the Telegram
+ * Mini App — to /payment-failed.html. The shared header and footer above link
+ * almost nothing but those hidden pages, so a buyer whose payment failed had
+ * no working way back but the browser's own button.
+ *
+ * This chrome links ONLY what is published under that scope: the Mini App, the
+ * channel, the two install guides kept unlisted (/ru/iphone.html,
+ * /ru/android.html) and the support mailbox. Same classes, same sheets, so the
+ * page looks the same. seo/test-payment-failed-return.mjs pins that every link
+ * of the page is one of those. When the Russian site is published again
+ * (RESTORE in seo/publication-scope.mjs) the page can take ruHeader()/RU_FOOTER
+ * back. */
+export const RU_PAY_RETURN_LINKS = Object.freeze([
+  RU_TG_APP, RU_TG_CHANNEL, '/ru/iphone.html', '/ru/android.html', 'mailto:support@magicesim.store',
+]);
+
+export const RU_PAY_RETURN_HEADER = `<header class="site-header">
+  <div class="wrap hdr">
+    <span class="brand">${LOGO_ANIMATED}</span>
+  </div>
+</header>`;
+
+export const RU_PAY_RETURN_FOOTER = `<footer class="site-footer">
+  <div class="wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        ${LOGO}
+        <p>Мобильный интернет в поездке: eSIM для ${RU_DESTINATIONS}, оплата в рублях российской картой или через СБП.</p>
+      </div>
+      <div class="ft-col">
+        <h2>Инструкции</h2>
+        <ul>
+${li('/ru/iphone.html', 'Как установить eSIM на iPhone')}
+${li('/ru/android.html', 'Как установить eSIM на Android')}
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h2>Помощь</h2>
+        <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+        <ul>
+${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener noreferrer"')}
+${li(RU_TG_CHANNEL, 'Наш Telegram-канал', ' target="_blank" rel="noopener noreferrer"')}
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© Magic eSIM</p>
+    </div>
+  </div>
+</footer>`;

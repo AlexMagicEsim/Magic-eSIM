@@ -14,19 +14,31 @@
   <link rel="manifest" href="/site.webmanifest" />
   <!-- R3-08: strip the order token from the URL BEFORE anything else runs.
        Platega returns here with ?token=<public_order_token>[&src=tma] (the
-       backend's withToken() appends it to the failed URL too). This page never
-       needs it, so it is dropped — not stored anywhere — before the counter
-       below reads location.href. Other query parameters and the hash are kept. -->
+       backend's withToken() appends it to the failed URL too). The token is
+       dropped — never stored — before the counter below reads location.href.
+       O2 (2026-11-20): a return from the Mini App (src=tma) keeps the token's
+       last SIX characters in this page's memory only (window.__payFail, frozen)
+       — the same public order ref payment-success hands to Telegram — so
+       «Вернуться в Telegram» opens the Mini App on THIS order's server status.
+       Never the token, never storage, never the history entry. -->
   <script>
     (function () {
+      var boot = { tma: false, ref: '' };
       try {
         var u = new URL(location.href), sp = u.searchParams;
+        var t = (sp.get('token') || sp.get('public_order_token') || '').trim();
+        if (sp.get('src') === 'tma') {
+          boot.tma = true;
+          if (/^[A-Za-z0-9_-]{16,128}$/.test(t)) boot.ref = t.slice(-6);
+        }
+        t = '';
         if (sp.has('token') || sp.has('public_order_token') || sp.has('src')) {
           sp.delete('token'); sp.delete('public_order_token'); sp.delete('src');
           var q = sp.toString();
           history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
         }
       } catch (e) { /* no URL API or history: nothing else depends on this */ }
+      window.__payFail = Object.freeze(boot);
     })();
   </script>
   <!-- Yandex.Metrika counter -->
@@ -79,28 +91,7 @@
 <body>
   <header class="site-header">
   <div class="wrap hdr">
-    <a class="brand" href="/ru/"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM"><defs><linearGradient id="a-mark" gradientUnits="userSpaceOnUse" x1="498.0" y1="293.0" x2="732.5" y2="445.3"><stop offset="0.000" stop-color="#8b20b7"/><stop offset="0.125" stop-color="#8816bd"/><stop offset="0.250" stop-color="#7625bf"/><stop offset="0.375" stop-color="#6931c1"/><stop offset="0.500" stop-color="#3451c7"/><stop offset="0.625" stop-color="#3172d3"/><stop offset="0.750" stop-color="#238bde"/><stop offset="0.875" stop-color="#13b1ec"/><stop offset="1.000" stop-color="#0ad0f9"/></linearGradient><linearGradient id="a-word" gradientUnits="userSpaceOnUse" x1="349.8" y1="571.9" x2="896.5" y2="571.9"><stop offset="0.000" stop-color="#8b19b1"/><stop offset="0.125" stop-color="#7f23b6"/><stop offset="0.250" stop-color="#7230bc"/><stop offset="0.375" stop-color="#3459ca"/><stop offset="0.500" stop-color="#317ada"/><stop offset="0.625" stop-color="#239ce6"/><stop offset="0.750" stop-color="#0ebdee"/><stop offset="0.875" stop-color="#07d3f2"/><stop offset="1.000" stop-color="#04e8f4"/></linearGradient><linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient><linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs><g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)"><circle class="lm-ring lm-ring1" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring2" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring3" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/></g><use class="lm-symbol" href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><use class="lm-word" href="/assets/brand/logo.svg?v=72aa4ec9#me-word"/></svg><script>(function(){var d=document,r=d.documentElement,l=d.currentScript.previousElementSibling;r.setAttribute('data-motion','expressive');try{var s=sessionStorage;if(!s.getItem('me-logo')){s.setItem('me-logo','1');l.classList.add('lm-play')}}catch(e){}var j=d.createElement('script');j.src='/assets/motion.js?v=f40b07dc';j.async=true;d.head.appendChild(j)})();</script></a>
-    <nav class="nav" aria-label="Основное меню">
-      <a href="/ru/esim/">Направления</a>
-      <a href="/ru/#how">Как это работает</a>
-      <a href="/ru/#compat">Проверка устройства</a>
-      <a href="/ru/#guides">Инструкции</a>
-    </nav>
-    <div class="hdr-actions">
-      <a class="langsw" href="/" lang="en"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg><span>English</span></a>
-      <a class="btn btn-sm hdr-cta" href="/ru/#plans">Найти тариф</a>
-      <details class="mnav">
-        <summary aria-label="Меню"><svg class="ico-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></summary>
-        <nav class="mnav-panel" aria-label="Меню">
-      <a href="/ru/esim/">Направления</a>
-      <a href="/ru/#how">Как это работает</a>
-      <a href="/ru/#compat">Проверка устройства</a>
-      <a href="/ru/#guides">Инструкции</a>
-          <hr>
-          <a href="/" lang="en">English</a>
-        </nav>
-      </details>
-    </div>
+    <span class="brand"><svg class="brand-logo" viewBox="336 208 574 432" width="59" height="44" role="img" aria-label="Magic eSIM"><defs><linearGradient id="a-mark" gradientUnits="userSpaceOnUse" x1="498.0" y1="293.0" x2="732.5" y2="445.3"><stop offset="0.000" stop-color="#8b20b7"/><stop offset="0.125" stop-color="#8816bd"/><stop offset="0.250" stop-color="#7625bf"/><stop offset="0.375" stop-color="#6931c1"/><stop offset="0.500" stop-color="#3451c7"/><stop offset="0.625" stop-color="#3172d3"/><stop offset="0.750" stop-color="#238bde"/><stop offset="0.875" stop-color="#13b1ec"/><stop offset="1.000" stop-color="#0ad0f9"/></linearGradient><linearGradient id="a-word" gradientUnits="userSpaceOnUse" x1="349.8" y1="571.9" x2="896.5" y2="571.9"><stop offset="0.000" stop-color="#8b19b1"/><stop offset="0.125" stop-color="#7f23b6"/><stop offset="0.250" stop-color="#7230bc"/><stop offset="0.375" stop-color="#3459ca"/><stop offset="0.500" stop-color="#317ada"/><stop offset="0.625" stop-color="#239ce6"/><stop offset="0.750" stop-color="#0ebdee"/><stop offset="0.875" stop-color="#07d3f2"/><stop offset="1.000" stop-color="#04e8f4"/></linearGradient><linearGradient id="me-lw-wave" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8A16C7"/><stop offset=".52" stop-color="#3866D9"/><stop offset="1" stop-color="#00C7DF"/></linearGradient><linearGradient id="me-lw-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="430" x2="0" y2="505"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient><mask id="me-lw-fade" maskUnits="userSpaceOnUse" x="150" y="40" width="950" height="600"><rect x="150" y="40" width="950" height="600" fill="url(#me-lw-fadeg)"/></mask></defs><g class="lm-waves" aria-hidden="true" mask="url(#me-lw-fade)"><circle class="lm-ring lm-ring1" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring2" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/><circle class="lm-ring lm-ring3" cx="627" cy="372" r="150" fill="none" stroke="url(#me-lw-wave)" stroke-width="7"/></g><use class="lm-symbol" href="/assets/brand/logo.svg?v=72aa4ec9#me-symbol"/><use class="lm-word" href="/assets/brand/logo.svg?v=72aa4ec9#me-word"/></svg><script>(function(){var d=document,r=d.documentElement,l=d.currentScript.previousElementSibling;r.setAttribute('data-motion','expressive');try{var s=sessionStorage;if(!s.getItem('me-logo')){s.setItem('me-logo','1');l.classList.add('lm-play')}}catch(e){}var j=d.createElement('script');j.src='/assets/motion.js?v=f40b07dc';j.async=true;d.head.appendChild(j)})();</script></span>
   </div>
 </header>
 
@@ -109,10 +100,10 @@
   <section class="svc-card">
     <div class="icon">!</div>
     <h1>Оплата не завершена</h1>
-    <p class="msg">Похоже, платёж не был завершён. Если деньги всё же списались, напишите нам — мы проверим заказ. Вы можете вернуться к тарифам и оформить заказ заново — это займёт пару минут.</p>
-    <p class="sub">Если возникли вопросы, мы поможем: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
+    <p class="msg">Похоже, платёж не прошёл или был отменён. Если деньги всё же списались, напишите нам — мы проверим заказ; оплачивать его повторно не нужно.</p>
+    <p class="sub">Попробовать ещё раз можно в Magic eSIM в Telegram: там виден статус заказа и можно оформить его снова. Вопросы — <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
     <div class="actions">
-      <a class="btn" id="pfBack" href="/ru/#plans">Вернуться к тарифам</a>
+      <a class="btn" id="pfBack" href="https://t.me/magicesim_bot?startapp">Открыть Magic eSIM в Telegram</a>
       <a class="btn secondary" href="mailto:support@magicesim.store">Связаться с поддержкой</a>
     </div>
   </section>
@@ -123,77 +114,46 @@
   <div class="wrap">
     <div class="ft-grid">
       <div class="ft-brand">
-        <a href="/ru/"><img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM"></a>
+        <img src="/assets/brand/logo-1x.png" srcset="/assets/brand/logo-2x.png 2x, /assets/brand/logo-3x.png 3x" width="59" height="44" alt="Magic eSIM">
         <p>Мобильный интернет в поездке: eSIM для 190+ направлений, оплата в рублях российской картой или через СБП.</p>
-      </div>
-      <div class="ft-col">
-        <h2>Направления</h2>
-        <ul>
-          <li><a href="/ru/esim/china/">Китай</a></li>
-          <li><a href="/ru/esim/turkey/">Турция</a></li>
-          <li><a href="/ru/esim/thailand/">Таиланд</a></li>
-          <li><a href="/ru/esim/vietnam/">Вьетнам</a></li>
-          <li><a href="/ru/esim/egypt/">Египет</a></li>
-          <li><a href="/ru/esim/kazakhstan/">Казахстан</a></li>
-          <li><a href="/ru/esim/maldives/">Мальдивы</a></li>
-          <li><a href="/ru/esim/sri-lanka/">Шри-Ланка</a></li>
-          <li><a href="/ru/esim/">Все направления</a></li>
-        </ul>
       </div>
       <div class="ft-col">
         <h2>Инструкции</h2>
         <ul>
           <li><a href="/ru/iphone.html">Как установить eSIM на iPhone</a></li>
           <li><a href="/ru/android.html">Как установить eSIM на Android</a></li>
-          <li><a href="/ru/esim/compatibility/">Поддерживает ли телефон eSIM</a></li>
-          <li><a href="/ru/esim/activation-before-travel/">Когда устанавливать eSIM</a></li>
-          <li><a href="/ru/esim/not-working/">eSIM не работает — что проверить</a></li>
-          <li><a href="/ru/esim/payment-rubles/">Оплата российской картой или СБП</a></li>
         </ul>
       </div>
       <div class="ft-col">
         <h2>Помощь</h2>
         <p class="support">Поддержка: <a href="mailto:support@magicesim.store">support@magicesim.store</a></p>
         <ul>
-          <li><a href="/ru/#how">Как это работает</a></li>
-          <li><a href="/ru/#compat">Проверка устройства</a></li>
-          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
           <li><a href="https://t.me/magicesim_bot?startapp" target="_blank" rel="noopener noreferrer">Magic eSIM в Telegram</a></li>
+          <li><a href="https://t.me/magicesim" target="_blank" rel="noopener noreferrer">Наш Telegram-канал</a></li>
         </ul>
       </div>
     </div>
     <div class="ft-bottom">
       <p>© Magic eSIM</p>
-      <p><a href="/terms.html">Пользовательское соглашение</a> · <a href="/privacy.html">Политика конфиденциальности</a></p>
     </div>
   </div>
 </footer>
-  <script src="/assets/ru-destinations.js?v=7cbe5350"></script>
   <script>
-  /* «Вернуться к тарифам» goes back to the buyer's OWN country page.
-     Since 2026-10-10 the checkout lives on /esim/<slug>/, so the old fixed
-     /#plans sent a buyer whose payment failed to the home search, to find the
-     country and the plan again. The country comes from magic_pay_ctx (written by
-     our checkout when the payment started, accepted on the same terms as the
-     payment_failed goal below: well-formed, under six hours old, sbp/card), and
-     the page from the generated list of Russian country pages. Anything missing,
-     stale or unknown leaves /#plans. It only READS the context — the goal script
-     below clears it, which is why this one runs first (a refresh therefore
-     falls back to /#plans). */
+  /* O2: the way back is the Mini App — the only Russian sales channel published
+     today (/ru/ and its country pages are hidden since 2026-11-09). A purchase
+     that started in the Mini App (src=tma, read by the first script) goes back
+     to it on THIS order: startapp=o_<six-character ref> makes the app show the
+     order's status FROM THE SERVER, so a payment that did go through after all
+     is seen there instead of being paid a second time. The ref grants nothing:
+     the app only highlights an order the server already gave this customer.
+     Any other visitor gets the plain Mini App entry. Nothing here calls the
+     backend or Platega — reopening or refreshing the page does nothing. */
   (function(){
     var a=document.getElementById('pfBack');if(!a)return;
-    var MAX_AGE_MS=6*60*60*1000;
-    var ctx=null;try{ctx=JSON.parse(sessionStorage.getItem('magic_pay_ctx')||'null');}catch(e){return;}
-    if(!ctx||typeof ctx!=='object')return;
-    var age=Date.now()-Number(ctx._ts||0);
-    if(!isFinite(age)||age<0||age>MAX_AGE_MS)return;
-    if(!/^(sbp|card)$/.test(String(ctx.payment_type||'')))return;
-    var iso=String(ctx.country_code||'');if(!/^[A-Z]{2}$/.test(iso))return;
-    var list=window.MagicRuDestinations;if(!list||typeof list.length!=='number')return;
-    for(var i=0;i<list.length;i++){
-      var d=list[i];
-      if(d&&d.iso===iso&&/^[a-z0-9-]+$/.test(String(d.slug||''))){a.href='/ru/esim/'+d.slug+'/#tariffs';return;}
-    }
+    var b=window.__payFail||{};
+    if(b.tma!==true)return;
+    a.textContent='Вернуться в Telegram';
+    if(/^[A-Za-z0-9_-]{6}$/.test(String(b.ref||'')))a.href='https://t.me/magicesim_bot?startapp=o_'+encodeURIComponent(b.ref);
   })();
   </script>
   <script>
