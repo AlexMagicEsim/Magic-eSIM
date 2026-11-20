@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T06:01:06.376Z",
+  "generated_at": "2026-11-20T09:03:16.408Z",
   "source": "production-public-api",
-  "package_count": 2439,
+  "package_count": 2438,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -5061,6 +5061,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -10487,6 +10491,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -12415,6 +12423,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -21638,6 +21650,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -24645,6 +24661,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -27800,6 +27820,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28745,11 +28769,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -29210,6 +29230,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -32001,11 +32025,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -33036,6 +33056,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -35521,6 +35545,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -36391,6 +36419,79 @@
         {
           "days": 30,
           "price": 6250
+        }
+      ]
+    },
+    {
+      "package_id": "4046339e-5815-48b9-a7d4-9293807fa10d",
+      "name": "Malaysia 5GB/Day (MYIP)",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 350,
+      "networks": [
+        {
+          "operator": "U Mobile",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "MY"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 5,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1000
+        },
+        {
+          "days": 5,
+          "price": 1400
+        },
+        {
+          "days": 7,
+          "price": 1950
+        },
+        {
+          "days": 10,
+          "price": 2650
+        },
+        {
+          "days": 15,
+          "price": 3550
+        },
+        {
+          "days": 30,
+          "price": 6550
         }
       ]
     },
@@ -50126,83 +50227,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "59b6a373-2cbf-429b-820f-1fe370164a5b",
-      "name": "Malaysia 5GB/Day (nonhkip)",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 650,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 5,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1650
-        },
-        {
-          "days": 5,
-          "price": 2650
-        },
-        {
-          "days": 7,
-          "price": 3300
-        },
-        {
-          "days": 10,
-          "price": 4550
-        },
-        {
-          "days": 15,
-          "price": 6800
-        },
-        {
-          "days": 30,
-          "price": 12500
-        }
-      ]
-    },
-    {
       "package_id": "59dcf76f-0172-4fc4-8a5f-3cd162153216",
       "name": "Netherlands 50GB 180Days",
       "country_code": "NL",
@@ -50972,6 +50996,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -73031,6 +73059,38 @@
       "sellable_days": []
     },
     {
+      "package_id": "82b40868-62f6-465e-bc5d-b9a7f5db8514",
+      "name": "France 100 GB Unlimited Calls",
+      "country_code": "FR",
+      "region": "FR",
+      "coverage_country_codes": [
+        "FR"
+      ],
+      "coverage_flags": "🇫🇷",
+      "data_gb": 100,
+      "validity_days": 30,
+      "price": 4500,
+      "networks": [],
+      "network_technologies": [
+        "4G",
+        "5G"
+      ],
+      "speed": "",
+      "speed_note": "Full data speeds - no daily limits, no throttling",
+      "fup_policy": "",
+      "hotspot_supported": true,
+      "activation_policy": "network_connection",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "FIXED_VOLUME",
+      "daily_gb": null,
+      "daily_term_mode": null,
+      "daily_throttle_label": null,
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": []
+    },
+    {
       "package_id": "82b5007a-c0bc-427b-9773-5d5561635adb",
       "name": "Caribbean 3 GB",
       "country_code": "AI",
@@ -74047,82 +74107,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "84b6b01a-23cc-4ff2-9e26-3f98d2ec4b87",
-      "name": "Malaysia 10GB/Day",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 1050,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G"
-      ],
-      "speed": "3G/4G",
-      "speed_note": "",
-      "fup_policy": "384 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 10,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "384 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 2650
-        },
-        {
-          "days": 5,
-          "price": 3800
-        },
-        {
-          "days": 7,
-          "price": 5300
-        },
-        {
-          "days": 10,
-          "price": 7300
-        },
-        {
-          "days": 15,
-          "price": 10950
-        },
-        {
-          "days": 30,
-          "price": 20150
-        }
-      ]
     },
     {
       "package_id": "84f2d483-21e4-489b-9692-0c14de6da775",
@@ -77125,83 +77109,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "898830d2-56d3-42bb-9f5b-d07d0489dc99",
-      "name": "Malaysia 500MB/Day",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 150,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": false,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 0.49,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 350
-        },
-        {
-          "days": 5,
-          "price": 550
-        },
-        {
-          "days": 7,
-          "price": 750
-        },
-        {
-          "days": 10,
-          "price": 1000
-        },
-        {
-          "days": 15,
-          "price": 1350
-        },
-        {
-          "days": 30,
-          "price": 2450
-        }
-      ]
     },
     {
       "package_id": "89c9b167-528c-49e1-9963-cfc6343043fc",
@@ -88166,6 +88073,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -91786,6 +91697,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "a1e45eab-a9d2-47a1-b7d5-51d362d7cc63",
+      "name": "Malaysia 10GB/Day (MYIP)",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 650,
+      "networks": [
+        {
+          "operator": "U Mobile",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "384 Kbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "MY"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 10,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "384 Kbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 1600
+        },
+        {
+          "days": 5,
+          "price": 2550
+        },
+        {
+          "days": 7,
+          "price": 3200
+        },
+        {
+          "days": 10,
+          "price": 4400
+        },
+        {
+          "days": 15,
+          "price": 6600
+        },
+        {
+          "days": 30,
+          "price": 12100
+        }
+      ]
+    },
+    {
       "package_id": "a1ebc3ad-6201-4747-a360-8afcc27125de",
       "name": "Luxembourg 1GB/Day",
       "country_code": "LU",
@@ -94514,6 +94498,10 @@
         {
           "operator": "Avea/Türk Telekom",
           "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -95688,6 +95676,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -102419,83 +102411,6 @@
       ]
     },
     {
-      "package_id": "b3d10add-69a8-4927-bfe5-a47e742ed31e",
-      "name": "Malaysia 1GB/Day",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 200,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 1,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 450
-        },
-        {
-          "days": 5,
-          "price": 750
-        },
-        {
-          "days": 7,
-          "price": 1000
-        },
-        {
-          "days": 10,
-          "price": 1250
-        },
-        {
-          "days": 15,
-          "price": 1850
-        },
-        {
-          "days": 30,
-          "price": 3000
-        }
-      ]
-    },
-    {
       "package_id": "b3dbd93a-ef89-4381-96ad-6ac8380e0378",
       "name": "Lithuania 20GB 30Days",
       "country_code": "LT",
@@ -102749,6 +102664,79 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "b4a1f777-fd76-4b1c-a461-60f391137940",
+      "name": "Malaysia 1GB/Day FUP1Mbps (MYIP)",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 100,
+      "networks": [
+        {
+          "operator": "U Mobile",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "MY"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 1,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 300
+        },
+        {
+          "days": 5,
+          "price": 450
+        },
+        {
+          "days": 7,
+          "price": 650
+        },
+        {
+          "days": 10,
+          "price": 850
+        },
+        {
+          "days": 15,
+          "price": 1150
+        },
+        {
+          "days": 30,
+          "price": 2100
+        }
+      ]
     },
     {
       "package_id": "b4bab183-d58f-4a76-987d-11f6249c3166",
@@ -103407,6 +103395,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -107816,6 +107808,10 @@
         },
         {
           "operator": "Avea/Türk Telekom",
+          "type": "5G"
+        },
+        {
+          "operator": "Turkcell",
           "type": "5G"
         }
       ],
@@ -116014,11 +116010,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -121461,96 +121453,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "d4ed9f0d-76a6-433a-9ead-5f7f92e64806",
-      "name": "Singapore & Malaysia 3GB/Day",
-      "country_code": "SGMY-2",
-      "region": "SG,MY",
-      "coverage_country_codes": [
-        "SG",
-        "MY"
-      ],
-      "coverage_flags": "🇸🇬 🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 450,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        },
-        {
-          "operator": "U Mobile",
-          "type": "5G"
-        },
-        {
-          "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "128 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "HK"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "128 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 1150
-        },
-        {
-          "days": 5,
-          "price": 1850
-        },
-        {
-          "days": 7,
-          "price": 2550
-        },
-        {
-          "days": 10,
-          "price": 3150
-        },
-        {
-          "days": 15,
-          "price": 4700
-        },
-        {
-          "days": 30,
-          "price": 8650
-        }
-      ]
-    },
-    {
       "package_id": "d4fb7ba1-3329-435c-9911-f24da0814bbb",
       "name": "Brunei Darussalam 3GB 30Days",
       "country_code": "BN",
@@ -123499,38 +123401,6 @@
         "NL",
         "UK"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "d74cd76c-0e1f-464e-a781-a24ba8df4623",
-      "name": "France 100 GB",
-      "country_code": "FR",
-      "region": "FR",
-      "coverage_country_codes": [
-        "FR"
-      ],
-      "coverage_flags": "🇫🇷",
-      "data_gb": 100,
-      "validity_days": 30,
-      "price": 7000,
-      "networks": [],
-      "network_technologies": [
-        "4G",
-        "5G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -129620,6 +129490,79 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
+    },
+    {
+      "package_id": "dee49c3b-82af-41fa-af2c-618568ed50a1",
+      "name": "Malaysia 2GB/Day FUP1Mbps (MYIP)",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 200,
+      "networks": [
+        {
+          "operator": "U Mobile",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "MY"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 2,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 550
+        },
+        {
+          "days": 5,
+          "price": 850
+        },
+        {
+          "days": 7,
+          "price": 1050
+        },
+        {
+          "days": 10,
+          "price": 1450
+        },
+        {
+          "days": 15,
+          "price": 2150
+        },
+        {
+          "days": 30,
+          "price": 3550
+        }
+      ]
     },
     {
       "package_id": "def618d4-a0bd-4e3a-8fb5-98a028747349",
@@ -139408,6 +139351,79 @@
       "sellable_days": []
     },
     {
+      "package_id": "f0c296a3-1bfd-4aa1-b1be-ec52481d2bb1",
+      "name": "Malaysia 3GB/Day FUP1Mbps (MYIP)",
+      "country_code": "MY",
+      "region": "MY",
+      "coverage_country_codes": [
+        "MY"
+      ],
+      "coverage_flags": "🇲🇾",
+      "data_gb": 0,
+      "validity_days": null,
+      "price": 300,
+      "networks": [
+        {
+          "operator": "U Mobile",
+          "type": "5G"
+        }
+      ],
+      "network_technologies": [
+        "3G",
+        "4G",
+        "5G"
+      ],
+      "speed": "3G/4G/5G",
+      "speed_note": "",
+      "fup_policy": "1 Mbps",
+      "hotspot_supported": null,
+      "activation_policy": "unknown",
+      "topup_available": true,
+      "ip_export": [
+        "MY"
+      ],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "PER_DAY",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": false,
+      "daily_reset_confirmed": false,
+      "sellable_days": [
+        3,
+        5,
+        7,
+        10,
+        15,
+        30
+      ],
+      "term_prices": [
+        {
+          "days": 3,
+          "price": 750
+        },
+        {
+          "days": 5,
+          "price": 1100
+        },
+        {
+          "days": 7,
+          "price": 1500
+        },
+        {
+          "days": 10,
+          "price": 2050
+        },
+        {
+          "days": 15,
+          "price": 2750
+        },
+        {
+          "days": 30,
+          "price": 5050
+        }
+      ]
+    },
+    {
       "package_id": "f0c99624-3b71-4416-9749-097f51de8eae",
       "name": "Mauritania 5GB 30Days",
       "country_code": "MR",
@@ -140960,83 +140976,6 @@
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": []
-    },
-    {
-      "package_id": "f3543407-0f2a-41d5-b887-44f192ff459f",
-      "name": "Malaysia 2GB/Day",
-      "country_code": "MY",
-      "region": "MY",
-      "coverage_country_codes": [
-        "MY"
-      ],
-      "coverage_flags": "🇲🇾",
-      "data_gb": 0,
-      "validity_days": null,
-      "price": 350,
-      "networks": [
-        {
-          "operator": "Maxis",
-          "type": "5G"
-        },
-        {
-          "operator": "CelcomDigi",
-          "type": "5G"
-        }
-      ],
-      "network_technologies": [
-        "3G",
-        "4G",
-        "5G"
-      ],
-      "speed": "3G/4G/5G",
-      "speed_note": "",
-      "fup_policy": "512 Kbps",
-      "hotspot_supported": null,
-      "activation_policy": "unknown",
-      "topup_available": true,
-      "ip_export": [
-        "SG"
-      ],
-      "plan_type": "DAILY",
-      "daily_gb": 2,
-      "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": [
-        3,
-        5,
-        7,
-        10,
-        15,
-        30
-      ],
-      "term_prices": [
-        {
-          "days": 3,
-          "price": 900
-        },
-        {
-          "days": 5,
-          "price": 1250
-        },
-        {
-          "days": 7,
-          "price": 1750
-        },
-        {
-          "days": 10,
-          "price": 2450
-        },
-        {
-          "days": 15,
-          "price": 3250
-        },
-        {
-          "days": 30,
-          "price": 5950
-        }
-      ]
     },
     {
       "package_id": "f363b0a4-fb14-4ba8-acd9-d1ce23e2ba82",
@@ -149564,7 +149503,7 @@
           "aa9a8295-0dc3-432b-87c4-6e153eaa313d",
           "f971ffec-a893-4401-888e-e6362e9e6a8e",
           "dec215b2-5580-4419-8a3c-3dd1ce186bdc",
-          "d74cd76c-0e1f-464e-a781-a24ba8df4623",
+          "82b40868-62f6-465e-bc5d-b9a7f5db8514",
           "9c042ab4-25c7-4dfb-8b6b-818e41526673"
         ],
         "regional": [
@@ -151539,12 +151478,11 @@
           "5f65aa4d-715e-4889-b516-0d905e170f50"
         ],
         "daily": [
-          "898830d2-56d3-42bb-9f5b-d07d0489dc99",
-          "b3d10add-69a8-4927-bfe5-a47e742ed31e",
-          "f3543407-0f2a-41d5-b887-44f192ff459f",
-          "d4ed9f0d-76a6-433a-9ead-5f7f92e64806",
-          "59b6a373-2cbf-429b-820f-1fe370164a5b",
-          "84b6b01a-23cc-4ff2-9e26-3f98d2ec4b87"
+          "b4a1f777-fd76-4b1c-a461-60f391137940",
+          "dee49c3b-82af-41fa-af2c-618568ed50a1",
+          "f0c296a3-1bfd-4aa1-b1be-ec52481d2bb1",
+          "4046339e-5815-48b9-a7d4-9293807fa10d",
+          "a1e45eab-a9d2-47a1-b7d5-51d362d7cc63"
         ],
         "best": "3704441f-caf7-4318-86fc-a4ccb64fd7f1"
       },
