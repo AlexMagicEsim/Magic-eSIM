@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T09:03:16.408Z",
+  "generated_at": "2026-11-20T12:03:15.132Z",
   "source": "production-public-api",
   "package_count": 2438,
   "packages": [
@@ -28769,7 +28769,11 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -32025,7 +32029,11 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63857,7 +63865,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63872,7 +63880,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -88382,7 +88390,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -88397,7 +88405,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -104918,7 +104926,8 @@
       "price": 5750,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -110230,7 +110239,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -116010,7 +116019,11 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "4G"
+          "type": "5G"
+        },
+        {
+          "operator": "3",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -116967,7 +116980,8 @@
       "price": 7350,
       "networks": [],
       "network_technologies": [
-        "4G"
+        "4G",
+        "5G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
@@ -126191,7 +126205,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -126206,7 +126220,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -142148,7 +142162,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "UK"
+        "NL"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
