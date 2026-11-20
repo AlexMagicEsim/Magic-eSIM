@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T12:03:15.132Z",
+  "generated_at": "2026-11-20T15:01:09.238Z",
   "source": "production-public-api",
-  "package_count": 2438,
+  "package_count": 2439,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -25845,6 +25845,54 @@
       "sellable_days": []
     },
     {
+      "package_id": "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+      "name": "Asialink Unlimited 5 Days",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, ID, JP, LA, MO, MY, PK, PH, SG, KR, LK, TH, VN",
+      "coverage_country_codes": [
+        "BD",
+        "KH",
+        "CN",
+        "HK",
+        "ID",
+        "JP",
+        "LA",
+        "MO",
+        "MY",
+        "PK",
+        "PH",
+        "SG",
+        "KR",
+        "LK",
+        "TH",
+        "VN"
+      ],
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇰 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇭 🇻🇳",
+      "data_gb": 0,
+      "validity_days": 5,
+      "price": 2350,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        5
+      ]
+    },
+    {
       "package_id": "2bc17693-93ca-47b1-bae3-f772cf65935f",
       "name": "Bulgaria 5GB 30Days",
       "country_code": "BG",
@@ -31211,39 +31259,6 @@
           "days": 30,
           "price": 4200
         }
-      ]
-    },
-    {
-      "package_id": "3647b539-fc6e-4972-84d3-09df0ac3f5fb",
-      "name": "China Unlimited 10 Days",
-      "country_code": "CN",
-      "region": "CN",
-      "coverage_country_codes": [
-        "CN"
-      ],
-      "coverage_flags": "🇨🇳",
-      "data_gb": 0,
-      "validity_days": 10,
-      "price": 4200,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": true,
-      "sellable_days": [
-        10
       ]
     },
     {
@@ -59634,6 +59649,54 @@
       "sellable_days": []
     },
     {
+      "package_id": "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+      "name": "Asialink Unlimited 7 Days",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, ID, JP, LA, MO, MY, PK, PH, SG, KR, LK, TH, VN",
+      "coverage_country_codes": [
+        "BD",
+        "KH",
+        "CN",
+        "HK",
+        "ID",
+        "JP",
+        "LA",
+        "MO",
+        "MY",
+        "PK",
+        "PH",
+        "SG",
+        "KR",
+        "LK",
+        "TH",
+        "VN"
+      ],
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇰 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇭 🇻🇳",
+      "data_gb": 0,
+      "validity_days": 7,
+      "price": 2850,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        7
+      ]
+    },
+    {
       "package_id": "6c49e49b-0ebe-4c9f-ad96-62af7af68fcf",
       "name": "El Salvador 3GB 15Days",
       "country_code": "SV",
@@ -64044,6 +64107,54 @@
           "days": 30,
           "price": 2650
         }
+      ]
+    },
+    {
+      "package_id": "72a86e39-584f-482a-895c-fed9be5fda0a",
+      "name": "Asialink Unlimited 10 Days",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, ID, JP, LA, MO, MY, PK, PH, SG, KR, LK, TH, VN",
+      "coverage_country_codes": [
+        "BD",
+        "KH",
+        "CN",
+        "HK",
+        "ID",
+        "JP",
+        "LA",
+        "MO",
+        "MY",
+        "PK",
+        "PH",
+        "SG",
+        "KR",
+        "LK",
+        "TH",
+        "VN"
+      ],
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇰 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇭 🇻🇳",
+      "data_gb": 0,
+      "validity_days": 10,
+      "price": 3100,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        10
       ]
     },
     {
@@ -78112,6 +78223,54 @@
           "days": 30,
           "price": 1550
         }
+      ]
+    },
+    {
+      "package_id": "8b446e0b-505e-4793-905f-10848a4d5f3a",
+      "name": "Asialink Unlimited 3 Days",
+      "country_code": "BD",
+      "region": "BD, KH, CN, HK, ID, JP, LA, MO, MY, PK, PH, SG, KR, LK, TH, VN",
+      "coverage_country_codes": [
+        "BD",
+        "KH",
+        "CN",
+        "HK",
+        "ID",
+        "JP",
+        "LA",
+        "MO",
+        "MY",
+        "PK",
+        "PH",
+        "SG",
+        "KR",
+        "LK",
+        "TH",
+        "VN"
+      ],
+      "coverage_flags": "🇧🇩 🇰🇭 🇨🇳 🇭🇰 🇮🇩 🇯🇵 🇱🇦 🇲🇴 🇲🇾 🇵🇰 🇵🇭 🇸🇬 🇰🇷 🇱🇰 🇹🇭 🇻🇳",
+      "data_gb": 0,
+      "validity_days": 3,
+      "price": 1600,
+      "networks": [],
+      "network_technologies": [
+        "4G"
+      ],
+      "speed": "",
+      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
+      "hotspot_supported": true,
+      "activation_policy": "first_data_usage",
+      "topup_available": false,
+      "ip_export": [],
+      "plan_type": "DAILY",
+      "daily_gb": 3,
+      "daily_term_mode": "FIXED_TERM",
+      "daily_throttle_label": "1 Mbps",
+      "daily_throttle_continues": true,
+      "daily_reset_confirmed": true,
+      "sellable_days": [
+        3
       ]
     },
     {
@@ -97828,39 +97987,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "acd353fa-189e-43df-9441-fd055ad71ff8",
-      "name": "China Unlimited 7 Days",
-      "country_code": "CN",
-      "region": "CN",
-      "coverage_country_codes": [
-        "CN"
-      ],
-      "coverage_flags": "🇨🇳",
-      "data_gb": 0,
-      "validity_days": 7,
-      "price": 2800,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": true,
-      "sellable_days": [
-        7
-      ]
-    },
-    {
       "package_id": "acda4367-8238-43b9-a912-b4e1252ee24b",
       "name": "Bulgaria 3GB 15Days",
       "country_code": "BG",
@@ -98394,39 +98520,6 @@
           "days": 30,
           "price": 16500
         }
-      ]
-    },
-    {
-      "package_id": "adb34048-0655-48ea-a03b-47c1ef872304",
-      "name": "Singapore Unlimited 10 Days",
-      "country_code": "SG",
-      "region": "SG",
-      "coverage_country_codes": [
-        "SG"
-      ],
-      "coverage_flags": "🇸🇬",
-      "data_gb": 0,
-      "validity_days": 10,
-      "price": 3500,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "fup_policy": "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": false,
-      "ip_export": [],
-      "plan_type": "DAILY",
-      "daily_gb": 3,
-      "daily_term_mode": "FIXED_TERM",
-      "daily_throttle_label": "1 Mbps",
-      "daily_throttle_continues": true,
-      "daily_reset_confirmed": true,
-      "sellable_days": [
-        10
       ]
     },
     {
@@ -148299,7 +148392,11 @@
           "66bc3f70-7143-4e04-97fe-588c65df116d",
           "a62f2492-8fcd-4862-ac33-edd23d59352e",
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
-          "35357b3e-3493-4ee3-a38e-1027109dacb9"
+          "35357b3e-3493-4ee3-a38e-1027109dacb9",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "828290c2-5584-405c-9cbb-94a2379c67fa"
       },
@@ -148938,8 +149035,8 @@
           "14e13cc3-9957-452c-91d8-b43a71db0560",
           "00908164-dbcb-4908-9c2a-09aa21742f0e",
           "15ea3c38-628a-44a4-ae36-633f8e981f94",
-          "acd353fa-189e-43df-9441-fd055ad71ff8",
-          "3647b539-fc6e-4972-84d3-09df0ac3f5fb"
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "6eac8522-62ea-4b7f-bd3c-d2da77ea86aa"
       },
@@ -150009,7 +150106,11 @@
           "ae7ae69f-ae2b-420d-af5e-dee5578269b6",
           "213b5c7c-528b-4160-b061-43adcff8ab03",
           "bb94a58b-e1d4-4c7b-a040-2077e0627c1c",
-          "599a880e-b982-4f5d-b0d7-aa8d47c5520e"
+          "599a880e-b982-4f5d-b0d7-aa8d47c5520e",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "90c1ab74-8564-4bf1-8d8d-5dd1ba6d0041"
       },
@@ -150156,7 +150257,11 @@
           "0a922a8f-cb9b-4b86-b786-69287d667771",
           "1f71aeff-3cd5-4525-b97c-25d3c7d1b258",
           "4bb731a5-e80b-4dfb-b97e-fa2b2b915cc0",
-          "d78292fe-f6a7-4ba5-aeba-80fe7d85df52"
+          "d78292fe-f6a7-4ba5-aeba-80fe7d85df52",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "1f3f533f-67cf-4e9f-82e4-2f3727e65018"
       },
@@ -150578,7 +150683,11 @@
           "26c141a6-c91b-4ea6-9209-7d898142047c",
           "7f110c6f-ece0-4745-8125-46b6089777af",
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
-          "1d1a63cb-6a95-48cd-8517-ea46f0c214f8"
+          "1d1a63cb-6a95-48cd-8517-ea46f0c214f8",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "0b51e9a4-5406-4296-b394-addaa23b9dbb"
       },
@@ -150636,7 +150745,11 @@
           "f384896c-ca83-4c23-91be-dcc54d843163",
           "3cdcd5ec-9a34-4baa-b446-d714ef97bc21",
           "9fbfe0a8-7976-48f6-b7ba-68b9f53ffdac",
-          "5a2a6cd1-9914-44be-9f4c-81c0e81e64dc"
+          "5a2a6cd1-9914-44be-9f4c-81c0e81e64dc",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "c1fd3641-60a1-4ce4-ba64-45a719bc5d30"
       },
@@ -150768,7 +150881,11 @@
           "9fdf4649-54d9-4399-92fb-ac02cd58b58e",
           "bd50dfdc-e8d1-416f-8146-87e014d610e1",
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
-          "1d1a63cb-6a95-48cd-8517-ea46f0c214f8"
+          "1d1a63cb-6a95-48cd-8517-ea46f0c214f8",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "7f342a9f-1b7f-4726-a2ab-94c137cfec40"
       },
@@ -150855,7 +150972,11 @@
           "f415b721-aec2-4805-89fe-94dea9fea61f",
           "dded13d6-a2d7-4cf0-b3d4-8554e087c01f",
           "9aa91274-c2f9-41e8-94e2-0fca911899ee",
-          "b1968c2a-f211-4da3-9dda-068a574150d7"
+          "b1968c2a-f211-4da3-9dda-068a574150d7",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "c2c5ad69-e221-484d-b1e2-00bd2d24ad2f"
       },
@@ -151243,7 +151364,11 @@
           "1dbde518-ea34-4031-9d56-a4cd7d5c9922",
           "5030b6ac-d1e4-4af2-b77d-eba2d2e2de4e",
           "f4829061-35c2-4aa1-bd57-74124de8c7e6",
-          "e161b75a-753d-43b6-b8fb-a38b0e37f124"
+          "e161b75a-753d-43b6-b8fb-a38b0e37f124",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "51d83fe2-2603-4584-98de-5cc3aae07324"
       },
@@ -151496,7 +151621,11 @@
           "dee49c3b-82af-41fa-af2c-618568ed50a1",
           "f0c296a3-1bfd-4aa1-b1be-ec52481d2bb1",
           "4046339e-5815-48b9-a7d4-9293807fa10d",
-          "a1e45eab-a9d2-47a1-b7d5-51d362d7cc63"
+          "a1e45eab-a9d2-47a1-b7d5-51d362d7cc63",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "3704441f-caf7-4318-86fc-a4ccb64fd7f1"
       },
@@ -151923,7 +152052,11 @@
           "9e66fb32-af9c-495a-bfc7-6d69887623d1",
           "8ccf3ec9-8911-4474-91be-5fb2f6a0fa54",
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
-          "0363a5db-3a82-43ed-a7a5-bc49ca6ebee2"
+          "0363a5db-3a82-43ed-a7a5-bc49ca6ebee2",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "2676dd55-33b4-45cd-bcbe-ea41a389c54b"
       },
@@ -151952,7 +152085,11 @@
           "b5c01919-f130-4728-93f3-2a8e3224d99a",
           "d5050496-fe4d-4464-9e88-3970d1c0fda7",
           "197463e7-e9a2-4448-bc53-9851cbf952fc",
-          "1b113991-ed72-4dcd-8c1c-839b6de0adc6"
+          "1b113991-ed72-4dcd-8c1c-839b6de0adc6",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "a6cd2a1e-250b-42e1-b3c6-7868b6f2f051"
       },
@@ -152357,7 +152494,7 @@
           "11b268e3-61e3-4e0d-b850-42ca2b142a4d",
           "daac3e67-dba5-4664-91fa-72b6205d5069",
           "ab37cc54-8a95-4c70-8b2b-456adc670ce8",
-          "adb34048-0655-48ea-a03b-47c1ef872304"
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "5b8b528d-54a1-475b-9de0-21bab680bc6c"
       },
@@ -152682,7 +152819,11 @@
           "3c817b37-d3d8-41ad-8036-a09cc61f8b5f",
           "182570a9-ec53-441e-a0a2-d20dc3aebbbc",
           "b72889a4-6bb9-4b35-a48f-bf3643989168",
-          "e1d2e035-3005-453a-8115-af6b35776979"
+          "e1d2e035-3005-453a-8115-af6b35776979",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "8f5b3f11-0d17-47cf-abac-683a76193814"
       },
@@ -153174,7 +153315,11 @@
           "b605100c-0890-4cea-b390-3c3484b0402a",
           "55330c4e-a35f-469a-927a-9cc0468717af",
           "1bd12f8f-1f53-4808-be86-73f5bfabec85",
-          "32d521ab-c388-47df-862e-a1275721ff4c"
+          "32d521ab-c388-47df-862e-a1275721ff4c",
+          "8b446e0b-505e-4793-905f-10848a4d5f3a",
+          "2ba4388d-d44f-4576-9d9d-7735f8c015a0",
+          "6c3de155-e123-4ab2-baa5-b10c6f9e79d9",
+          "72a86e39-584f-482a-895c-fed9be5fda0a"
         ],
         "best": "32ec73cf-88f0-4a82-b333-12a2856e67e6"
       },
