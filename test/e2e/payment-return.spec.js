@@ -151,3 +151,18 @@ test('payment-failed: a Mini App return goes back to Telegram on this order', as
   await expect(page.locator('#pfBack')).toHaveText('Вернуться в Telegram');
   await expect(page.locator('#pfBack')).toHaveAttribute('href', `https://t.me/magicesim_bot?startapp=o_${TOKEN.slice(-6)}`);
 });
+
+// 2026-11-20: /assets/magic-net.js failed to load once on the live page and the page stayed on «Проверяем оплату».
+test('payment-success: magic-net.js fails on first load — the page fetches it again and shows the order', async ({ page }) => {
+  let netLoads = 0;
+  await page.route('**/assets/magic-net.js*', (r) => { netLoads += 1; return netLoads === 1 ? r.abort() : r.continue(); });
+  await page.route('**/api/v1/public/retail-orders/*/status', (r) => r.fulfill({ status: 200, contentType: 'application/json',
+    headers: { 'access-control-allow-origin': '*' },
+    body: JSON.stringify({ status: 'completed', paymentStatus: 'confirmed', amountRub: 100, currency: 'RUB' }) }));
+  const errors = []; page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto(`/payment-success.html?token=${TOKEN}&src=tma`);
+  await expect(page.locator('#title')).toHaveText('eSIM готова', { timeout: 15000 });
+  expect(netLoads).toBe(2);
+  expect(errors).toEqual([]);
+  await expect(page.locator('#actionTelegram')).toHaveAttribute('href', `https://t.me/magicesim_bot?startapp=o_${TOKEN.slice(-6)}`);
+});
