@@ -326,6 +326,31 @@
         return 'processing'; // awaiting_payment / unknown
       }
 
+      /* The network layer, and what to do when it did not load.
+         /assets/magic-net.js is a plain <script> in <head>; on 2026-11-20 one
+         live check, a minute after a deploy, got the page without it — and the
+         first MagicNet.request threw a ReferenceError inside poll(), so the poll
+         never rescheduled and the page sat on «Проверяем оплату» for ever.
+         Now a missing layer is fetched again, from the SAME tag's own src (no
+         typed host, no second copy of the URL), at most one load at a time; a
+         poll without it counts as a failed attempt and is retried like any
+         other, so the page ends on the neutral fallback, never on a spinner. */
+      var netLoading = null;
+      function withNet() {
+        if (window.MagicNet && typeof window.MagicNet.request === 'function') return Promise.resolve(window.MagicNet);
+        if (netLoading) return netLoading;
+        var tag = document.querySelector('script[src^="/assets/magic-net.js"]');
+        if (!tag) return Promise.reject(new Error('no_net'));
+        netLoading = new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = tag.getAttribute('src');
+          s.onload = function () { netLoading = null; (window.MagicNet && typeof window.MagicNet.request === 'function') ? resolve(window.MagicNet) : reject(new Error('no_net')); };
+          s.onerror = function () { netLoading = null; if (s.parentNode) s.parentNode.removeChild(s); reject(new Error('no_net')); };
+          document.head.appendChild(s);
+        });
+        return netLoading;
+      }
+
       function poll() {
         attempts++;
         /* Render first, gateway second. The polling itself is unchanged: the
@@ -333,8 +358,11 @@
            says, the return URL still proves nothing, and a status this page
            cannot read still shows the neutral fallback rather than a guess.
            Only the road changed. */
-        MagicNet.request('/api/v1/public/retail-orders/' + encodeURIComponent(token) + '/status',
-          { kind: 'status', headers: { Accept: 'application/json' } })
+        withNet()
+          .then(function (net) {
+            return net.request('/api/v1/public/retail-orders/' + encodeURIComponent(token) + '/status',
+              { kind: 'status', headers: { Accept: 'application/json' } });
+          })
           .then(function (r) { return r.ok ? r.body : null; })
           .then(function (view) {
             var key = view ? mapView(view) : 'processing';

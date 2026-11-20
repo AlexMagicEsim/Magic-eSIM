@@ -75,14 +75,16 @@ test('3. the website buyer\'s Telegram entry appears on `done` only', () => {
   assert.match(PAGE, /if \(key === 'done' && !fromTma\) tmaBtn\.classList\.remove\('hide'\);/);
 });
 
-test('4. the order display is unchanged but for the chrome, the second button and the canceled note', () => {
+test('4. the order display is unchanged but for the chrome, the second button, the canceled note and the network fallback', () => {
   const before = execFileSync('git', ['show', 'f4a2f7560:payment-success.html'], { cwd: ROOT, encoding: 'utf8' });
   const main = (h) => h.slice(h.indexOf('<main class="svc">'), h.indexOf('</main>'));
   const scripts = (h) => strip(h).match(/<script\b[^>]*>[\s\S]*?<\/script>/g).filter((s) => !/lm-play/.test(s));
   // every state but canceled, the status request, the polling and the goals: byte for byte
   const norm = (h) => scripts(h).join('\n')
     .replace(/canceled:\s+\{ title: 'Платёж не завершён', msg: '[^']*'/, 'CANCELED')
-    .replace(/\s*var home = document\.getElementById\('actionHome'\);\n\s*if \(home\) home\.textContent = 'Остаться на сайте';/, '');
+    .replace(/\s*var home = document\.getElementById\('actionHome'\);\n\s*if \(home\) home\.textContent = 'Остаться на сайте';/, '')
+    // the poll loop itself is pinned by seo/test-payment-success-net-fallback.mjs
+    .replace(/\n\s*(\/\* The network layer, and what to do when it did not load\.|function poll\(\) \{)[\s\S]*?\n      poll\(\);/, '\nPOLL');
   assert.equal(norm(PAGE), norm(before));
   assert.match(PAGE, /canceled:\s+\{ title: 'Платёж не завершён', msg: 'Оплата не была завершена\. Попробовать снова можно в Magic eSIM в Telegram\.'/);
   // the card itself: only the second button changed
