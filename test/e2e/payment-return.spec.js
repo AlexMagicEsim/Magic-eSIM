@@ -128,24 +128,26 @@ async function seedPayCtx(page, ctx) {
     (r) => r.abort());
 }
 
-test('payment-failed: «Вернуться к тарифам» goes back to the country the payment started on', async ({ page }) => {
+// O2 (2026-11-20): the way back is the Mini App — /ru/ and its country pages are hidden since 2026-11-09.
+test('payment-failed: a website return goes to the Mini App, and the payment_failed goal still fires once', async ({ page }) => {
   await harness(page, ['canceled']);
   await seedPayCtx(page, { payment_type: 'card', country_code: 'TH', package_id: 'pkg-1' });
   await page.goto(`/payment-failed.html?token=${TOKEN}`);
   const back = page.locator('#pfBack');
-  await expect(back).toHaveText('Вернуться к тарифам');
-  await expect(back).toHaveAttribute('href', '/ru/esim/thailand/#tariffs');
+  await expect(back).toHaveText('Открыть Magic eSIM в Telegram');
+  await expect(back).toHaveAttribute('href', 'https://t.me/magicesim_bot?startapp');
   const goals = await page.evaluate(() => window.__ymSeen.filter((c) => c.args[1] === 'reachGoal').map((c) => c.args));
   expect(goals.length).toBe(1);                       // the payment_failed goal still fires once
   expect(await page.evaluate(() => sessionStorage.getItem('magic_pay_ctx'))).toBeNull();
-  await back.click();
-  await page.waitForURL('**/esim/thailand/#tariffs');
-  await expect(page.locator('#tariffs')).toHaveCount(1);
+  await page.reload();
+  const again = await page.evaluate(() => window.__ymSeen.filter((c) => c.args[1] === 'reachGoal').length);
+  expect(again).toBe(0);                              // a reload fires nothing
 });
 
-test('payment-failed: with no payment context the button keeps /ru/#plans', async ({ page }) => {
+test('payment-failed: a Mini App return goes back to Telegram on this order', async ({ page }) => {
   await harness(page, ['canceled']);
   await seedPayCtx(page, null);
-  await page.goto('/payment-failed.html');
-  await expect(page.locator('#pfBack')).toHaveAttribute('href', '/ru/#plans');
+  await page.goto(`/payment-failed.html?token=${TOKEN}&src=tma`);
+  await expect(page.locator('#pfBack')).toHaveText('Вернуться в Telegram');
+  await expect(page.locator('#pfBack')).toHaveAttribute('href', `https://t.me/magicesim_bot?startapp=o_${TOKEN.slice(-6)}`);
 });
