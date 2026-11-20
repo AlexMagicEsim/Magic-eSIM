@@ -172,9 +172,9 @@ test('payment return and legal pages: shared sheets, the one Russian chrome, no 
     const h = read(p);
     assert.doesNotMatch(h, /<style\b/, `${p}: an inline stylesheet is a second design system`);
     assert.ok(h.indexOf('href="/assets/site.css?v=') > 0 && h.indexOf('href="/assets/site.css?v=') < h.indexOf('href="/assets/ru.css?v='), `${p}: site.css, then ru.css`);
-    // O2 (2026-11-20): /payment-failed.html carries the payment-return chrome — the same classes, with
+    // O2/O3 (2026-11-20): both payment return pages carry the payment-return chrome — the same classes, with
     // links to published pages only (seo/test-payment-failed-return.mjs pins the links).
-    const [hdr, ftr] = p === 'payment-failed.html' ? [RU_PAY_RETURN_HEADER, RU_PAY_RETURN_FOOTER] : [ruHeader(), RU_FOOTER];
+    const [hdr, ftr] = (p === 'payment-failed.html' || p === 'payment-success.html') ? [RU_PAY_RETURN_HEADER, RU_PAY_RETURN_FOOTER] : [ruHeader(), RU_FOOTER];
     assert.ok(h.includes(hdr), `${p}: header drifted from seo/ru-chrome.mjs`);
     assert.ok(h.includes(ftr), `${p}: footer drifted from seo/ru-chrome.mjs`);
   }

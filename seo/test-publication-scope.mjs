@@ -132,9 +132,9 @@ test('(c) no English page names a page of a hidden language, and every reference
   const hiddenLinks = [];
   assert.deepEqual(missingReferences(OUT, { scope: SCOPE, hiddenLinks }), []);
   // only the kept Russian pages link hidden pages (their own site's frame) — never an English one.
-  // /payment-failed.html is no longer among them (O2, 2026-11-20): its chrome links published pages only.
+  // The two payment return pages are no longer among them (O2/O3, 2026-11-20): their chrome links published pages only.
   const from = [...new Set(hiddenLinks.map((h) => h.from))].sort();
-  assert.deepEqual(from, ['app/index.html', 'payment-success.html', 'ru/android.html', 'ru/iphone.html']);
+  assert.deepEqual(from, ['app/index.html', 'ru/android.html', 'ru/iphone.html']);
 });
 
 test('(c) every English page keeps its canonical; hreflang is English and x-default only', () => {

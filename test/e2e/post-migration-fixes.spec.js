@@ -83,14 +83,14 @@ for (const [from, to] of [['/ru/esim/turkey/', '/destinations/turkey/'], ['/ru/e
   });
 }
 
-test('after a payment «Вернуться на главную» opens the Russian home', async ({ page }) => {
+// O3 (2026-11-20): /ru/ is hidden since 2026-11-09 — the page's second button is support, its way on is Telegram.
+test('after a payment the second button is support, and nothing on the page leads to the hidden /ru/', async ({ page }) => {
   await page.route('**/api/v1/public/retail-orders/*/status', (r) => r.fulfill({ status: 200, contentType: 'application/json',
     body: JSON.stringify({ status: 'completed', paymentStatus: 'confirmed', amountRub: 950, currency: 'RUB', country: 'IT' }) }));
   await page.goto('/payment-success.html?token=TestTokenR308_abcdefghijklmnopqrstuvwxyz012');
-  const home = page.locator('#actionHome');
-  await expect(home).toBeVisible();
-  await expect(home).toHaveAttribute('href', '/ru/');
-  await home.click();
-  await page.waitForURL((u) => u.pathname === '/ru/');
-  expect(await page.evaluate(() => document.documentElement.lang)).toBe('ru');
+  await expect(page.locator('#actionSupport')).toHaveAttribute('href', 'mailto:support@magicesim.store');
+  await expect(page.locator('#actionHome')).toHaveCount(0);
+  await expect(page.locator('#actionTma')).toBeVisible();   // a finished website purchase is offered the Mini App
+  const hrefs = await page.evaluate(() => [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')));
+  for (const h of hrefs) expect(h, h).toMatch(/^(https:\/\/t\.me\/magicesim(_bot\?startapp(=esims|=o_[A-Za-z0-9_-]{6})?)?|\/ru\/(iphone|android)\.html|mailto:support@magicesim\.store)$/);
 });
