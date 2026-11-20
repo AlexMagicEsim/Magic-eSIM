@@ -142,19 +142,13 @@ test('every language publishes its catalogue where the registry says; the old ca
   assert.deepEqual(old.filter((f) => !isLegacyRedirectFile(f)), [], 'nothing but redirect pages in the old directories');
 });
 
-test('the payment return pages stay where Platega returns, and every way back leads to a Russian page, never the English «/»', () => {
-  // /payment-failed.html left this list with O2 (2026-11-20): its way back is the Mini App, and every link it has
-  // is pinned to a published destination by seo/test-payment-failed-return.mjs.
-  for (const rel of ['payment-success.html']) {
-    const html = read(rel);
-    const links = [...html.replace(/<!--[\s\S]*?-->/g, '').matchAll(/<a\b[^>]*\shref="(\/[^"]*)"[^>]*>/g)].map((m) => ({ tag: m[0], href: m[1] }));
-    assert.ok(links.length > 10, `${rel}: links read`);
-    for (const { tag, href } of links) {
-      // the one link to «/» is the header's language switch «English», marked lang="en" — a choice, not a way back
-      if (href === '/') { assert.match(tag, /\slang="en"/, `${rel}: «/» only as the English switch (${tag})`); continue; }
-      assert.match(href, /^\/(ru\/|terms\.html|privacy\.html|assets\/)/, `${rel}: ${href} leads off the Russian site`);
-    }
+test('the payment return pages stay where Platega returns, and their only local links are the two published install guides', () => {
+  // O2/O3 (2026-11-20): both pages lead back to the Mini App; every link they carry is pinned to a published
+  // destination by seo/test-payment-failed-return.mjs and seo/test-payment-success-return.mjs.
+  for (const rel of ['payment-success.html', 'payment-failed.html']) {
+    assert.ok(existsSync(join(ROOT, rel)), rel);
+    assert.doesNotMatch(read(rel), /<a\b[^>]*\shref="\/(?!ru\/(iphone|android)\.html")[^"]*"/, `${rel}: no local link but the two published install guides`);
   }
   assert.match(read('payment-failed.html'), /<a class="btn" id="pfBack" href="https:\/\/t\.me\/magicesim_bot\?startapp">/, 'the way back is the Mini App');
-  assert.doesNotMatch(read('payment-failed.html'), /<a\b[^>]*\shref="\/(?!ru\/(iphone|android)\.html")[^"]*"/, 'no local link but the two published install guides');
+  assert.match(read('payment-success.html'), /back\.href = 'https:\/\/t\.me\/magicesim_bot\?startapp=o_' \+ encodeURIComponent\(ref\);/, 'a Mini App purchase goes back to its order');
 });

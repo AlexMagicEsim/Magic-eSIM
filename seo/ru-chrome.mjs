@@ -169,12 +169,12 @@ ${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener norefe
   </div>
 </footer>`;
 
-/* THE PAYMENT-RETURN CHROME (O2, 2026-11-20) — /payment-failed.html only.
+/* THE PAYMENT-RETURN CHROME (O2/O3, 2026-11-20) — /payment-failed.html and /payment-success.html.
  *
  * Since the EN-only publication (2026-11-09) the Russian site is hidden: /ru/,
  * every /ru/esim/… page, /terms.html and /privacy.html answer 404, while
  * Platega still returns Russian buyers — today all of them from the Telegram
- * Mini App — to /payment-failed.html. The shared header and footer above link
+ * Mini App — to /payment-failed.html and /payment-success.html. The shared header and footer above link
  * almost nothing but those hidden pages, so a buyer whose payment failed had
  * no working way back but the browser's own button.
  *
@@ -182,7 +182,8 @@ ${li(RU_TG_APP, 'Magic eSIM в Telegram', ' target="_blank" rel="noopener norefe
  * channel, the two install guides kept unlisted (/ru/iphone.html,
  * /ru/android.html) and the support mailbox. Same classes, same sheets, so the
  * page looks the same. seo/test-payment-failed-return.mjs pins that every link
- * of the page is one of those. When the Russian site is published again
+ * of the failed page is one of those, seo/test-payment-success-return.mjs the same
+ * for the success page. When the Russian site is published again
  * (RESTORE in seo/publication-scope.mjs) the page can take ruHeader()/RU_FOOTER
  * back. */
 export const RU_PAY_RETURN_LINKS = Object.freeze([
