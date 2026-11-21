@@ -459,8 +459,8 @@
       "flagEmoji": "🇧🇩",
       "local_count": 6,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 20,
+      "daily_count": 10,
+      "total_count": 24,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -1119,8 +1119,8 @@
       "flagEmoji": "🇻🇳",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -1510,8 +1510,8 @@
       "flagEmoji": "🇭🇰",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 5,
-      "total_count": 21,
+      "daily_count": 9,
+      "total_count": 25,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -1980,8 +1980,8 @@
       "flagEmoji": "🇮🇩",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -2197,11 +2197,11 @@
       "slug": "cape-verde",
       "nameRu": "Кабо-Верде",
       "flagEmoji": "🇨🇻",
-      "local_count": 6,
+      "local_count": 5,
       "regional_count": 3,
       "daily_count": 4,
-      "total_count": 13,
-      "min_price_rub": 1450,
+      "total_count": 12,
+      "min_price_rub": 1100,
       "volumes": [
         1,
         3,
@@ -2281,8 +2281,8 @@
       "flagEmoji": "🇰🇭",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 22,
+      "daily_count": 10,
+      "total_count": 26,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -2724,8 +2724,8 @@
       "flagEmoji": "🇱🇦",
       "local_count": 6,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 20,
+      "daily_count": 10,
+      "total_count": 24,
       "min_price_rub": 250,
       "volumes": [
         1,
@@ -2957,7 +2957,7 @@
       "regional_count": 3,
       "daily_count": 4,
       "total_count": 13,
-      "min_price_rub": 1550,
+      "min_price_rub": 1400,
       "volumes": [
         1,
         3,
@@ -3035,8 +3035,8 @@
       "flagEmoji": "🇲🇴",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 22,
+      "daily_count": 10,
+      "total_count": 26,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -3094,8 +3094,8 @@
       "flagEmoji": "🇲🇾",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 9,
+      "total_count": 26,
       "min_price_rub": 100,
       "volumes": [
         1,
@@ -3110,7 +3110,6 @@
         60
       ],
       "daily_gb": [
-        0.49,
         1,
         2,
         3,
@@ -3749,8 +3748,8 @@
       "flagEmoji": "🇵🇰",
       "local_count": 7,
       "regional_count": 8,
-      "daily_count": 5,
-      "total_count": 20,
+      "daily_count": 9,
+      "total_count": 24,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -4729,8 +4728,8 @@
       "flagEmoji": "🇹🇭",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -4794,7 +4793,7 @@
       "regional_count": 7,
       "daily_count": 6,
       "total_count": 19,
-      "min_price_rub": 750,
+      "min_price_rub": 650,
       "volumes": [
         1,
         2,
@@ -5108,8 +5107,8 @@
       "flagEmoji": "🇵🇭",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 10,
+      "total_count": 27,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -5497,8 +5496,8 @@
       "flagEmoji": "🇱🇰",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 250,
       "volumes": [
         1,
@@ -5673,8 +5672,8 @@
       "flagEmoji": "🇰🇷",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 10,
+      "total_count": 27,
       "min_price_rub": 200,
       "volumes": [
         1,
@@ -5764,6 +5763,6 @@
     }
   ],
   "unnamed": [],
-  "fetched_at": "2026-11-19T06:00:44.499Z",
+  "fetched_at": "2026-11-20T15:01:09.238Z",
   "source": "assets/catalog.json"
 }
