@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T15:01:09.238Z",
+  "generated_at": "2026-11-22T17:12:20.265Z",
   "source": "production-public-api",
   "package_count": 2439,
   "packages": [
@@ -18540,7 +18540,7 @@
       "coverage_flags": "🇨🇮",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 13150,
+      "price": 9100,
       "networks": [
         {
           "operator": "Orange",
@@ -40810,7 +40810,7 @@
       "coverage_flags": "🇸🇿",
       "data_gb": 20,
       "validity_days": 30,
-      "price": 24600,
+      "price": 16050,
       "networks": [
         {
           "operator": "Swazi MTN",
@@ -78764,7 +78764,7 @@
       "coverage_flags": "🇨🇩",
       "data_gb": 5,
       "validity_days": 30,
-      "price": 2700,
+      "price": 2950,
       "networks": [
         {
           "operator": "Airtel",
@@ -101987,7 +101987,7 @@
       "coverage_flags": "🇸🇿",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 12050,
+      "price": 8200,
       "networks": [
         {
           "operator": "Swazi MTN",
@@ -116724,7 +116724,7 @@
       "coverage_flags": "🇬🇼",
       "data_gb": 10,
       "validity_days": 30,
-      "price": 5050,
+      "price": 6250,
       "networks": [
         {
           "operator": "Orange",
