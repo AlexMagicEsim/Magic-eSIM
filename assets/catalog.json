@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-23T12:01:25.428Z",
+  "generated_at": "2026-11-23T18:21:25.507Z",
   "source": "production-public-api",
   "package_count": 2439,
   "packages": [
@@ -400,10 +400,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -812,10 +808,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -890,10 +882,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -2708,10 +2696,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -2814,10 +2798,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -3440,10 +3420,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -4055,10 +4031,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -4242,10 +4214,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -4583,10 +4551,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -5858,14 +5822,6 @@
       "price": 450,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -5950,6 +5906,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -7113,11 +7073,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -7297,10 +7261,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -7940,14 +7900,6 @@
       "validity_days": 7,
       "price": 150,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -9294,10 +9246,6 @@
         {
           "operator": "Telia",
           "type": "5G"
-        },
-        {
-          "operator": "Telenor",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -9814,10 +9762,6 @@
         {
           "operator": "Telia",
           "type": "5G"
-        },
-        {
-          "operator": "Telenor",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -10044,10 +9988,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -11076,10 +11016,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -11150,14 +11086,6 @@
       "validity_days": null,
       "price": 250,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -11838,11 +11766,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -12152,10 +12084,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -12830,10 +12758,6 @@
       "price": 250,
       "networks": [
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -12951,10 +12875,6 @@
       "validity_days": 30,
       "price": 950,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -13946,14 +13866,6 @@
       "price": 5000,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -14312,7 +14224,7 @@
       "price": 950,
       "networks": [
         {
-          "operator": "AT&T",
+          "operator": "Claro",
           "type": "5G"
         }
       ],
@@ -15526,10 +15438,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -15901,10 +15809,6 @@
       "validity_days": null,
       "price": 900,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -17077,10 +16981,6 @@
       "price": 450,
       "networks": [
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -17678,14 +17578,6 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -17961,10 +17853,6 @@
       "validity_days": null,
       "price": 100,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -18408,10 +18296,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -19452,6 +19336,10 @@
           "type": "5G"
         },
         {
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
           "operator": "csl",
           "type": "4G"
         },
@@ -19521,10 +19409,6 @@
         },
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         },
         {
@@ -20968,10 +20852,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -21411,10 +21291,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -21841,10 +21717,6 @@
       "price": 900,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -22141,10 +22013,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -25735,10 +25603,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -25901,10 +25765,6 @@
       "validity_days": 30,
       "price": 550,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -26227,10 +26087,6 @@
       "networks": [
         {
           "operator": "One Albania",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -27944,10 +27800,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28417,10 +28269,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -28708,10 +28556,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -28850,10 +28694,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -29002,10 +28842,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -30214,10 +30050,6 @@
           "type": "5G"
         },
         {
-          "operator": "SingTel",
-          "type": "5G"
-        },
-        {
           "operator": "DTAC",
           "type": "5G"
         },
@@ -30301,10 +30133,6 @@
       "validity_days": null,
       "price": 100,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -30426,10 +30254,6 @@
       "networks": [
         {
           "operator": "m:tel CG",
-          "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -31027,10 +30851,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -31192,6 +31012,10 @@
       "networks": [
         {
           "operator": "Vivacell",
+          "type": "5G"
+        },
+        {
+          "operator": "Ucom",
           "type": "5G"
         }
       ],
@@ -31498,6 +31322,10 @@
       "networks": [
         {
           "operator": "Vivacell",
+          "type": "5G"
+        },
+        {
+          "operator": "Ucom",
           "type": "5G"
         }
       ],
@@ -32231,10 +32059,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -32687,10 +32511,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -32910,10 +32730,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -33318,10 +33134,6 @@
           "type": "4G"
         },
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -33332,10 +33144,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         },
         {
           "operator": "PrimeTel",
@@ -33426,10 +33234,6 @@
           "type": "5G"
         },
         {
-          "operator": "LMT",
-          "type": "5G"
-        },
-        {
           "operator": "7acht",
           "type": "4G"
         },
@@ -33438,19 +33242,7 @@
           "type": "5G"
         },
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -33554,10 +33346,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Sunrise",
           "type": "5G"
         },
@@ -33595,6 +33383,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -34110,7 +33902,7 @@
       "price": 400,
       "networks": [
         {
-          "operator": "AT&T",
+          "operator": "Claro",
           "type": "5G"
         }
       ],
@@ -34305,10 +34097,6 @@
       "networks": [
         {
           "operator": "m:tel CG",
-          "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -34604,10 +34392,6 @@
       "validity_days": 7,
       "price": 150,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -35255,14 +35039,6 @@
       "validity_days": 30,
       "price": 950,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -37115,10 +36891,6 @@
       "price": 250,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -37539,10 +37311,6 @@
       "validity_days": 7,
       "price": 150,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -39032,10 +38800,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -40023,10 +39787,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -42112,10 +41872,6 @@
         {
           "operator": "M1",
           "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -42231,10 +41987,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -43032,10 +42784,6 @@
         {
           "operator": "M1",
           "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -43179,10 +42927,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -43374,10 +43118,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -43608,10 +43348,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -46416,10 +46152,6 @@
       "price": 550,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -46539,10 +46271,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -49688,11 +49416,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -51818,10 +51550,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -51940,10 +51668,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -52711,6 +52435,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -53038,6 +52766,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -53309,10 +53041,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -55434,10 +55162,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -56533,10 +56257,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -57767,10 +57487,6 @@
           "type": "4G"
         },
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -57781,10 +57497,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         },
         {
           "operator": "PrimeTel",
@@ -57875,10 +57587,6 @@
           "type": "5G"
         },
         {
-          "operator": "LMT",
-          "type": "5G"
-        },
-        {
           "operator": "7acht",
           "type": "4G"
         },
@@ -57887,19 +57595,7 @@
           "type": "5G"
         },
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -58003,10 +57699,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Sunrise",
           "type": "5G"
         },
@@ -58044,6 +57736,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -58661,10 +58357,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -59003,6 +58695,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -59518,10 +59214,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -60356,10 +60048,6 @@
         {
           "operator": "M1",
           "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -60531,10 +60219,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -61584,6 +61268,10 @@
           "type": "5G"
         },
         {
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
           "operator": "csl",
           "type": "4G"
         },
@@ -61653,10 +61341,6 @@
         },
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         },
         {
@@ -63641,10 +63325,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -63798,10 +63478,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -64223,10 +63899,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -64307,10 +63979,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -68282,14 +67950,6 @@
       "price": 400,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -68367,10 +68027,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -68798,11 +68454,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -69611,10 +69271,6 @@
       "price": 3750,
       "networks": [
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -70137,7 +69793,7 @@
       "price": 1050,
       "networks": [
         {
-          "operator": "AT&T",
+          "operator": "Claro",
           "type": "5G"
         }
       ],
@@ -71345,10 +71001,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -73454,10 +73106,6 @@
         {
           "operator": "M1",
           "type": "5G"
-        },
-        {
-          "operator": "SingTel",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -73495,10 +73143,6 @@
       "validity_days": null,
       "price": 400,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -73735,6 +73379,10 @@
       "networks": [
         {
           "operator": "Vivacell",
+          "type": "5G"
+        },
+        {
+          "operator": "Ucom",
           "type": "5G"
         }
       ],
@@ -74040,6 +73688,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -75183,10 +74835,6 @@
           "type": "4G"
         },
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -75197,10 +74845,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         },
         {
           "operator": "PrimeTel",
@@ -75291,10 +74935,6 @@
           "type": "5G"
         },
         {
-          "operator": "LMT",
-          "type": "5G"
-        },
-        {
           "operator": "7acht",
           "type": "4G"
         },
@@ -75303,19 +74943,7 @@
           "type": "5G"
         },
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -75419,10 +75047,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Sunrise",
           "type": "5G"
         },
@@ -75460,6 +75084,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -75707,7 +75335,7 @@
       "price": 1250,
       "networks": [
         {
-          "operator": "AT&T",
+          "operator": "Claro",
           "type": "5G"
         }
       ],
@@ -76442,10 +76070,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -76947,6 +76571,10 @@
       "networks": [
         {
           "operator": "Vivacell",
+          "type": "5G"
+        },
+        {
+          "operator": "Ucom",
           "type": "5G"
         }
       ],
@@ -77758,10 +77386,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -78520,10 +78144,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -78892,10 +78512,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -79245,10 +78861,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -81287,11 +80899,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -81554,10 +81170,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -82348,10 +81960,6 @@
           "type": "5G"
         },
         {
-          "operator": "Zain",
-          "type": "5G"
-        },
-        {
           "operator": "Korek",
           "type": "4G"
         },
@@ -82365,10 +81973,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         },
         {
@@ -82533,10 +82137,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -83429,6 +83029,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -83465,14 +83069,6 @@
       "validity_days": null,
       "price": 100,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -84345,10 +83941,6 @@
       "validity_days": null,
       "price": 150,
       "networks": [
-        {
-          "operator": "A1",
-          "type": "4G"
-        },
         {
           "operator": "Vivacom",
           "type": "4G"
@@ -86833,14 +86425,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -89150,10 +88734,6 @@
         {
           "operator": "Telia",
           "type": "5G"
-        },
-        {
-          "operator": "Telenor",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -89235,10 +88815,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -90080,6 +89656,10 @@
         {
           "operator": "Iliad",
           "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -90458,10 +90038,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -91129,10 +90705,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -91917,14 +91489,6 @@
       "validity_days": null,
       "price": 150,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -93405,6 +92969,10 @@
         {
           "operator": "Iliad",
           "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -94315,6 +93883,10 @@
         {
           "operator": "Iliad",
           "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -94948,14 +94520,6 @@
       "validity_days": 30,
       "price": 550,
       "networks": [
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
         {
           "operator": "POST",
           "type": "5G"
@@ -95610,10 +95174,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -95933,10 +95493,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -96217,10 +95773,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -97964,10 +97516,6 @@
       "price": 350,
       "networks": [
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -98506,10 +98054,6 @@
         {
           "operator": "Telia",
           "type": "5G"
-        },
-        {
-          "operator": "Telenor",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -99041,10 +98585,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -99377,10 +98917,6 @@
       "networks": [
         {
           "operator": "m:tel CG",
-          "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -101097,10 +100633,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -102294,10 +101826,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -102488,10 +102016,6 @@
       "validity_days": 30,
       "price": 1900,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -104073,10 +103597,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -105766,6 +105286,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -105804,10 +105328,6 @@
       "networks": [
         {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "LMT",
           "type": "5G"
         }
       ],
@@ -106723,10 +106243,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -106879,10 +106395,6 @@
       "validity_days": null,
       "price": 400,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -108102,10 +107614,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -108898,10 +108406,6 @@
         {
           "operator": "m:tel CG",
           "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -109245,10 +108749,6 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         }
       ],
@@ -112044,10 +111544,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -112687,10 +112183,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -112829,6 +112321,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -113055,10 +112551,6 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         }
       ],
@@ -113703,10 +113195,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -114164,10 +113652,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -117095,10 +116579,6 @@
           "type": "5G"
         },
         {
-          "operator": "SingTel",
-          "type": "5G"
-        },
-        {
           "operator": "DTAC",
           "type": "5G"
         },
@@ -118272,10 +117752,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -118965,10 +118441,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -119060,10 +118532,6 @@
           "type": "4G"
         },
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -119074,10 +118542,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         },
         {
           "operator": "PrimeTel",
@@ -119168,10 +118632,6 @@
           "type": "5G"
         },
         {
-          "operator": "LMT",
-          "type": "5G"
-        },
-        {
           "operator": "7acht",
           "type": "4G"
         },
@@ -119180,19 +118640,7 @@
           "type": "5G"
         },
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -119296,10 +118744,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Sunrise",
           "type": "5G"
         },
@@ -119337,6 +118781,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -121341,10 +120789,6 @@
       "price": 150,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -121421,10 +120865,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -121773,10 +121213,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -122264,10 +121700,6 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         }
       ],
@@ -122798,11 +122230,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -123488,10 +122924,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -123838,10 +123270,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "LMT",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -124109,10 +123537,6 @@
       "networks": [
         {
           "operator": "One Albania",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -124983,6 +124407,10 @@
         {
           "operator": "Iliad",
           "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125136,10 +124564,6 @@
       "networks": [
         {
           "operator": "m:tel CG",
-          "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -125375,10 +124799,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -125613,6 +125033,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -126874,10 +126298,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -127118,10 +126538,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -127453,10 +126869,6 @@
       "networks": [
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         }
       ],
@@ -128363,10 +127775,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -128590,10 +127998,6 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
-        },
-        {
-          "operator": "ETL",
-          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -129826,10 +129230,6 @@
         {
           "operator": "One Albania",
           "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -130137,10 +129537,6 @@
           "type": "5G"
         },
         {
-          "operator": "Zain",
-          "type": "5G"
-        },
-        {
           "operator": "Korek",
           "type": "4G"
         },
@@ -130154,10 +129550,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         },
         {
@@ -132169,6 +131561,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -132554,10 +131950,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -133090,6 +132482,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -133541,10 +132937,6 @@
         },
         {
           "operator": "Telia",
-          "type": "5G"
-        },
-        {
-          "operator": "Telenor",
           "type": "5G"
         }
       ],
@@ -134288,10 +133680,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -135462,11 +134850,15 @@
           "type": "5G"
         },
         {
-          "operator": "Orange",
+          "operator": "Movistar",
           "type": "5G"
         },
         {
-          "operator": "Movistar",
+          "operator": "Vodafone",
+          "type": "5G"
+        },
+        {
+          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -135882,10 +135274,6 @@
       "networks": [
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -137597,10 +136985,6 @@
           "type": "5G"
         },
         {
-          "operator": "ETL",
-          "type": "4G"
-        },
-        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -137698,10 +137082,6 @@
       "networks": [
         {
           "operator": "One Albania",
-          "type": "5G"
-        },
-        {
-          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -137920,10 +137300,6 @@
       "networks": [
         {
           "operator": "m:tel CG",
-          "type": "5G"
-        },
-        {
-          "operator": "T-Mobile",
           "type": "5G"
         }
       ],
@@ -138498,10 +137874,6 @@
       "price": 5000,
       "networks": [
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
           "type": "5G"
         }
@@ -138677,10 +138049,6 @@
           "type": "4G"
         },
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -138691,10 +138059,6 @@
         {
           "operator": "Tele2",
           "type": "5G"
-        },
-        {
-          "operator": "A1",
-          "type": "4G"
         },
         {
           "operator": "PrimeTel",
@@ -138785,10 +138149,6 @@
           "type": "5G"
         },
         {
-          "operator": "LMT",
-          "type": "5G"
-        },
-        {
           "operator": "7acht",
           "type": "4G"
         },
@@ -138797,19 +138157,7 @@
           "type": "5G"
         },
         {
-          "operator": "Telia",
-          "type": "5G"
-        },
-        {
           "operator": "Tele2",
-          "type": "5G"
-        },
-        {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
           "type": "5G"
         },
         {
@@ -138913,10 +138261,6 @@
           "type": "5G"
         },
         {
-          "operator": "Telenor",
-          "type": "5G"
-        },
-        {
           "operator": "Sunrise",
           "type": "5G"
         },
@@ -138954,6 +138298,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
@@ -140030,10 +139378,6 @@
         {
           "operator": "STC",
           "type": "5G"
-        },
-        {
-          "operator": "Zain",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -140202,10 +139546,6 @@
       "validity_days": null,
       "price": 450,
       "networks": [
-        {
-          "operator": "Telia",
-          "type": "5G"
-        },
         {
           "operator": "Tele2",
           "type": "5G"
@@ -140578,6 +139918,10 @@
           "type": "5G"
         },
         {
+          "operator": "China Telecom",
+          "type": "5G"
+        },
+        {
           "operator": "csl",
           "type": "4G"
         },
@@ -140647,10 +139991,6 @@
         },
         {
           "operator": "M1",
-          "type": "5G"
-        },
-        {
-          "operator": "SingTel",
           "type": "5G"
         },
         {
@@ -142500,10 +141840,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -144363,10 +143699,6 @@
         {
           "operator": "Telia",
           "type": "5G"
-        },
-        {
-          "operator": "Telenor",
-          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -144674,10 +144006,6 @@
       "price": 950,
       "networks": [
         {
-          "operator": "A1",
-          "type": "4G"
-        },
-        {
           "operator": "Vivacom",
           "type": "4G"
         },
@@ -144856,10 +144184,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -145884,14 +145208,6 @@
       "price": 1900,
       "networks": [
         {
-          "operator": "Tango",
-          "type": "5G"
-        },
-        {
-          "operator": "Orange",
-          "type": "5G"
-        },
-        {
           "operator": "POST",
           "type": "5G"
         }
@@ -146146,10 +145462,6 @@
         },
         {
           "operator": "STC",
-          "type": "5G"
-        },
-        {
-          "operator": "Zain",
           "type": "5G"
         }
       ],
@@ -146546,6 +145858,10 @@
         {
           "operator": "Vivacell",
           "type": "5G"
+        },
+        {
+          "operator": "Ucom",
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -146862,6 +146178,10 @@
         },
         {
           "operator": "Iliad",
+          "type": "5G"
+        },
+        {
+          "operator": "Vodafone",
           "type": "5G"
         }
       ],
