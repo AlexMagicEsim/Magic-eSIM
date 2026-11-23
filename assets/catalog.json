@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-22T17:12:20.265Z",
+  "generated_at": "2026-11-23T09:01:39.895Z",
   "source": "production-public-api",
   "package_count": 2439,
   "packages": [
@@ -18925,11 +18925,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -27431,11 +27427,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -28817,11 +28809,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -32044,11 +32032,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -34181,7 +34165,7 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "384 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
@@ -34191,7 +34175,7 @@
       "plan_type": "DAILY",
       "daily_gb": 2,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "384 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -45064,11 +45048,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -45726,11 +45706,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -48031,11 +48007,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63928,7 +63900,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -63943,7 +63915,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -77258,7 +77230,7 @@
       ],
       "speed": "3G/4G/5G",
       "speed_note": "",
-      "fup_policy": "512 Kbps",
+      "fup_policy": "384 Kbps",
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
@@ -77268,7 +77240,7 @@
       "plan_type": "DAILY",
       "daily_gb": 0.49,
       "daily_term_mode": "PER_DAY",
-      "daily_throttle_label": "512 Kbps",
+      "daily_throttle_label": "384 Kbps",
       "daily_throttle_continues": false,
       "daily_reset_confirmed": false,
       "sellable_days": [
@@ -85271,11 +85243,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -88549,7 +88517,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -88564,7 +88532,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -93218,11 +93186,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -110332,7 +110296,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -116112,11 +116076,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -116275,11 +116235,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -126298,7 +126254,7 @@
         },
         {
           "operator": "Claro",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -126313,7 +126269,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "AT"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -130571,11 +130527,7 @@
       "networks": [
         {
           "operator": "CTM",
-          "type": "5G"
-        },
-        {
-          "operator": "3",
-          "type": "5G"
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -142255,7 +142207,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "NL"
+        "UK"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
