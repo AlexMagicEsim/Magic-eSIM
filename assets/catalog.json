@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-24T05:22:14.401Z",
+  "generated_at": "2026-11-24T09:01:07.226Z",
   "source": "production-public-api",
   "package_count": 2434,
   "packages": [
@@ -37194,20 +37194,7 @@
       "data_gb": 3,
       "validity_days": 15,
       "price": 800,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "TIM",
-          "type": "5G"
-        },
-        {
-          "operator": "Vivo",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -37220,7 +37207,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BR"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -88087,20 +88074,7 @@
       "data_gb": 1,
       "validity_days": 7,
       "price": 300,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "TIM",
-          "type": "5G"
-        },
-        {
-          "operator": "Vivo",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -88113,7 +88087,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BR"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -129990,20 +129964,7 @@
       "data_gb": 3,
       "validity_days": 30,
       "price": 850,
-      "networks": [
-        {
-          "operator": "Claro",
-          "type": "5G"
-        },
-        {
-          "operator": "TIM",
-          "type": "5G"
-        },
-        {
-          "operator": "Vivo",
-          "type": "5G"
-        }
-      ],
+      "networks": [],
       "network_technologies": [
         "3G",
         "4G",
@@ -130016,7 +129977,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BR"
+        "BE"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
