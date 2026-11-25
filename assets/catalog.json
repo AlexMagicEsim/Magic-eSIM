@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-25T04:20:54.263Z",
+  "generated_at": "2026-11-25T12:01:26.822Z",
   "source": "production-public-api",
   "package_count": 2429,
   "packages": [
@@ -37202,7 +37202,15 @@
       "price": 800,
       "networks": [
         {
+          "operator": "Claro",
+          "type": "5G"
+        },
+        {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -37218,7 +37226,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "BR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -63381,7 +63389,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -63396,7 +63404,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -87908,7 +87916,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -87923,7 +87931,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -87993,7 +88001,15 @@
       "price": 300,
       "networks": [
         {
+          "operator": "Claro",
+          "type": "5G"
+        },
+        {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -88009,7 +88025,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "BR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -124983,7 +124999,7 @@
         },
         {
           "operator": "Claro",
-          "type": "4G"
+          "type": "5G"
         }
       ],
       "network_technologies": [
@@ -124998,7 +125014,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "AT"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
@@ -129870,7 +129886,15 @@
       "price": 850,
       "networks": [
         {
+          "operator": "Claro",
+          "type": "5G"
+        },
+        {
           "operator": "TIM",
+          "type": "5G"
+        },
+        {
+          "operator": "Vivo",
           "type": "5G"
         }
       ],
@@ -129886,7 +129910,7 @@
       "activation_policy": "unknown",
       "topup_available": true,
       "ip_export": [
-        "BE"
+        "BR"
       ],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
