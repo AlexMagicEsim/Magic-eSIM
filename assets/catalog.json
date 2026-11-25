@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-25T12:01:26.822Z",
+  "generated_at": "2026-11-25T15:01:49.071Z",
   "source": "production-public-api",
   "package_count": 2429,
   "packages": [
@@ -48889,8 +48889,7 @@
       "price": 2950,
       "networks": [],
       "network_technologies": [
-        "4G",
-        "5G"
+        "4G"
       ],
       "speed": "",
       "speed_note": "Full data speeds - no daily limits, no throttling",
