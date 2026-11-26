@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-26T12:02:27.019Z",
+  "generated_at": "2026-11-26T15:02:23.373Z",
   "source": "production-public-api",
   "package_count": 2434,
   "packages": [
@@ -15107,10 +15107,7 @@
       "hotspot_supported": null,
       "activation_policy": "unknown",
       "topup_available": true,
-      "ip_export": [
-        "UK",
-        "NO"
-      ],
+      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
