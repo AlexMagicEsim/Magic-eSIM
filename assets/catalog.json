@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-26T19:05:27.651Z",
+  "generated_at": "2026-11-27T03:40:34.299Z",
   "source": "production-public-api",
   "package_count": 2434,
   "packages": [
@@ -2798,6 +2798,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -18453,6 +18457,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -22160,6 +22168,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -28672,6 +28684,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -32627,6 +32643,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -32846,6 +32866,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -38908,6 +38932,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -43212,6 +43240,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -43440,6 +43472,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -60089,6 +60125,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -63193,6 +63233,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -63847,6 +63891,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -67897,6 +67945,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -70871,6 +70923,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -81993,6 +82049,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -88661,6 +88721,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -89886,6 +89950,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -90553,6 +90621,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -98389,6 +98461,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -103395,6 +103471,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -105824,6 +105904,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -107193,6 +107277,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
@@ -111764,6 +111852,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "CTM",
           "type": "5G"
         },
@@ -112776,6 +112868,10 @@
           "type": "5G"
         },
         {
+          "operator": "ETL",
+          "type": "4G"
+        },
+        {
           "operator": "Maxis",
           "type": "5G"
         },
@@ -113233,6 +113329,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "Maxis",
@@ -125906,6 +126006,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -127370,6 +127474,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         }
       ],
       "network_technologies": [
@@ -136341,6 +136449,10 @@
         {
           "operator": "Lao Telecom",
           "type": "5G"
+        },
+        {
+          "operator": "ETL",
+          "type": "4G"
         },
         {
           "operator": "CTM",
