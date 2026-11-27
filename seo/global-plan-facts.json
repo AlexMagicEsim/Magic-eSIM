@@ -1,6 +1,6 @@
 {
  "schema_version": 2,
- "updated": "2026-11-26",
+ "updated": "2026-11-27",
  "source": "production-public-api?market=global",
  "countries": {
   "AD": {
@@ -3835,30 +3835,30 @@
     ]
    },
    "also": [
-    "NG",
     "DZ",
     "EG",
     "MA",
     "MG",
     "MU",
+    "NG",
     "RE",
     "RW",
     "TN",
     "UG",
-    "BJ",
-    "BW",
     "CD",
-    "CG",
-    "CI",
-    "CM",
     "GA",
-    "GW",
     "KE",
-    "LR",
-    "ML",
     "MW",
     "NE",
-    "SC"
+    "SC",
+    "TD",
+    "TZ",
+    "ZM",
+    "ZW",
+    "BJ",
+    "BW",
+    "CG",
+    "CI"
    ],
    "daily": {
     "gb_per_day": [
@@ -7624,9 +7624,9 @@
     ]
    },
    "also": [
-    "GH",
     "DZ",
     "EG",
+    "GH",
     "MA",
     "MG",
     "MU",
@@ -7634,20 +7634,20 @@
     "RW",
     "TN",
     "UG",
-    "BJ",
-    "BW",
     "CD",
-    "CG",
-    "CI",
-    "CM",
     "GA",
-    "GW",
     "KE",
-    "LR",
-    "ML",
     "MW",
     "NE",
-    "SC"
+    "SC",
+    "TD",
+    "TZ",
+    "ZM",
+    "ZW",
+    "BJ",
+    "BW",
+    "CG",
+    "CI"
    ],
    "daily": {
     "gb_per_day": [

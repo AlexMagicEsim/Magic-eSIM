@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T03:40:34.299Z",
+  "generated_at": "2026-11-27T12:02:17.282Z",
   "source": "production-public-api",
-  "package_count": 2434,
+  "package_count": 2429,
   "packages": [
     {
       "package_id": "000e202d-5c3d-438c-8761-ba20502b8b7a",
@@ -46368,38 +46368,6 @@
       ]
     },
     {
-      "package_id": "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
-      "name": "Nigeria and Ghana 5 GB",
-      "country_code": "GH",
-      "region": "GH, NG",
-      "coverage_country_codes": [
-        "GH",
-        "NG"
-      ],
-      "coverage_flags": "🇬🇭 🇳🇬",
-      "data_gb": 5,
-      "validity_days": 21,
-      "price": 1550,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "53c1e074-5a05-4c89-8ecb-abde2a8dc59f",
       "name": "France and Italy 30 GB",
       "country_code": "FR",
@@ -46547,38 +46515,6 @@
       "ip_export": [
         "BE"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
-      "name": "Nigeria and Ghana 1 GB",
-      "country_code": "GH",
-      "region": "GH, NG",
-      "coverage_country_codes": [
-        "GH",
-        "NG"
-      ],
-      "coverage_flags": "🇬🇭 🇳🇬",
-      "data_gb": 1,
-      "validity_days": 7,
-      "price": 550,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -59968,38 +59904,6 @@
       "ip_export": [
         "HK"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "6ced9741-0494-4e2c-8cf5-53792789ab49",
-      "name": "Nigeria and Ghana 10 GB",
-      "country_code": "GH",
-      "region": "GH, NG",
-      "coverage_country_codes": [
-        "GH",
-        "NG"
-      ],
-      "coverage_flags": "🇬🇭 🇳🇬",
-      "data_gb": 10,
-      "validity_days": 30,
-      "price": 2650,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -91196,38 +91100,6 @@
       "ip_export": [
         "UK"
       ],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
-      "package_id": "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
-      "name": "Nigeria and Ghana 3 GB",
-      "country_code": "GH",
-      "region": "GH, NG",
-      "coverage_country_codes": [
-        "GH",
-        "NG"
-      ],
-      "coverage_flags": "🇬🇭 🇳🇬",
-      "data_gb": 3,
-      "validity_days": 15,
-      "price": 1100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
       "plan_type": "FIXED_VOLUME",
       "daily_gb": null,
       "daily_term_mode": null,
@@ -130709,38 +130581,6 @@
       "sellable_days": []
     },
     {
-      "package_id": "e464beaf-60bc-45eb-abe1-9ed594f437d4",
-      "name": "Nigeria and Ghana 20 GB",
-      "country_code": "GH",
-      "region": "GH, NG",
-      "coverage_country_codes": [
-        "GH",
-        "NG"
-      ],
-      "coverage_flags": "🇬🇭 🇳🇬",
-      "data_gb": 20,
-      "validity_days": 30,
-      "price": 4100,
-      "networks": [],
-      "network_technologies": [
-        "4G"
-      ],
-      "speed": "",
-      "speed_note": "Full data speeds - no daily limits, no throttling",
-      "fup_policy": "",
-      "hotspot_supported": true,
-      "activation_policy": "first_data_usage",
-      "topup_available": true,
-      "ip_export": [],
-      "plan_type": "FIXED_VOLUME",
-      "daily_gb": null,
-      "daily_term_mode": null,
-      "daily_throttle_label": null,
-      "daily_throttle_continues": false,
-      "daily_reset_confirmed": false,
-      "sellable_days": []
-    },
-    {
       "package_id": "e478c48d-26f0-4b4a-9ee2-f65da90d8646",
       "name": "San Marino 5GB 30Days",
       "country_code": "SM",
@@ -148547,13 +148387,14 @@
           "01b7088d-ea56-48e8-a4d2-b2c423170f03"
         ],
         "regional": [
-          "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
-          "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
-          "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
-          "6ced9741-0494-4e2c-8cf5-53792789ab49",
-          "e464beaf-60bc-45eb-abe1-9ed594f437d4",
+          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
-          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d"
+          "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
+          "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "07596da8-8ff9-413c-bbcb-099073970f98",
@@ -150401,13 +150242,14 @@
           "dd185302-9069-4a26-b0c4-46f962c4b143"
         ],
         "regional": [
-          "5419fc7f-933f-4f51-967f-ea5e7cb7bc89",
+          "ad3001e5-9412-450f-acc3-9cdd19f8d268",
           "4abc0d69-7a91-40f6-ad53-aa9b720d3488",
-          "a1a15ce7-e400-4309-a17c-ebe30a80b9fe",
+          "2d099753-05ac-40b3-88a1-fdd5429d7d4b",
           "2d7811e5-cd4a-4c76-97b1-94c9d2b1dd7d",
-          "53bf942b-3a88-41a8-b595-a4d2c8de29c9",
-          "6ced9741-0494-4e2c-8cf5-53792789ab49",
-          "e464beaf-60bc-45eb-abe1-9ed594f437d4"
+          "40f3fab4-2bec-47ac-aa8b-977263398ea8",
+          "ce137620-76ba-4ad2-be6e-7c2ff5481a9b",
+          "4654d30b-4c2f-4a27-bd2e-2778b6056f4a",
+          "a251e820-1737-4424-b331-cd60994b6a92"
         ],
         "daily": [
           "e5557caa-7dae-4900-b85a-9d9744f796a1",
