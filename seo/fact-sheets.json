@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-11-19T06:00:44.499Z",
+  "fetched_at": "2026-11-27T12:02:17.282Z",
   "source": "assets/catalog.json",
   "countries": 201,
   "sheets": {
@@ -354,7 +354,6 @@
         "Ooredoo",
         "STC",
         "Vodafone",
-        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
@@ -370,7 +369,6 @@
           "Ooredoo",
           "STC",
           "Vodafone",
-          "Zain",
           "ooredoo"
         ],
         "daily": [
@@ -583,7 +581,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -632,8 +630,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2200,
@@ -747,7 +745,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -796,9 +794,9 @@
         950,
         1050,
         1350,
+        1450,
         1700,
         2000,
-        2050,
         2100,
         2150,
         2500,
@@ -1043,18 +1041,15 @@
         "3G/4G"
       ],
       "networks": [
-        "One Albania",
-        "Vodafone"
+        "One Albania"
       ],
       "networks_by_block": {
         "local": [
-          "One Albania",
-          "Vodafone"
+          "One Albania"
         ],
         "regional": [],
         "daily": [
-          "One Albania",
-          "Vodafone"
+          "One Albania"
         ]
       },
       "networks_rows": 11,
@@ -1234,6 +1229,7 @@
         "Pelephone",
         "STC",
         "Turkcell",
+        "Ucom",
         "Umniah",
         "Vivacell",
         "Vodafone",
@@ -1242,6 +1238,7 @@
       ],
       "networks_by_block": {
         "local": [
+          "Ucom",
           "Vivacell"
         ],
         "regional": [
@@ -1264,6 +1261,7 @@
           "ooredoo"
         ],
         "daily": [
+          "Ucom",
           "Vivacell"
         ]
       },
@@ -1918,7 +1916,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -1930,7 +1927,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -1946,7 +1942,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -1965,7 +1960,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -1977,7 +1971,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -1993,7 +1986,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -2266,7 +2258,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -2307,7 +2299,6 @@
       ],
       "all_purchasable_prices": [
         1450,
-        2050,
         2650,
         3400,
         3600,
@@ -3093,7 +3084,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -3141,10 +3132,10 @@
       "all_purchasable_prices": [
         950,
         1050,
+        1450,
         1550,
         1700,
         2000,
-        2050,
         2100,
         2450,
         2500,
@@ -3262,8 +3253,8 @@
       "strategy": "LOCAL",
       "local_count": 6,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 20,
+      "daily_count": 10,
+      "total_count": 24,
       "min_price_rub": 200,
       "max_price_rub": 9050,
       "validity_days_min": 0,
@@ -3278,7 +3269,7 @@
         30,
         40
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -3348,14 +3339,18 @@
         1400,
         1450,
         1500,
+        1600,
         1750,
         2100,
+        2350,
         2450,
         2500,
         2600,
         2650,
+        2850,
         2950,
         3000,
+        3100,
         3250,
         3400,
         3650,
@@ -3391,7 +3386,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         365
@@ -3502,9 +3500,10 @@
         ]
       },
       "networks_rows": 17,
-      "rows_total": 20,
+      "rows_total": 24,
       "fup_policies": [
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -3516,9 +3515,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 17,
-      "topup_no": 3,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -3682,7 +3681,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -3694,7 +3692,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -3710,7 +3707,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -3730,7 +3726,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -3742,7 +3737,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -3758,7 +3752,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -3804,9 +3797,9 @@
       "name_ru": "Буркина-Фасо",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 5,
+      "regional_count": 3,
       "daily_count": 4,
-      "total_count": 15,
+      "total_count": 13,
       "min_price_rub": 1000,
       "max_price_rub": 14650,
       "validity_days_min": 0,
@@ -3820,7 +3813,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 29,
       "offers": [
         {
           "data_gb": 0,
@@ -3863,7 +3856,6 @@
         1000,
         1150,
         1850,
-        2050,
         2200,
         2250,
         2550,
@@ -3881,7 +3873,6 @@
         7550,
         9000,
         9650,
-        9750,
         12500,
         13350,
         13900,
@@ -3962,20 +3953,18 @@
         ]
       },
       "networks_rows": 13,
-      "rows_total": 15,
+      "rows_total": 13,
       "fup_policies": [
         "384 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
-        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
-        "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 12,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -4150,7 +4139,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -4162,7 +4150,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -4178,7 +4165,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -4191,14 +4177,12 @@
       ],
       "networks_by_block": {
         "local": [
-          "A1",
           "Telenor",
           "Vivacom"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -4210,7 +4194,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -4226,7 +4209,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -4238,7 +4220,6 @@
           "lifecell"
         ],
         "daily": [
-          "A1",
           "Telenor",
           "Vivacom"
         ]
@@ -4429,13 +4410,11 @@
         "Ooredoo",
         "STC",
         "Vodafone",
-        "Zain",
         "ooredoo"
       ],
       "networks_by_block": {
         "local": [
-          "STC",
-          "Zain"
+          "STC"
         ],
         "regional": [
           "Asia Cell",
@@ -4446,7 +4425,6 @@
           "Ooredoo",
           "STC",
           "Vodafone",
-          "Zain",
           "ooredoo"
         ],
         "daily": [
@@ -4458,7 +4436,6 @@
           "Ooredoo",
           "STC",
           "Vodafone",
-          "Zain",
           "ooredoo"
         ]
       },
@@ -4666,7 +4643,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -4723,11 +4700,11 @@
         1050,
         1100,
         1200,
+        1450,
         1500,
         1550,
         1650,
         1850,
-        2050,
         2100,
         2150,
         2350,
@@ -4832,9 +4809,9 @@
       "name_ru": "Бермуды",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 3,
-      "total_count": 15,
+      "total_count": 14,
       "min_price_rub": 1050,
       "max_price_rub": 15550,
       "validity_days_min": 0,
@@ -4849,7 +4826,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -4898,7 +4875,6 @@
         1050,
         1450,
         1750,
-        2050,
         2550,
         2650,
         2750,
@@ -4960,7 +4936,7 @@
         ]
       },
       "networks_rows": 8,
-      "rows_total": 15,
+      "rows_total": 14,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -4972,7 +4948,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 13,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -5002,7 +4978,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -5056,7 +5032,6 @@
         1650,
         1700,
         1850,
-        2050,
         2250,
         2350,
         2650,
@@ -5146,9 +5121,9 @@
       "name_ru": "Боливия",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 6,
-      "total_count": 17,
+      "total_count": 18,
       "min_price_rub": 900,
       "max_price_rub": 20050,
       "validity_days_min": 0,
@@ -5163,7 +5138,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 37,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -5322,7 +5297,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 17,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -5336,7 +5311,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 17,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -5366,7 +5341,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -5413,8 +5388,8 @@
       ],
       "all_purchasable_prices": [
         1050,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2500,
@@ -5676,18 +5651,14 @@
         "3G/4G/5G"
       ],
       "networks": [
-        "Claro",
         "Movistar",
         "Personal",
         "TIM",
-        "Vivo",
         "WOM"
       ],
       "networks_by_block": {
         "local": [
-          "Claro",
-          "TIM",
-          "Vivo"
+          "TIM"
         ],
         "regional": [
           "Movistar",
@@ -5696,15 +5667,14 @@
           "WOM"
         ],
         "daily": [
-          "Claro",
-          "TIM",
-          "Vivo"
+          "TIM"
         ]
       },
       "networks_rows": 18,
       "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
+        "384 Kbps",
         "512 Kbps",
         "In case of exceeding daily 1 GB high-speed allowance, speed will be limited to 512 Kbps for the remainder of the day, which may impact your experience with video streaming and other data-intensive applications."
       ],
@@ -5746,7 +5716,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -5795,8 +5765,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2300,
@@ -6273,9 +6243,9 @@
       "name_ru": "Белиз",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 3,
+      "regional_count": 0,
       "daily_count": 3,
-      "total_count": 12,
+      "total_count": 9,
       "min_price_rub": 1700,
       "max_price_rub": 22500,
       "validity_days_min": 0,
@@ -6289,7 +6259,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 0,
       "offers": [
         {
           "data_gb": 0,
@@ -6317,9 +6287,9 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 9750,
+          "price_rub": 12250,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
@@ -6330,19 +6300,16 @@
       ],
       "all_purchasable_prices": [
         1700,
-        2050,
         2800,
         3900,
         4000,
         4050,
-        4500,
         5550,
         6200,
         6650,
         6800,
         7700,
         8650,
-        9750,
         10800,
         11500,
         11950,
@@ -6391,19 +6358,17 @@
         ]
       },
       "networks_rows": 9,
-      "rows_total": 12,
+      "rows_total": 9,
       "fup_policies": [
         "384 Kbps"
       ],
       "activation_policies": [
-        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
-        "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 11,
+      "topup_yes": 8,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -6683,9 +6648,9 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 2700,
+          "price_rub": 2850,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         },
         {
           "data_gb": 10,
@@ -6711,9 +6676,9 @@
         2050,
         2300,
         2550,
-        2700,
         2850,
         2900,
+        2950,
         3100,
         3250,
         4100,
@@ -7294,7 +7259,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -7306,7 +7270,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -7322,7 +7285,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -7341,7 +7303,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -7353,7 +7314,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -7369,7 +7329,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -7416,7 +7375,7 @@
       "daily_count": 2,
       "total_count": 12,
       "min_price_rub": 1000,
-      "max_price_rub": 13150,
+      "max_price_rub": 9100,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -7462,7 +7421,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 13150,
+          "price_rub": 9100,
           "validity_days": 30,
           "kind": "local"
         }
@@ -7483,9 +7442,9 @@
         5100,
         7050,
         7300,
+        9100,
         10200,
         10550,
-        13150,
         14050,
         19400,
         21100,
@@ -7825,7 +7784,7 @@
         },
         {
           "data_gb": 10,
-          "price_rub": 4200,
+          "price_rub": 4600,
           "validity_days": 30,
           "kind": "local"
         },
@@ -7848,8 +7807,8 @@
         3150,
         3450,
         3700,
-        4200,
         4350,
+        4600,
         5050,
         5200,
         6500,
@@ -7946,7 +7905,7 @@
         50
       ],
       "has_unlimited": true,
-      "regional_reach_max": 3,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -8054,7 +8013,9 @@
         2700,
         2750,
         2800,
+        2850,
         2950,
+        3100,
         3700,
         3750,
         3900,
@@ -8575,12 +8536,12 @@
       "iso": "CV",
       "name_ru": "Кабо-Верде",
       "strategy": "LOCAL",
-      "local_count": 6,
-      "regional_count": 3,
+      "local_count": 5,
+      "regional_count": 0,
       "daily_count": 4,
-      "total_count": 13,
-      "min_price_rub": 1450,
-      "max_price_rub": 25250,
+      "total_count": 9,
+      "min_price_rub": 1100,
+      "max_price_rub": 16400,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -8592,7 +8553,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 0,
       "offers": [
         {
           "data_gb": 0,
@@ -8602,68 +8563,64 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 1450,
+          "price_rub": 1100,
           "validity_days": 7,
           "kind": "local"
         },
         {
           "data_gb": 3,
-          "price_rub": 4100,
-          "validity_days": 15,
+          "price_rub": 2800,
+          "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 6800,
+          "price_rub": 4550,
           "validity_days": 30,
           "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 9750,
+          "price_rub": 8550,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 25250,
+          "price_rub": 16400,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        1450,
-        2050,
+        1100,
+        2800,
         2900,
+        2950,
         4100,
-        4200,
-        4350,
-        4500,
+        4550,
+        4650,
+        5450,
         5750,
-        6650,
-        6800,
-        7850,
+        6500,
         7950,
-        9300,
-        9750,
+        8150,
+        8550,
+        8650,
+        9000,
         11900,
-        12400,
-        12500,
-        12850,
-        15500,
-        17500,
-        19300,
+        12150,
+        13000,
+        13500,
+        16400,
+        16750,
+        18200,
         21950,
-        24200,
-        24750,
-        25250,
-        34650,
-        35500,
-        36250,
-        47900,
-        66800,
-        71800,
-        132300
+        24850,
+        25100,
+        37650,
+        46250,
+        69350
       ],
       "term_days": [
         3,
@@ -8682,7 +8639,6 @@
       "validity_days_all": [
         0,
         7,
-        15,
         30
       ],
       "speeds": [
@@ -8701,25 +8657,23 @@
         ]
       },
       "networks_rows": 9,
-      "rows_total": 13,
+      "rows_total": 9,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
       ],
       "activation_policies": [
-        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
-        "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 12,
+      "topup_yes": 8,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1450,
+      "min_volume_price_rub": 1100,
       "min_daily_price_rub": 2900
     },
     "curacao": {
@@ -8744,7 +8698,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -8792,10 +8746,10 @@
       "all_purchasable_prices": [
         950,
         1050,
+        1450,
         1600,
         1700,
         2000,
-        2050,
         2100,
         2500,
         2550,
@@ -9050,7 +9004,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -9062,7 +9015,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -9078,7 +9030,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -9097,7 +9048,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -9109,7 +9059,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -9125,7 +9074,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -9331,7 +9279,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -9343,7 +9290,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -9359,7 +9305,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -9378,7 +9323,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -9390,7 +9334,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -9406,7 +9349,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -9614,7 +9556,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -9626,7 +9567,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -9642,7 +9582,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -9661,7 +9600,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -9673,7 +9611,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -9689,7 +9626,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -9896,7 +9832,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -9908,7 +9843,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -9924,7 +9858,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -9943,7 +9876,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -9955,7 +9887,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -9971,7 +9902,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -10032,7 +9962,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -10081,8 +10011,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2200,
@@ -10188,7 +10118,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -10240,11 +10170,11 @@
         1000,
         1050,
         1300,
+        1450,
         1500,
         1700,
         1750,
         1800,
-        2050,
         2100,
         2450,
         2500,
@@ -10901,7 +10831,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -10913,7 +10842,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -10929,7 +10857,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -10948,7 +10875,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -10960,7 +10886,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -10976,7 +10901,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -11368,7 +11292,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -11380,7 +11303,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -11396,7 +11318,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -11415,7 +11336,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -11427,7 +11347,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -11443,7 +11362,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -11545,7 +11463,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 10750,
+          "price_rub": 8550,
           "validity_days": 30,
           "kind": "local"
         }
@@ -11565,10 +11483,10 @@
         6250,
         6350,
         7200,
+        8550,
         8750,
         8900,
         9550,
-        10750,
         11500,
         12100,
         12450,
@@ -11812,7 +11730,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -11824,7 +11741,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -11840,7 +11756,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -11858,7 +11773,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -11870,7 +11784,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -11886,7 +11799,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -12385,9 +12297,9 @@
         },
         {
           "data_gb": 100,
-          "price_rub": 7000,
+          "price_rub": 4500,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         }
       ],
       "all_purchasable_prices": [
@@ -12426,11 +12338,11 @@
         3600,
         3850,
         4050,
+        4500,
         5150,
         5350,
         5650,
         5800,
-        7000,
         7750,
         8400,
         9850,
@@ -12504,7 +12416,7 @@
       ],
       "networks_by_block": {
         "local": [
-          "Orange"
+          "SFR"
         ],
         "regional": [
           "3",
@@ -12545,27 +12457,28 @@
           "bob"
         ],
         "daily": [
-          "Orange"
+          "SFR"
         ]
       },
       "networks_rows": 18,
       "rows_total": 25,
       "fup_policies": [
         "1 Mbps",
+        "384 Kbps",
         "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
-        "500 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
         "first_data_usage",
+        "network_connection",
         "unknown"
       ],
       "activation_labels": [
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 22,
-      "topup_no": 3,
+      "topup_yes": 21,
+      "topup_no": 4,
       "daily_reset_confirmed": false,
       "daily_reset_partial": true,
       "daily_throttle_continues": false,
@@ -12577,9 +12490,9 @@
       "name_ru": "Габон",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 6,
-      "total_count": 19,
+      "total_count": 20,
       "min_price_rub": 800,
       "max_price_rub": 11350,
       "validity_days_min": 0,
@@ -12594,7 +12507,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 21,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -12750,7 +12663,7 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 19,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -12764,7 +12677,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 17,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -12949,7 +12862,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -12961,7 +12873,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -12977,7 +12888,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -12996,7 +12906,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -13008,7 +12917,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -13024,7 +12932,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -13086,7 +12993,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -13135,8 +13042,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2500,
@@ -13398,9 +13305,9 @@
       "name_ru": "Французская Гвиана",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 9,
-      "total_count": 20,
+      "total_count": 21,
       "min_price_rub": 150,
       "max_price_rub": 21700,
       "validity_days_min": 0,
@@ -13416,7 +13323,7 @@
         50
       ],
       "has_unlimited": true,
-      "regional_reach_max": 11,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -13552,7 +13459,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 20,
+      "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
         "500 Kbps",
@@ -13567,7 +13474,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 18,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -13905,11 +13812,11 @@
       "name_ru": "Гана",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 5,
-      "total_count": 19,
+      "total_count": 20,
       "min_price_rub": 300,
-      "max_price_rub": 4800,
+      "max_price_rub": 10700,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -13972,23 +13879,25 @@
         550,
         750,
         800,
+        850,
         1000,
         1100,
         1450,
         1550,
+        1900,
         2000,
         2050,
         2150,
-        2650,
         2750,
         2800,
         2850,
         3350,
         3650,
         3950,
-        4100,
+        4200,
         4450,
         4800,
+        5050,
         5250,
         5450,
         6250,
@@ -13997,6 +13906,7 @@
         8150,
         8600,
         10650,
+        10700,
         12900,
         14700,
         15000,
@@ -14023,7 +13933,6 @@
         0,
         7,
         15,
-        21,
         30
       ],
       "speeds": [
@@ -14060,8 +13969,8 @@
           "Vodafone"
         ]
       },
-      "networks_rows": 13,
-      "rows_total": 19,
+      "networks_rows": 16,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -14074,8 +13983,8 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 18,
-      "topup_no": 1,
+      "topup_yes": 17,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
@@ -14422,7 +14331,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -14464,7 +14373,6 @@
       "all_purchasable_prices": [
         1200,
         1450,
-        2050,
         2650,
         2750,
         4400,
@@ -14557,7 +14465,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -14598,7 +14506,6 @@
       ],
       "all_purchasable_prices": [
         1450,
-        2050,
         2650,
         2750,
         2800,
@@ -14699,7 +14606,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -14740,7 +14647,7 @@
       ],
       "all_purchasable_prices": [
         950,
-        2050,
+        1450,
         2250,
         2300,
         2450,
@@ -14836,7 +14743,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -14893,11 +14800,11 @@
         1050,
         1100,
         1200,
+        1450,
         1550,
         1650,
         1700,
         1850,
-        2050,
         2100,
         2150,
         2200,
@@ -15179,7 +15086,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -15191,7 +15097,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -15207,7 +15112,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -15226,7 +15130,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -15238,7 +15141,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -15254,7 +15156,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -15298,9 +15199,9 @@
       "name_ru": "Гватемала",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 6,
-      "total_count": 17,
+      "total_count": 18,
       "min_price_rub": 400,
       "max_price_rub": 5600,
       "validity_days_min": 0,
@@ -15315,7 +15216,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 37,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -15448,7 +15349,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 17,
+      "rows_total": 18,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -15462,7 +15363,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 17,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -15475,9 +15376,9 @@
       "name_ru": "Гуам",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 5,
+      "regional_count": 4,
       "daily_count": 6,
-      "total_count": 17,
+      "total_count": 16,
       "min_price_rub": 500,
       "max_price_rub": 10450,
       "validity_days_min": 0,
@@ -15495,7 +15396,7 @@
         34
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 21,
       "offers": [
         {
           "data_gb": 0,
@@ -15566,7 +15467,6 @@
         1650,
         1950,
         2000,
-        2050,
         2200,
         2250,
         2300,
@@ -15642,22 +15542,20 @@
         ]
       },
       "networks_rows": 12,
-      "rows_total": 17,
+      "rows_total": 16,
       "fup_policies": [
         "384 Kbps",
         "512 Kbps"
       ],
       "activation_policies": [
-        "first_data_usage",
         "installation",
         "unknown"
       ],
       "activation_labels": [
         "после установки eSIM",
-        "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 15,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -15716,7 +15614,7 @@
           "data_gb": 10,
           "price_rub": 5050,
           "validity_days": 30,
-          "kind": "local"
+          "kind": "regional"
         },
         {
           "data_gb": 20,
@@ -15743,6 +15641,7 @@
         5050,
         5200,
         6000,
+        6250,
         6900,
         7800,
         9000,
@@ -15853,9 +15752,9 @@
       "name_ru": "Гайана",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 4,
-      "total_count": 17,
+      "total_count": 16,
       "min_price_rub": 1100,
       "max_price_rub": 13100,
       "validity_days_min": 0,
@@ -15870,7 +15769,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -15919,7 +15818,6 @@
         1100,
         1450,
         1750,
-        2050,
         2400,
         2550,
         2650,
@@ -15989,7 +15887,7 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 17,
+      "rows_total": 16,
       "fup_policies": [
         "1 Mbps",
         "512 Kbps"
@@ -16002,7 +15900,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 16,
+      "topup_yes": 15,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -16016,8 +15914,8 @@
       "strategy": "LOCAL",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 5,
-      "total_count": 21,
+      "daily_count": 9,
+      "total_count": 25,
       "min_price_rub": 200,
       "max_price_rub": 5450,
       "validity_days_min": 0,
@@ -16033,8 +15931,8 @@
         30,
         50
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -16104,6 +16002,7 @@
         1050,
         1400,
         1450,
+        1600,
         1650,
         1900,
         2000,
@@ -16115,6 +16014,7 @@
         2750,
         2850,
         2950,
+        3100,
         3350,
         3450,
         3500,
@@ -16150,7 +16050,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         180
@@ -16237,10 +16140,11 @@
         ]
       },
       "networks_rows": 18,
-      "rows_total": 21,
+      "rows_total": 25,
       "fup_policies": [
         "1 Mbps",
-        "384 Kbps"
+        "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies."
       ],
       "activation_policies": [
         "first_data_usage",
@@ -16253,9 +16157,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 19,
-      "topup_no": 2,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 550
@@ -16265,9 +16169,9 @@
       "name_ru": "Гондурас",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 5,
-      "total_count": 16,
+      "total_count": 17,
       "min_price_rub": 400,
       "max_price_rub": 5600,
       "validity_days_min": 0,
@@ -16282,7 +16186,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 37,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -16402,7 +16306,7 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 16,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -16416,7 +16320,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 16,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -16583,7 +16487,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -16595,7 +16498,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -16611,7 +16513,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -16624,13 +16525,11 @@
       ],
       "networks_by_block": {
         "local": [
-          "A1",
           "Tele2"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -16642,7 +16541,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -16658,7 +16556,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -16670,7 +16567,6 @@
           "lifecell"
         ],
         "daily": [
-          "A1",
           "Tele2"
         ]
       },
@@ -16703,9 +16599,9 @@
       "name_ru": "Гаити",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 4,
-      "total_count": 17,
+      "total_count": 16,
       "min_price_rub": 1450,
       "max_price_rub": 22950,
       "validity_days_min": 0,
@@ -16720,7 +16616,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -16731,7 +16627,7 @@
         {
           "data_gb": 1,
           "price_rub": 1450,
-          "validity_days": 7,
+          "validity_days": 30,
           "kind": "regional"
         },
         {
@@ -16768,7 +16664,6 @@
       "all_purchasable_prices": [
         1450,
         1550,
-        2050,
         2550,
         2650,
         3700,
@@ -16838,7 +16733,7 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 17,
+      "rows_total": 16,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps"
@@ -16851,7 +16746,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 16,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -17025,7 +16920,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -17037,7 +16931,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -17053,7 +16946,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -17072,7 +16964,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -17084,7 +16975,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -17100,7 +16990,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -17146,8 +17035,8 @@
       "strategy": "LOCAL",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "max_price_rub": 7400,
       "validity_days_min": 0,
@@ -17166,8 +17055,8 @@
         50,
         60
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -17259,6 +17148,7 @@
         1350,
         1450,
         1500,
+        1600,
         1650,
         2000,
         2050,
@@ -17307,7 +17197,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         60,
@@ -17394,10 +17287,11 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 24,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -17411,9 +17305,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 18,
-      "topup_no": 6,
+      "topup_no": 10,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -17577,7 +17471,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -17589,7 +17482,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -17605,7 +17497,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -17623,7 +17514,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -17635,7 +17525,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -17651,7 +17540,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -18381,6 +18269,7 @@
         "CTM",
         "CelcomDigi",
         "Cellcard",
+        "China Telecom",
         "China Unicom",
         "Chunghwa",
         "DTAC",
@@ -18405,7 +18294,6 @@
         "SKTelecom",
         "SMART",
         "STC",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Spark",
@@ -18433,6 +18321,7 @@
           "CTM",
           "CelcomDigi",
           "Cellcard",
+          "China Telecom",
           "China Unicom",
           "Chunghwa",
           "DTAC",
@@ -18457,7 +18346,6 @@
           "SKTelecom",
           "SMART",
           "STC",
-          "SingTel",
           "SmarTone",
           "SoftBank",
           "Spark",
@@ -18888,7 +18776,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -18900,7 +18787,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -18916,7 +18802,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -18935,7 +18820,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -18947,7 +18831,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -18963,7 +18846,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -19169,7 +19051,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -19181,7 +19062,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -19197,7 +19077,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -19217,7 +19096,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -19229,7 +19107,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -19245,7 +19122,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -19578,7 +19454,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -19627,10 +19503,10 @@
         950,
         1050,
         1100,
+        1450,
         1550,
         1650,
         1700,
-        2050,
         2200,
         2450,
         2500,
@@ -20215,9 +20091,9 @@
       "name_ru": "Кения",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 6,
-      "total_count": 18,
+      "total_count": 19,
       "min_price_rub": 400,
       "max_price_rub": 10700,
       "validity_days_min": 0,
@@ -20231,7 +20107,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 21,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -20277,6 +20153,7 @@
         1000,
         1050,
         1400,
+        1450,
         1600,
         1700,
         1900,
@@ -20374,7 +20251,7 @@
         ]
       },
       "networks_rows": 16,
-      "rows_total": 18,
+      "rows_total": 19,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -20386,7 +20263,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 16,
       "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -20595,8 +20472,8 @@
       "strategy": "LOCAL",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 22,
+      "daily_count": 10,
+      "total_count": 26,
       "min_price_rub": 200,
       "max_price_rub": 9050,
       "validity_days_min": 0,
@@ -20613,7 +20490,7 @@
         40,
         50
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -20696,10 +20573,12 @@
         1600,
         2100,
         2200,
+        2350,
         2400,
         2550,
         2650,
         2750,
+        2850,
         2950,
         3100,
         3400,
@@ -20740,7 +20619,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         180,
@@ -20773,7 +20655,6 @@
         "Robi",
         "SKTelecom",
         "SMART",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Taiwan Mobile",
@@ -20814,7 +20695,6 @@
           "Robi",
           "SKTelecom",
           "SMART",
-          "SingTel",
           "SmarTone",
           "SoftBank",
           "Taiwan Mobile",
@@ -20861,9 +20741,10 @@
         ]
       },
       "networks_rows": 16,
-      "rows_total": 22,
+      "rows_total": 26,
       "fup_policies": [
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -20875,9 +20756,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 16,
-      "topup_no": 6,
+      "topup_no": 10,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -20904,7 +20785,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -20953,9 +20834,9 @@
         950,
         1050,
         1350,
+        1450,
         1700,
         2000,
-        2050,
         2100,
         2150,
         2500,
@@ -21043,8 +20924,8 @@
       "strategy": "LOCAL",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 10,
+      "total_count": 27,
       "min_price_rub": 200,
       "max_price_rub": 4200,
       "validity_days_min": 0,
@@ -21063,8 +20944,8 @@
         30,
         50
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -21158,6 +21039,7 @@
         1350,
         1400,
         1500,
+        1600,
         1650,
         1750,
         1850,
@@ -21169,6 +21051,7 @@
         2700,
         2750,
         2800,
+        2850,
         2950,
         3100,
         3400,
@@ -21205,7 +21088,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30
       ],
@@ -21287,10 +21173,11 @@
         ]
       },
       "networks_rows": 14,
-      "rows_total": 23,
+      "rows_total": 27,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -21304,9 +21191,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 15,
-      "topup_no": 8,
+      "topup_no": 12,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -21591,6 +21478,7 @@
         "CTM",
         "CelcomDigi",
         "Cellcom",
+        "China Telecom",
         "China Unicom",
         "DTAC",
         "Globe",
@@ -21610,7 +21498,6 @@
         "Pelephone",
         "SKTelecom",
         "STC",
-        "SingTel",
         "Spark",
         "Telenor",
         "Telkomsel",
@@ -21620,15 +21507,13 @@
         "Vietnamobile",
         "Viettel Mobile",
         "Vodafone",
-        "Zain",
         "csl",
         "ooredoo"
       ],
       "networks_by_block": {
         "local": [
           "Ooredoo",
-          "STC",
-          "Zain"
+          "STC"
         ],
         "regional": [
           "AirTel",
@@ -21636,6 +21521,7 @@
           "CTM",
           "CelcomDigi",
           "Cellcom",
+          "China Telecom",
           "China Unicom",
           "DTAC",
           "Globe",
@@ -21655,7 +21541,6 @@
           "Pelephone",
           "SKTelecom",
           "STC",
-          "SingTel",
           "Spark",
           "Telenor",
           "Telkomsel",
@@ -21670,8 +21555,7 @@
         ],
         "daily": [
           "Ooredoo",
-          "STC",
-          "Zain"
+          "STC"
         ]
       },
       "networks_rows": 19,
@@ -21719,7 +21603,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -21768,8 +21652,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2200,
@@ -22052,8 +21936,8 @@
       "strategy": "LOCAL",
       "local_count": 6,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 20,
+      "daily_count": 10,
+      "total_count": 24,
       "min_price_rub": 250,
       "max_price_rub": 9050,
       "validity_days_min": 0,
@@ -22068,7 +21952,7 @@
         30,
         40
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -22141,10 +22025,12 @@
         2100,
         2150,
         2200,
+        2350,
         2500,
         2550,
         2650,
         2750,
+        2850,
         2950,
         3100,
         3150,
@@ -22186,7 +22072,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         365
@@ -22298,10 +22187,11 @@
         ]
       },
       "networks_rows": 17,
-      "rows_total": 20,
+      "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -22313,9 +22203,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 17,
-      "topup_no": 3,
+      "topup_no": 7,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 250,
       "min_daily_price_rub": 550
@@ -22342,7 +22232,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -22391,9 +22281,9 @@
         950,
         1050,
         1350,
+        1450,
         1700,
         2000,
-        2050,
         2100,
         2150,
         2500,
@@ -22630,7 +22520,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -22642,7 +22531,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -22658,7 +22546,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -22677,7 +22564,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -22689,7 +22575,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -22705,7 +22590,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -22749,8 +22633,8 @@
       "strategy": "LOCAL",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 250,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -22766,7 +22650,7 @@
         40,
         50
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -22819,7 +22703,7 @@
         },
         {
           "data_gb": 50,
-          "price_rub": 5600,
+          "price_rub": 5050,
           "validity_days": 30,
           "kind": "local"
         }
@@ -22838,6 +22722,7 @@
         1300,
         1450,
         1550,
+        1600,
         1800,
         2000,
         2050,
@@ -22846,6 +22731,7 @@
         2850,
         2900,
         2950,
+        3100,
         3300,
         3500,
         3600,
@@ -22853,8 +22739,8 @@
         4700,
         4800,
         4950,
+        5050,
         5200,
-        5600,
         6350,
         6550,
         7400,
@@ -22884,7 +22770,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         14,
         15,
         30,
@@ -22900,6 +22789,7 @@
         "Beeline",
         "CTM",
         "CelcomDigi",
+        "China Telecom",
         "China Unicom",
         "DTAC",
         "Globe",
@@ -22918,7 +22808,6 @@
         "Pelephone",
         "SKTelecom",
         "STC",
-        "SingTel",
         "Spark",
         "Telenor",
         "Telkomsel",
@@ -22939,6 +22828,7 @@
           "Beeline",
           "CTM",
           "CelcomDigi",
+          "China Telecom",
           "China Unicom",
           "DTAC",
           "Globe",
@@ -22957,7 +22847,6 @@
           "Pelephone",
           "SKTelecom",
           "STC",
-          "SingTel",
           "Spark",
           "Telenor",
           "Telkomsel",
@@ -22977,10 +22866,11 @@
         ]
       },
       "networks_rows": 21,
-      "rows_total": 24,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -22992,9 +22882,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 23,
-      "topup_no": 1,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 250,
       "min_daily_price_rub": 350
@@ -23285,7 +23175,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -23297,7 +23186,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -23313,7 +23201,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -23326,13 +23213,11 @@
       ],
       "networks_by_block": {
         "local": [
-          "Tele2",
-          "Telia"
+          "Tele2"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -23344,7 +23229,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -23360,7 +23244,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -23372,8 +23255,7 @@
           "lifecell"
         ],
         "daily": [
-          "Tele2",
-          "Telia"
+          "Tele2"
         ]
       },
       "networks_rows": 17,
@@ -23559,7 +23441,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -23571,7 +23452,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -23587,7 +23467,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -23600,14 +23479,11 @@
       ],
       "networks_by_block": {
         "local": [
-          "Orange",
-          "POST",
-          "Tango"
+          "POST"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -23619,7 +23495,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -23635,7 +23510,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -23647,9 +23521,7 @@
           "lifecell"
         ],
         "daily": [
-          "Orange",
-          "POST",
-          "Tango"
+          "POST"
         ]
       },
       "networks_rows": 17,
@@ -23840,7 +23712,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -23852,7 +23723,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -23868,7 +23738,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -23881,13 +23750,11 @@
       ],
       "networks_by_block": {
         "local": [
-          "LMT",
           "Tele2"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -23899,7 +23766,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -23915,7 +23781,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -23927,7 +23792,6 @@
           "lifecell"
         ],
         "daily": [
-          "LMT",
           "Tele2"
         ]
       },
@@ -24401,7 +24265,7 @@
         10
       ],
       "has_unlimited": true,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -24411,7 +24275,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 2050,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "regional"
         },
@@ -24665,7 +24529,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -24677,7 +24540,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -24693,7 +24555,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -24711,7 +24572,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -24723,7 +24583,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -24739,7 +24598,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -24931,17 +24789,14 @@
         "3G/4G"
       ],
       "networks": [
-        "T-Mobile",
         "m:tel CG"
       ],
       "networks_by_block": {
         "local": [
-          "T-Mobile",
           "m:tel CG"
         ],
         "regional": [],
         "daily": [
-          "T-Mobile",
           "m:tel CG"
         ]
       },
@@ -24990,7 +24845,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -25047,11 +24902,11 @@
         1050,
         1100,
         1200,
+        1450,
         1500,
         1550,
         1650,
         1850,
-        2050,
         2100,
         2150,
         2350,
@@ -25918,8 +25773,8 @@
       "strategy": "LOCAL",
       "local_count": 8,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 22,
+      "daily_count": 10,
+      "total_count": 26,
       "min_price_rub": 200,
       "max_price_rub": 6300,
       "validity_days_min": 0,
@@ -25935,8 +25790,8 @@
         30,
         50
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -26010,6 +25865,7 @@
         1300,
         1400,
         1500,
+        1600,
         1650,
         1800,
         1850,
@@ -26020,6 +25876,7 @@
         2550,
         2700,
         2750,
+        2850,
         2900,
         2950,
         3050,
@@ -26058,7 +25915,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         180
@@ -26067,7 +25927,6 @@
         "3G/4G/5G"
       ],
       "networks": [
-        "3",
         "AIS",
         "AirTel",
         "Banglalink",
@@ -26103,7 +25962,6 @@
       ],
       "networks_by_block": {
         "local": [
-          "3",
           "CTM"
         ],
         "regional": [
@@ -26141,14 +25999,14 @@
           "csl"
         ],
         "daily": [
-          "3",
           "CTM"
         ]
       },
       "networks_rows": 20,
-      "rows_total": 22,
+      "rows_total": 26,
       "fup_policies": [
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -26162,9 +26020,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 20,
-      "topup_no": 2,
+      "topup_no": 6,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 400
@@ -26273,7 +26131,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -26330,10 +26188,10 @@
         1050,
         1100,
         1200,
+        1450,
         1550,
         1650,
         1850,
-        2050,
         2100,
         2150,
         2350,
@@ -26440,8 +26298,8 @@
       "regional_count": 3,
       "daily_count": 4,
       "total_count": 13,
-      "min_price_rub": 1550,
-      "max_price_rub": 22800,
+      "min_price_rub": 1400,
+      "max_price_rub": 19150,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -26453,17 +26311,17 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 4400,
+          "price_rub": 3800,
           "validity_days": 0,
           "kind": "local"
         },
         {
           "data_gb": 1,
-          "price_rub": 1550,
+          "price_rub": 1400,
           "validity_days": 7,
           "kind": "local"
         },
@@ -26475,7 +26333,7 @@
         },
         {
           "data_gb": 5,
-          "price_rub": 6100,
+          "price_rub": 5400,
           "validity_days": 30,
           "kind": "local"
         },
@@ -26487,44 +26345,44 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 22800,
+          "price_rub": 19150,
           "validity_days": 30,
           "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        1550,
-        2050,
+        1400,
+        1450,
         2650,
-        3650,
-        3900,
-        4400,
+        3300,
+        3500,
+        3800,
+        5400,
         5600,
-        6100,
-        7000,
-        8350,
-        9800,
-        11100,
-        11850,
-        13300,
+        6050,
+        7300,
+        8450,
+        10450,
+        11050,
+        11650,
         13550,
-        15300,
-        18600,
-        18850,
-        20300,
-        22800,
-        24450,
-        25700,
-        26400,
-        34250,
-        36500,
-        37350,
-        38500,
-        47300,
-        54750,
-        70950,
-        100850,
-        130700
+        16250,
+        17450,
+        17650,
+        19150,
+        21650,
+        22500,
+        24700,
+        30300,
+        32150,
+        33700,
+        34100,
+        41850,
+        51150,
+        62100,
+        62750,
+        94200,
+        115600
       ],
       "term_days": [
         3,
@@ -26580,8 +26438,8 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 1550,
-      "min_daily_price_rub": 4400
+      "min_volume_price_rub": 1400,
+      "min_daily_price_rub": 3800
     },
     "montserrat": {
       "iso": "MS",
@@ -26605,7 +26463,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -26654,8 +26512,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2500,
@@ -26884,7 +26742,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -26896,7 +26753,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -26912,7 +26768,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -26931,7 +26786,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -26943,7 +26797,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -26959,7 +26812,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -27771,10 +27623,10 @@
       "iso": "MY",
       "name_ru": "Малайзия",
       "strategy": "LOCAL",
-      "local_count": 9,
+      "local_count": 8,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 9,
+      "total_count": 25,
       "min_price_rub": 100,
       "max_price_rub": 5950,
       "validity_days_min": 0,
@@ -27788,16 +27640,15 @@
         15,
         20,
         30,
-        40,
         50,
         60
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
-          "price_rub": 350,
+          "price_rub": 300,
           "validity_days": 0,
           "kind": "local"
         },
@@ -27844,12 +27695,6 @@
           "kind": "local"
         },
         {
-          "data_gb": 40,
-          "price_rub": 2050,
-          "validity_days": 15,
-          "kind": "local"
-        },
-        {
           "data_gb": 50,
           "price_rub": 2800,
           "validity_days": 30,
@@ -27865,45 +27710,45 @@
       "all_purchasable_prices": [
         100,
         250,
-        350,
+        300,
         400,
         450,
         550,
+        650,
         700,
         750,
+        850,
         900,
         1000,
+        1050,
+        1100,
         1150,
         1200,
-        1250,
-        1350,
+        1400,
+        1450,
         1500,
-        1650,
-        1750,
-        1850,
+        1600,
         1900,
         1950,
         2050,
-        2450,
+        2100,
+        2150,
+        2350,
         2550,
         2650,
+        2750,
         2800,
-        3000,
-        3150,
-        3250,
-        3300,
-        3800,
+        2850,
+        3100,
+        3200,
+        3550,
         4350,
-        4550,
-        4700,
-        5300,
+        4400,
+        5050,
         5950,
-        6800,
-        7300,
-        8650,
-        10950,
-        12500,
-        20150
+        6550,
+        6600,
+        12100
       ],
       "term_days": [
         3,
@@ -27914,7 +27759,6 @@
         30
       ],
       "daily_gb": [
-        0.49,
         1,
         2,
         3,
@@ -27923,14 +27767,16 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         60,
         180
       ],
       "speeds": [
-        "3G/4G",
         "3G/4G/5G"
       ],
       "networks": [
@@ -27949,20 +27795,17 @@
         "KDDI/au",
         "LG Uplus",
         "Lao Telecom",
-        "M1",
         "Maxis",
         "Metfone",
         "MobiFone",
         "Robi",
         "SKTelecom",
         "SMART",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Taiwan Mobile",
         "Telkomsel",
         "TrueMove H",
-        "Tune Talk",
         "U Mobile",
         "Viettel Mobile",
         "Vinaphone",
@@ -27973,7 +27816,6 @@
         "local": [
           "CelcomDigi",
           "Maxis",
-          "Tune Talk",
           "U Mobile"
         ],
         "regional": [
@@ -28009,19 +27851,15 @@
           "csl"
         ],
         "daily": [
-          "CelcomDigi",
-          "M1",
-          "Maxis",
-          "SingTel",
           "U Mobile"
         ]
       },
-      "networks_rows": 14,
-      "rows_total": 23,
+      "networks_rows": 12,
+      "rows_total": 25,
       "fup_policies": [
-        "128 Kbps",
+        "1 Mbps",
         "384 Kbps",
-        "512 Kbps"
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies."
       ],
       "activation_policies": [
         "first_data_usage",
@@ -28035,21 +27873,21 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 9,
-      "topup_no": 14,
+      "topup_no": 16,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 100,
-      "min_daily_price_rub": 350
+      "min_daily_price_rub": 300
     },
     "mozambique": {
       "iso": "MZ",
       "name_ru": "Мозамбик",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 3,
+      "regional_count": 0,
       "daily_count": 0,
-      "total_count": 10,
+      "total_count": 7,
       "min_price_rub": 950,
       "max_price_rub": 11500,
       "validity_days_min": 7,
@@ -28063,7 +27901,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 0,
       "offers": [
         {
           "data_gb": 1,
@@ -28105,13 +27943,10 @@
       "all_purchasable_prices": [
         950,
         1550,
-        2050,
         2250,
         2350,
         3300,
-        4500,
         6000,
-        9750,
         11500
       ],
       "term_days": [],
@@ -28136,17 +27971,15 @@
         "daily": []
       },
       "networks_rows": 7,
-      "rows_total": 10,
+      "rows_total": 7,
       "fup_policies": [],
       "activation_policies": [
-        "first_data_usage",
         "unknown"
       ],
       "activation_labels": [
-        "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 10,
+      "topup_yes": 7,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -28355,10 +28188,10 @@
       "name_ru": "Нигерия",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 6,
-      "total_count": 20,
-      "min_price_rub": 550,
+      "total_count": 21,
+      "min_price_rub": 650,
       "max_price_rub": 13350,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -28382,9 +28215,9 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 550,
+          "price_rub": 650,
           "validity_days": 7,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 2,
@@ -28394,53 +28227,53 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1100,
+          "price_rub": 1500,
           "validity_days": 15,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 5,
-          "price_rub": 1550,
-          "validity_days": 21,
-          "kind": "regional"
+          "price_rub": 2500,
+          "validity_days": 30,
+          "kind": "local"
         },
         {
           "data_gb": 10,
-          "price_rub": 2650,
+          "price_rub": 4050,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         },
         {
           "data_gb": 20,
-          "price_rub": 4100,
+          "price_rub": 7750,
           "validity_days": 30,
-          "kind": "regional"
+          "kind": "local"
         }
       ],
       "all_purchasable_prices": [
-        550,
         650,
+        850,
         1050,
         1100,
         1450,
         1500,
-        1550,
         1600,
+        1900,
         2050,
         2100,
         2300,
         2500,
         2550,
-        2650,
         2850,
         2900,
         3600,
         3900,
         3950,
         4050,
-        4100,
+        4200,
         4300,
         5000,
+        5050,
         5950,
         6900,
         7150,
@@ -28448,6 +28281,7 @@
         7750,
         9600,
         10350,
+        10700,
         10900,
         11500,
         13300,
@@ -28485,7 +28319,6 @@
         0,
         7,
         15,
-        21,
         30
       ],
       "speeds": [
@@ -28531,8 +28364,8 @@
           "my.t"
         ]
       },
-      "networks_rows": 14,
-      "rows_total": 20,
+      "networks_rows": 17,
+      "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -28546,12 +28379,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 19,
-      "topup_no": 1,
+      "topup_yes": 18,
+      "topup_no": 3,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 550,
+      "min_volume_price_rub": 650,
       "min_daily_price_rub": 1050
     },
     "nicaragua": {
@@ -28559,9 +28392,9 @@
       "name_ru": "Никарагуа",
       "strategy": "LOCAL",
       "local_count": 5,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 5,
-      "total_count": 16,
+      "total_count": 17,
       "min_price_rub": 400,
       "max_price_rub": 5600,
       "validity_days_min": 0,
@@ -28576,7 +28409,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 37,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -28699,7 +28532,7 @@
         ]
       },
       "networks_rows": 10,
-      "rows_total": 16,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -28713,7 +28546,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 16,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -28888,7 +28721,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -28900,7 +28732,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -28916,7 +28747,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -28935,7 +28765,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -28947,7 +28776,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -28963,7 +28791,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -29160,7 +28987,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -29172,7 +28998,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -29188,7 +29013,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -29207,7 +29031,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -29219,7 +29042,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -29235,7 +29057,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -30027,8 +29848,8 @@
       "iso": "PA",
       "name_ru": "Панама",
       "strategy": "LOCAL",
-      "local_count": 7,
-      "regional_count": 6,
+      "local_count": 6,
+      "regional_count": 7,
       "daily_count": 6,
       "total_count": 19,
       "min_price_rub": 800,
@@ -30046,7 +29867,7 @@
         25
       ],
       "has_unlimited": false,
-      "regional_reach_max": 37,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -30068,8 +29889,8 @@
         },
         {
           "data_gb": 3,
-          "price_rub": 1700,
-          "validity_days": 15,
+          "price_rub": 1750,
+          "validity_days": 30,
           "kind": "local"
         },
         {
@@ -30103,7 +29924,6 @@
         1150,
         1300,
         1450,
-        1700,
         1750,
         1850,
         1900,
@@ -30420,7 +30240,7 @@
       "regional_count": 3,
       "daily_count": 3,
       "total_count": 12,
-      "min_price_rub": 2050,
+      "min_price_rub": 1450,
       "max_price_rub": 35550,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -30433,7 +30253,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -30443,7 +30263,7 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 2050,
+          "price_rub": 1450,
           "validity_days": 30,
           "kind": "regional"
         },
@@ -30473,7 +30293,7 @@
         }
       ],
       "all_purchasable_prices": [
-        2050,
+        1450,
         2550,
         2650,
         3700,
@@ -30552,7 +30372,7 @@
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 2050,
+      "min_volume_price_rub": 1450,
       "min_daily_price_rub": 3700
     },
     "papua-new-guinea": {
@@ -30726,8 +30546,8 @@
       "strategy": "LOCAL",
       "local_count": 9,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 23,
+      "daily_count": 10,
+      "total_count": 27,
       "min_price_rub": 200,
       "max_price_rub": 9050,
       "validity_days_min": 0,
@@ -30743,7 +30563,7 @@
         40,
         50
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -30815,15 +30635,18 @@
         1250,
         1350,
         1500,
+        1600,
         1650,
         1750,
         2000,
         2100,
+        2350,
         2450,
         2600,
         2650,
         2700,
         2800,
+        2850,
         2950,
         3100,
         3250,
@@ -30865,7 +30688,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         180,
@@ -30898,7 +30724,6 @@
         "Robi",
         "SKTelecom",
         "SMART",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Taiwan Mobile",
@@ -30939,7 +30764,6 @@
           "Robi",
           "SKTelecom",
           "SMART",
-          "SingTel",
           "SmarTone",
           "SoftBank",
           "Taiwan Mobile",
@@ -30986,10 +30810,11 @@
         ]
       },
       "networks_rows": 19,
-      "rows_total": 23,
+      "rows_total": 27,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -31001,9 +30826,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 19,
-      "topup_no": 4,
+      "topup_no": 8,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 400
@@ -31014,8 +30839,8 @@
       "strategy": "LOCAL",
       "local_count": 7,
       "regional_count": 8,
-      "daily_count": 5,
-      "total_count": 20,
+      "daily_count": 9,
+      "total_count": 24,
       "min_price_rub": 200,
       "max_price_rub": 10850,
       "validity_days_min": 0,
@@ -31031,7 +30856,7 @@
         40,
         50
       ],
-      "has_unlimited": false,
+      "has_unlimited": true,
       "regional_reach_max": 78,
       "offers": [
         {
@@ -31107,6 +30932,7 @@
         1200,
         1250,
         1300,
+        1600,
         1650,
         1850,
         2050,
@@ -31115,10 +30941,12 @@
         2350,
         2450,
         2750,
+        2850,
         2900,
         2950,
         3000,
         3050,
+        3100,
         3550,
         4100,
         5300,
@@ -31147,7 +30975,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         180,
@@ -31162,6 +30993,7 @@
         "Beeline",
         "CTM",
         "CelcomDigi",
+        "China Telecom",
         "China Unicom",
         "DTAC",
         "Globe",
@@ -31180,7 +31012,6 @@
         "Pelephone",
         "SKTelecom",
         "STC",
-        "SingTel",
         "Spark",
         "Telenor",
         "Telkomsel",
@@ -31201,6 +31032,7 @@
           "Beeline",
           "CTM",
           "CelcomDigi",
+          "China Telecom",
           "China Unicom",
           "DTAC",
           "Globe",
@@ -31219,7 +31051,6 @@
           "Pelephone",
           "SKTelecom",
           "STC",
-          "SingTel",
           "Spark",
           "Telenor",
           "Telkomsel",
@@ -31238,10 +31069,11 @@
         ]
       },
       "networks_rows": 19,
-      "rows_total": 20,
+      "rows_total": 24,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -31253,9 +31085,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 19,
-      "topup_no": 1,
+      "topup_no": 5,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -31427,7 +31259,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -31439,7 +31270,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -31455,7 +31285,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -31474,7 +31303,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -31486,7 +31314,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -31502,7 +31329,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -31697,7 +31523,6 @@
         "3G/4G/5G"
       ],
       "networks": [
-        "AT&T",
         "Antel",
         "C&W",
         "Chippie",
@@ -31717,7 +31542,7 @@
       ],
       "networks_by_block": {
         "local": [
-          "AT&T"
+          "Claro"
         ],
         "regional": [],
         "daily": [
@@ -31930,7 +31755,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -31942,7 +31766,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -31958,7 +31781,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -31977,7 +31799,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -31989,7 +31810,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -32005,7 +31825,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -32049,9 +31868,9 @@
       "name_ru": "Парагвай",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 5,
-      "total_count": 19,
+      "total_count": 20,
       "min_price_rub": 400,
       "max_price_rub": 6100,
       "validity_days_min": 0,
@@ -32068,7 +31887,7 @@
         25
       ],
       "has_unlimited": false,
-      "regional_reach_max": 17,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -32202,7 +32021,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 19,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -32216,7 +32035,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 18,
+      "topup_yes": 19,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -32486,7 +32305,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 1800,
+          "price_rub": 1700,
           "validity_days": 30,
           "kind": "local"
         }
@@ -32508,6 +32327,7 @@
         1300,
         1450,
         1550,
+        1700,
         1800,
         1850,
         1900,
@@ -32777,7 +32597,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -32789,7 +32608,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -32805,7 +32623,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -32824,7 +32641,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -32836,7 +32652,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -32852,7 +32667,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -33445,6 +33259,7 @@
         "CTM",
         "CelcomDigi",
         "Cellcom",
+        "China Telecom",
         "China Unicom",
         "DTAC",
         "Globe",
@@ -33464,7 +33279,6 @@
         "Pelephone",
         "SKTelecom",
         "STC",
-        "SingTel",
         "Spark",
         "Telenor",
         "Telkomsel",
@@ -33487,6 +33301,7 @@
           "CTM",
           "CelcomDigi",
           "Cellcom",
+          "China Telecom",
           "China Unicom",
           "DTAC",
           "Globe",
@@ -33506,7 +33321,6 @@
           "Pelephone",
           "SKTelecom",
           "STC",
-          "SingTel",
           "Spark",
           "Telenor",
           "Telkomsel",
@@ -33560,9 +33374,9 @@
       "name_ru": "Сейшелы",
       "strategy": "LOCAL",
       "local_count": 7,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 6,
-      "total_count": 20,
+      "total_count": 21,
       "min_price_rub": 700,
       "max_price_rub": 13350,
       "validity_days_min": 0,
@@ -33577,7 +33391,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 21,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -33737,7 +33551,7 @@
         ]
       },
       "networks_rows": 15,
-      "rows_total": 20,
+      "rows_total": 21,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -33753,7 +33567,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 15,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -34027,7 +33841,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -34039,7 +33852,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -34055,7 +33867,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -34069,13 +33880,11 @@
       "networks_by_block": {
         "local": [
           "3",
-          "Telenor",
           "Telia"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -34087,7 +33896,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -34103,7 +33911,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -34116,7 +33923,6 @@
         ],
         "daily": [
           "3",
-          "Telenor",
           "Telia"
         ]
       },
@@ -34169,7 +33975,7 @@
         60
       ],
       "has_unlimited": true,
-      "regional_reach_max": 6,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -34264,7 +34070,6 @@
         2800,
         2900,
         3100,
-        3500,
         3600,
         3700,
         4300,
@@ -34312,28 +34117,24 @@
         "DTAC",
         "M1",
         "Maxis",
-        "SingTel",
         "Starhub",
         "TrueMove H",
         "U Mobile"
       ],
       "networks_by_block": {
         "local": [
-          "M1",
-          "SingTel"
+          "M1"
         ],
         "regional": [
           "CelcomDigi",
           "DTAC",
           "M1",
           "Maxis",
-          "SingTel",
           "TrueMove H",
           "U Mobile"
         ],
         "daily": [
           "M1",
-          "SingTel",
           "Starhub"
         ]
       },
@@ -34522,7 +34323,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -34534,7 +34334,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -34550,7 +34349,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -34569,7 +34367,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -34581,7 +34378,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -34597,7 +34393,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -34793,7 +34588,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -34805,7 +34599,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -34821,7 +34614,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -34840,7 +34632,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -34852,7 +34643,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -34868,7 +34658,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -34928,7 +34717,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -34969,7 +34758,7 @@
       ],
       "all_purchasable_prices": [
         1050,
-        2050,
+        1450,
         2150,
         2650,
         2700,
@@ -35202,7 +34991,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -35214,7 +35002,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -35230,7 +35017,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -35250,7 +35036,6 @@
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -35262,7 +35047,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -35278,7 +35062,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -35519,9 +35302,9 @@
       "name_ru": "Суринам",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 5,
-      "total_count": 18,
+      "total_count": 17,
       "min_price_rub": 950,
       "max_price_rub": 12750,
       "validity_days_min": 0,
@@ -35536,7 +35319,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -35585,7 +35368,6 @@
         950,
         1400,
         1450,
-        2050,
         2100,
         2150,
         2200,
@@ -35662,7 +35444,7 @@
         ]
       },
       "networks_rows": 11,
-      "rows_total": 18,
+      "rows_total": 17,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -35676,7 +35458,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 17,
+      "topup_yes": 16,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -35898,7 +35680,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 1,
@@ -35939,8 +35721,8 @@
       ],
       "all_purchasable_prices": [
         1050,
+        1450,
         1700,
-        2050,
         2500,
         2850,
         3450,
@@ -35987,7 +35769,7 @@
       "daily_count": 5,
       "total_count": 16,
       "min_price_rub": 1100,
-      "max_price_rub": 24600,
+      "max_price_rub": 16550,
       "validity_days_min": 0,
       "validity_days_max": 30,
       "volumes_gb": [
@@ -36033,7 +35815,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 24600,
+          "price_rub": 16050,
           "validity_days": 30,
           "kind": "local"
         }
@@ -36055,19 +35837,19 @@
         6500,
         7150,
         8100,
+        8200,
         9100,
         11400,
-        12050,
         12100,
         12600,
         12750,
         15950,
+        16050,
         16550,
         18850,
         20400,
         22000,
         22300,
-        24600,
         26400,
         28500,
         33000,
@@ -36193,7 +35975,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -36242,7 +36024,6 @@
         1050,
         1450,
         1700,
-        2050,
         2300,
         2500,
         2600,
@@ -36525,8 +36306,8 @@
       "strategy": "LOCAL",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "max_price_rub": 5950,
       "validity_days_min": 0,
@@ -36544,8 +36325,8 @@
         50,
         60
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -36644,6 +36425,7 @@
         2850,
         2950,
         3000,
+        3100,
         3350,
         3450,
         3750,
@@ -36679,6 +36461,8 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
         10,
         15,
@@ -36793,12 +36577,12 @@
           "csl"
         ]
       },
-      "networks_rows": 11,
-      "rows_total": 24,
+      "networks_rows": 13,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
-        "512 Kbps"
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies."
       ],
       "activation_policies": [
         "first_data_usage",
@@ -36811,9 +36595,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 14,
-      "topup_no": 10,
+      "topup_no": 14,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -37785,6 +37569,7 @@
       "networks_by_block": {
         "local": [
           "Avea/Türk Telekom",
+          "Turkcell",
           "Vodafone"
         ],
         "regional": [
@@ -37836,6 +37621,7 @@
         ],
         "daily": [
           "Avea/Türk Telekom",
+          "Turkcell",
           "Vodafone"
         ]
       },
@@ -37867,9 +37653,9 @@
       "name_ru": "Тринидад и Тобаго",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 6,
       "daily_count": 3,
-      "total_count": 16,
+      "total_count": 15,
       "min_price_rub": 1050,
       "max_price_rub": 14850,
       "validity_days_min": 0,
@@ -37884,7 +37670,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -37932,7 +37718,6 @@
       "all_purchasable_prices": [
         1050,
         1450,
-        2050,
         2450,
         2500,
         2550,
@@ -37996,7 +37781,7 @@
         ]
       },
       "networks_rows": 9,
-      "rows_total": 16,
+      "rows_total": 15,
       "fup_policies": [
         "512 Kbps"
       ],
@@ -38008,7 +37793,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 15,
+      "topup_yes": 14,
       "topup_no": 1,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -38291,10 +38076,10 @@
       "name_ru": "Танзания",
       "strategy": "LOCAL",
       "local_count": 6,
-      "regional_count": 7,
+      "regional_count": 8,
       "daily_count": 6,
-      "total_count": 19,
-      "min_price_rub": 750,
+      "total_count": 20,
+      "min_price_rub": 650,
       "max_price_rub": 13350,
       "validity_days_min": 0,
       "validity_days_max": 30,
@@ -38308,7 +38093,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 21,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -38318,20 +38103,20 @@
         },
         {
           "data_gb": 1,
-          "price_rub": 750,
+          "price_rub": 650,
           "validity_days": 7,
           "kind": "local"
         },
         {
           "data_gb": 2,
-          "price_rub": 1400,
+          "price_rub": 1100,
           "validity_days": 15,
           "kind": "local"
         },
         {
           "data_gb": 3,
           "price_rub": 1600,
-          "validity_days": 30,
+          "validity_days": 15,
           "kind": "local"
         },
         {
@@ -38354,10 +38139,10 @@
         }
       ],
       "all_purchasable_prices": [
-        750,
+        650,
         850,
         1100,
-        1400,
+        1450,
         1600,
         1750,
         1800,
@@ -38372,33 +38157,32 @@
         3500,
         3600,
         4200,
+        4350,
         4450,
         4800,
         4950,
-        5100,
         6150,
         6700,
+        6900,
         7200,
         7400,
-        8100,
+        7850,
         8200,
         9250,
-        9750,
-        11300,
+        9650,
         11500,
         13350,
         13600,
         13900,
-        15650,
         16050,
+        20000,
         21300,
         22200,
-        23450,
         25600,
         29800,
         33300,
+        36850,
         41200,
-        43150,
         61300,
         61800,
         113850
@@ -38438,11 +38222,12 @@
         "SFR",
         "Tunicell",
         "Vodafone",
-        "my.t"
+        "my.t",
+        "tiGO"
       ],
       "networks_by_block": {
         "local": [
-          "Airtel"
+          "tiGO"
         ],
         "regional": [
           "Airtel",
@@ -38464,11 +38249,12 @@
           "SFR",
           "Tunicell",
           "Vodafone",
-          "my.t"
+          "my.t",
+          "tiGO"
         ]
       },
-      "networks_rows": 11,
-      "rows_total": 19,
+      "networks_rows": 12,
+      "rows_total": 20,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
@@ -38484,12 +38270,12 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 13,
+      "topup_yes": 14,
       "topup_no": 6,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
       "daily_throttle_continues": false,
-      "min_volume_price_rub": 750,
+      "min_volume_price_rub": 650,
       "min_daily_price_rub": 1100
     },
     "uganda": {
@@ -39455,7 +39241,6 @@
       "networks": [
         "3",
         "7acht",
-        "A1",
         "A1.net",
         "Base",
         "DNA",
@@ -39467,7 +39252,6 @@
         "Iliad",
         "KPN",
         "Kyivstar",
-        "LMT",
         "Mobitel",
         "Movistar",
         "NOS",
@@ -39483,7 +39267,6 @@
         "Síminn",
         "TDC",
         "TIM",
-        "Tango",
         "Tele2",
         "Telemach",
         "Telenor",
@@ -39498,12 +39281,12 @@
         "local": [
           "Iliad",
           "TIM",
+          "Vodafone",
           "Wind"
         ],
         "regional": [
           "3",
           "7acht",
-          "A1",
           "A1.net",
           "Base",
           "DNA",
@@ -39515,7 +39298,6 @@
           "Iliad",
           "KPN",
           "Kyivstar",
-          "LMT",
           "Mobitel",
           "Movistar",
           "NOS",
@@ -39531,7 +39313,6 @@
           "Síminn",
           "TDC",
           "TIM",
-          "Tango",
           "Tele2",
           "Telemach",
           "Telenor",
@@ -39545,6 +39326,7 @@
         "daily": [
           "Iliad",
           "TIM",
+          "Vodafone",
           "Wind"
         ]
       },
@@ -39592,7 +39374,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -39639,9 +39421,9 @@
       ],
       "all_purchasable_prices": [
         1050,
+        1450,
         1550,
         1700,
-        2050,
         2450,
         2500,
         2850,
@@ -39751,9 +39533,9 @@
       "name_ru": "Венесуэла",
       "strategy": "LOCAL",
       "local_count": 4,
-      "regional_count": 6,
+      "regional_count": 7,
       "daily_count": 4,
-      "total_count": 14,
+      "total_count": 15,
       "min_price_rub": 900,
       "max_price_rub": 15050,
       "validity_days_min": 0,
@@ -39768,7 +39550,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 17,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -39882,7 +39664,7 @@
         ]
       },
       "networks_rows": 4,
-      "rows_total": 14,
+      "rows_total": 15,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps"
@@ -39895,7 +39677,7 @@
         "с первого использования интернета",
         "с первого подключения к сети"
       ],
-      "topup_yes": 14,
+      "topup_yes": 15,
       "topup_no": 0,
       "daily_reset_confirmed": false,
       "daily_reset_partial": false,
@@ -39925,7 +39707,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -39974,8 +39756,8 @@
         950,
         1050,
         1350,
+        1450,
         1700,
-        2050,
         2100,
         2150,
         2200,
@@ -40171,8 +39953,8 @@
       "strategy": "LOCAL",
       "local_count": 10,
       "regional_count": 8,
-      "daily_count": 6,
-      "total_count": 24,
+      "daily_count": 10,
+      "total_count": 28,
       "min_price_rub": 200,
       "max_price_rub": 7650,
       "validity_days_min": 0,
@@ -40189,8 +39971,8 @@
         50,
         60
       ],
-      "has_unlimited": false,
-      "regional_reach_max": 14,
+      "has_unlimited": true,
+      "regional_reach_max": 16,
       "offers": [
         {
           "data_gb": 0,
@@ -40269,6 +40051,7 @@
         1350,
         1400,
         1450,
+        1600,
         1750,
         2000,
         2050,
@@ -40277,6 +40060,7 @@
         2500,
         2600,
         2800,
+        2850,
         3100,
         3350,
         3450,
@@ -40315,7 +40099,10 @@
       ],
       "validity_days_all": [
         0,
+        3,
+        5,
         7,
+        10,
         15,
         30,
         60,
@@ -40348,7 +40135,6 @@
         "Robi",
         "SKTelecom",
         "SMART",
-        "SingTel",
         "SmarTone",
         "SoftBank",
         "Taiwan Mobile",
@@ -40389,7 +40175,6 @@
           "Robi",
           "SKTelecom",
           "SMART",
-          "SingTel",
           "SmarTone",
           "SoftBank",
           "Taiwan Mobile",
@@ -40409,10 +40194,11 @@
         ]
       },
       "networks_rows": 16,
-      "rows_total": 24,
+      "rows_total": 28,
       "fup_policies": [
         "1 Mbps",
         "384 Kbps",
+        "3GB/day at 20Mbps high speed. Up to 1 Mbps speed limit afterwards, resets every 24 hours. Fair usage policy applies.",
         "512 Kbps"
       ],
       "activation_policies": [
@@ -40425,9 +40211,9 @@
         "с первого подключения к сети"
       ],
       "topup_yes": 14,
-      "topup_no": 10,
+      "topup_no": 14,
       "daily_reset_confirmed": false,
-      "daily_reset_partial": false,
+      "daily_reset_partial": true,
       "daily_throttle_continues": false,
       "min_volume_price_rub": 200,
       "min_daily_price_rub": 350
@@ -40791,7 +40577,7 @@
         20
       ],
       "has_unlimited": false,
-      "regional_reach_max": 182,
+      "regional_reach_max": 172,
       "offers": [
         {
           "data_gb": 0,
@@ -40838,10 +40624,10 @@
       ],
       "all_purchasable_prices": [
         750,
+        1450,
         1600,
         1750,
         1800,
-        2050,
         2300,
         2650,
         2800,
@@ -41537,7 +41323,7 @@
         },
         {
           "data_gb": 20,
-          "price_rub": 6050,
+          "price_rub": 5750,
           "validity_days": 30,
           "kind": "local"
         }
@@ -41563,7 +41349,7 @@
         5000,
         5200,
         5400,
-        6050,
+        5750,
         6500,
         6800,
         7000,
